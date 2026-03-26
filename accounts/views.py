@@ -11,8 +11,8 @@ class CustomLoginView(LoginView):
     authentication_form = EmailAuthenticationForm
     redirect_authenticated_user = True
 
-    def get_success_url(self):
-        return reverse_lazy('home')
+    success_url = reverse_lazy('home')
+
 
 
 class CustomLogoutView(LogoutView):

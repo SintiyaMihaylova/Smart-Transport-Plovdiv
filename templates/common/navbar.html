@@ -1,0 +1,24 @@
+{% load i18n %}
+
+<nav>
+    <a href="{% url 'home' %}">{% trans "Начало" %}</a>
+    <a href="{% url 'transport:line_list' %}">{% trans "Градски транспорт" %}</a>
+    <a href="{% url 'stations:station_list' %}">{% trans "Спирки" %}</a>  {# нов линк към списъка с спирки #}
+
+    {% if user.is_authenticated %}
+        <span>{% trans "Здравей" %}, {{ user.email }}</span>
+
+        {% if user.is_staff_member %}
+            <span>({% trans "Персонал" %})</span>
+            <a href="{% url 'transport:admin_line_list' %}">{% trans "Управление на линии" %}</a>
+            <a href="{% url 'stations:admin_station_list' %}">{% trans "Управление на спирки" %}</a>  {# админ линк #}
+        {% endif %}
+
+        <a href="{% url 'logout' %}">{% trans "Изход" %}</a>
+    {% else %}
+        <a href="{% url 'login' %}">{% trans "Вход" %}</a>
+        <a href="{% url 'register' %}">{% trans "Регистрация" %}</a>
+    {% endif %}
+</nav>
+
+<hr>

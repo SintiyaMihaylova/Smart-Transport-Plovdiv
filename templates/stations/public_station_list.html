@@ -1,0 +1,31 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <title>{% trans "Списък на спирките" %}</title>
+</head>
+<body>
+    <h1>{% trans "Списък на активните спирки" %}</h1>
+
+    <form method="get">
+        <input type="text" name="q" value="{{ request.GET.q }}" placeholder="{% trans 'Търсене по име или номер' %}">
+        <button type="submit">{% trans "Търси" %}</button>
+    </form>
+
+    <ul>
+        {% for station in stations %}
+            <li>
+                <a href="{% url 'stations:station_detail' station.pk %}">
+                    {{ station.name }} ({{ station.stop_id }})
+                </a>
+                {% if station.neighborhood %}
+                    - {{ station.neighborhood }}
+                {% endif %}
+            </li>
+        {% empty %}
+            <li>{% trans "Няма намерени спирки." %}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

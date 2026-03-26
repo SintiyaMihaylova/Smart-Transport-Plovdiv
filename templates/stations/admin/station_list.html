@@ -1,0 +1,38 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <title>{% trans "Админ - Списък на спирките" %}</title>
+</head>
+<body>
+    <h1>{% trans "Администраторски списък на спирките" %}</h1>
+
+    <a href="{% url 'stations:station_create' %}">{% trans "Добави нова спирка" %}</a>
+
+    <form method="get">
+        <select name="neighborhood">
+            <option value="">{% trans "Всички квартали" %}</option>
+            {% for n in neighborhoods %}
+                <option value="{{ n }}" {% if request.GET.neighborhood == n %}selected{% endif %}>{{ n }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">{% trans "Филтрирай" %}</button>
+    </form>
+
+    <ul>
+        {% for station in stations %}
+            <li>
+                {{ station.stop_id }} - {{ station.name }}
+                {% if station.neighborhood %}({{ station.neighborhood }}){% endif %}
+                - <a href="{% url 'stations:admin_station_detail' station.pk %}">{% trans "Детайли" %}</a>
+                - <a href="{% url 'stations:station_update' station.pk %}">{% trans "Редактирай" %}</a>
+                - <a href="{% url 'stations:station_delete' station.pk %}">{% trans "Изтрий" %}</a>
+            </li>
+        {% empty %}
+            <li>{% trans "Няма спирки." %}</li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>

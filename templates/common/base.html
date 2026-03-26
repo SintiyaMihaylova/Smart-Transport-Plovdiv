@@ -1,0 +1,22 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% trans "Smart Transport" %}{% endblock %}</title>
+</head>
+<body>
+
+    {% include 'common/navbar.html' %}
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>{% trans "Всички права запазени" %}</p>
+    </footer>
+
+</body>
+</html>

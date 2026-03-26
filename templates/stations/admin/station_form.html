@@ -1,0 +1,21 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <title>{% if form.instance.pk %}{% trans "Редактирай спирка" %}{% else %}{% trans "Добави спирка" %}{% endif %}</title>
+</head>
+<body>
+    <h1>{% if form.instance.pk %}{% trans "Редактирай спирка" %}{% else %}{% trans "Добави спирка" %}{% endif %}</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <table>
+            {{ form.as_table }}
+        </table>
+        <button type="submit">{% trans "Запази" %}</button>
+    </form>
+
+    <a href="{% url 'stations:admin_station_list' %}">{% trans "Обратно към списъка" %}</a>
+</body>
+</html>

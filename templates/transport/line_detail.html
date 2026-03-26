@@ -1,0 +1,16 @@
+{% extends "common/base.html" %}
+{% load i18n %}
+
+{% block content %}
+<h1>№{{ line.number }} - {{ line.route_bus }}</h1>
+<p>{{ line.description }}</p>
+
+<h2>{% trans "Маршрут" %}</h2>
+<ol>
+    {% for route in routes %}
+    <li>{{ route.stop.name }}</li>
+    {% endfor %}
+</ol>
+
+<a href="{% url 'transport:line_list' %}">{% trans "Обратно към списъка" %}</a>
+{% endblock %}

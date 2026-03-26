@@ -11,7 +11,8 @@ class CustomUserManager(BaseUserManager):
 
 
         email = self.normalize_email(email)
-        extra_fields.setdefault('role', 'passenger')
+        extra_fields.setdefault('role', CustomUser.RoleChoices.PASSENGER)
+
 
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
@@ -21,8 +22,13 @@ class CustomUserManager(BaseUserManager):
     def create_superuser(self, email, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
-        extra_fields.setdefault('role', 'staff')
+        extra_fields.setdefault('role', CustomUser.RoleChoices.STAFF)
 
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser must have is_staff=True.')
+
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_superuser=True.')
 
         return self.create_user(email, password, **extra_fields)
 
@@ -79,3 +85,11 @@ class CustomUser(AbstractUser):
         verbose_name_plural = _('Потребители')
 
     objects = CustomUserManager()
+
+    @property
+    def is_staff_member(self):
+        return self.role == self.RoleChoices.STAFF
+
+    @property
+    def is_passenger(self):
+        return self.role == self.RoleChoices.PASSENGER

@@ -1,0 +1,59 @@
+{% extends "common/base.html" %}
+{% load i18n %}
+
+{% block content %}
+<h1>
+    {% if object %}
+        {% trans "Редакция на линия" %}
+    {% else %}
+        {% trans "Добавяне на нова линия" %}
+    {% endif %}
+</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    
+    <table>
+        {% for field in form %}
+            <tr>
+                <th>{{ field.label_tag }}</th>
+                <td>
+                    {{ field.errors }}
+                    {{ field }}
+                    {% if field.help_text %}
+                        <p class="help">{{ field.help_text }}</p>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <h2>{% trans "Спирки в маршрута" %}</h2>
+    {{ routes.management_form }}
+    <table>
+        {% for form in routes.forms %}
+            <tr>
+                {% for field in form.visible_fields %}
+                    <td>
+                        {{ field.errors }}
+                        {{ field }}
+                        {% if field.help_text %}
+                            <p class="help">{{ field.help_text }}</p>
+                        {% endif %}
+                    </td>
+                {% endfor %}
+                <td>
+                    {% if routes.can_delete %}
+                        {{ form.DELETE }}
+                        <label>{% trans "Изтрий" %}</label>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <button type="submit">{% trans "Запази" %}</button>
+    <a href="{% url 'transport:admin_line_list' %}">{% trans "Отказ" %}</a>
+</form>
+{% endblock %}

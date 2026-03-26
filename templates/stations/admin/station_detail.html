@@ -1,0 +1,34 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ station.name }} - {% trans "Админ детайли" %}</title>
+</head>
+<body>
+    <h1>{{ station.name }} ({{ station.stop_id }})</h1>
+    <p><strong>{% trans "Активна" %}:</strong> {{ station.is_active }}</p>
+    {% if station.neighborhood %}
+        <p><strong>{% trans "Квартал" %}:</strong> {{ station.neighborhood }}</p>
+    {% endif %}
+    {% if station.address %}
+        <p><strong>{% trans "Адрес" %}:</strong> {{ station.address }}</p>
+    {% endif %}
+    {% if station.latitude and station.longitude %}
+        <p><strong>{% trans "Координати" %}:</strong> {{ station.latitude }}, {{ station.longitude }}</p>
+    {% endif %}
+
+    <h2>{% trans "Линии, които минават през спирката" %}</h2>
+    <ul>
+        {% for line in lines_passing_by %}
+            <li>{{ line.name }}</li>
+        {% empty %}
+            <li>{% trans "Няма линии." %}</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'stations:admin_station_list' %}">{% trans "Обратно към списъка" %}</a>
+    | <a href="{% url 'stations:station_update' station.pk %}">{% trans "Редактирай" %}</a>
+    | <a href="{% url 'stations:station_delete' station.pk %}">{% trans "Изтрий" %}</a>
+</body>
+</html>

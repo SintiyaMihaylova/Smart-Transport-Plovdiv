@@ -1,0 +1,18 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <title>{% trans "Изтрий спирка" %}</title>
+</head>
+<body>
+    <h1>{% trans "Изтрий спирка" %}</h1>
+    <p>{% blocktrans with name=station.name %}Сигурни ли сте, че искате да изтриете спирката "{{ name }}"?{% endblocktrans %}</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">{% trans "Да, изтрий" %}</button>
+        <a href="{% url 'stations:admin_station_list' %}">{% trans "Откажи" %}</a>
+    </form>
+</body>
+</html>

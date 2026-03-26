@@ -1,0 +1,8 @@
+{% extends 'common/base.html' %}
+{% load i18n %}
+
+{% block content %}
+<h2>{% trans "Успешно излязохте" %}</h2>
+
+<a href="{% url 'login' %}">{% trans "Вход отново" %}</a>
+{% endblock %}

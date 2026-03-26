@@ -1,0 +1,19 @@
+{% extends "common/base.html" %}
+{% load i18n %}
+
+{% block content %}
+<h1>{% trans "Администрация на линии" %}</h1>
+<a href="{% url 'transport:line_create' %}">{% trans "Добави линия" %}</a>
+
+<ul>
+    {% for line in lines %}
+    <li>
+        №{{ line.number }} - {{ line.route_bus }}
+        <a href="{% url 'transport:line_update' line.number %}">{% trans "Редакция" %}</a>
+        <a href="{% url 'transport:line_delete' line.number %}">{% trans "Изтриване" %}</a>
+    </li>
+    {% empty %}
+    <li>{% trans "Няма налични линии." %}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

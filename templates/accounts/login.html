@@ -1,8 +1,36 @@
-<h2>Login</h2>
+{% extends 'common/base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Вход" %}{% endblock %}
+
+{% block content %}
+<h2>{% trans "Вход" %}</h2>
 
 <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
 
-    <button type="submit">Login</button>
+    {% include 'common/form_errors.html' %}
+
+    {{ form.non_field_errors }}
+
+    <div>
+        <label for="id_username">{% trans "Имейл" %}</label>
+        {{ form.username }}
+        {{ form.username.errors }}
+    </div>
+
+    <div>
+        <label for="id_password">{% trans "Парола" %}</label>
+        {{ form.password }}
+        {{ form.password.errors }}
+    </div>
+
+    <button type="submit">{% trans "Вход" %}</button>
 </form>
+
+<p>
+    {% trans "Нямаш акаунт?" %}
+    <a href="{% url 'register' %}">{% trans "Регистрация" %}</a>
+</p>
+
+{% endblock %}

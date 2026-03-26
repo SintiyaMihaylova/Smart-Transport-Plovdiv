@@ -1,0 +1,16 @@
+{% extends "common/base.html" %}
+{% load i18n %}
+
+{% block content %}
+<h1>{% trans "Изтриване на линия" %}</h1>
+<p>
+    {% trans "Сигурни ли сте, че искате да изтриете линията" %}
+    №{{ object.number }} - {{ object.route_bus }}?
+</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">{% trans "Да, изтрий" %}</button>
+    <a href="{% url 'transport:admin_line_list' %}">{% trans "Отказ" %}</a>
+</form>
+{% endblock %}

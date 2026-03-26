@@ -12,11 +12,11 @@ class CustomUserAdmin(UserAdmin):
 
     list_display = ('email', 'role', 'is_staff', 'is_active')
     list_filter = ('role', 'is_staff', 'is_superuser', 'is_active')
-
+    readonly_fields = ('email', 'role')
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         (_('Допълнителна информация'), {'fields': ('role', 'bio', 'profile_picture')}),
-        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
+        (_('Права и достъп'), {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
     )
 
     add_fieldsets = (

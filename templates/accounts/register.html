@@ -1,0 +1,57 @@
+{% extends 'common/base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Регистрация" %}{% endblock %}
+
+{% block content %}
+<h2>{% trans "Регистрация" %}</h2>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {% include 'common/form_errors.html' %}
+
+    {{ form.non_field_errors }}
+
+    <div>
+        <label>{% trans "Имейл" %}</label>
+        {{ form.email }}
+        {{ form.email.errors }}
+    </div>
+
+    <div>
+        <label>{% trans "Парола" %}</label>
+        {{ form.password1 }}
+        {{ form.password1.errors }}
+    </div>
+
+    <div>
+        <label>{% trans "Потвърди парола" %}</label>
+        {{ form.password2 }}
+        {{ form.password2.errors }}
+    </div>
+
+    <div>
+        <label>{% trans "Роля" %}</label>
+        {{ form.role }}
+    </div>
+
+    <div>
+        <label>{% trans "Описание" %}</label>
+        {{ form.bio }}
+    </div>
+
+    <div>
+        <label>{% trans "Профилна снимка" %}</label>
+        {{ form.profile_picture }}
+    </div>
+
+    <button type="submit">{% trans "Регистрация" %}</button>
+</form>
+
+<p>
+    {% trans "Вече имаш акаунт?" %}
+    <a href="{% url 'login' %}">{% trans "Вход" %}</a>
+</p>
+
+{% endblock %}

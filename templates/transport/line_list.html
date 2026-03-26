@@ -1,0 +1,18 @@
+{% extends "common/base.html" %}
+{% load i18n %}
+
+{% block content %}
+<h1>{% trans "Линии на градския транспорт" %}</h1>
+
+<ul>
+    {% for line in lines %}
+    <li>
+        <a href="{% url 'transport:line_detail' line.number %}">
+            №{{ line.number }} - {{ line.route_bus }}
+        </a>
+    </li>
+    {% empty %}
+    <li>{% trans "Няма налични линии." %}</li>
+    {% endfor %}
+</ul>
+{% endblock %}
