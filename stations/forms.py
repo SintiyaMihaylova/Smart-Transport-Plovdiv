@@ -25,14 +25,17 @@ class StationForm(forms.ModelForm):
             raise forms.ValidationError(_("Номерът трябва да съдържа само цифри."))
         return stop_id
 
-    def clean_latitude(self):
-        lat = self.cleaned_data.get('latitude')
-        if lat is not None and not (-90 <= lat <= 90):
-            raise forms.ValidationError(_("Ширината трябва да е между -90 и 90."))
-        return lat
+    def clean(self):
+        cleaned_data = super().clean()
 
-    def clean_longitude(self):
-        lon = self.cleaned_data.get('longitude')
+        lat = cleaned_data.get('latitude')
+        lon = cleaned_data.get('longitude')
+
+        if lat is not None and not (-90 <= lat <= 90):
+            self.add_error('latitude', _("Ширината трябва да е между -90 и 90."))
+
         if lon is not None and not (-180 <= lon <= 180):
-            raise forms.ValidationError(_("Дължината трябва да е между -180 и 180."))
-        return lon
+            self.add_error('longitude', _("Дължината трябва да е между -180 и 180."))
+
+        return cleaned_data
+

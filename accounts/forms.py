@@ -13,7 +13,7 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta:
         model = CustomUser
-        fields = ('email', 'role', 'bio', 'profile_picture')
+        fields = ('email', 'bio', 'profile_picture')
 
 
 class CustomUserChangeForm(UserChangeForm):
@@ -27,7 +27,6 @@ class CustomUserChangeForm(UserChangeForm):
             'bio',
             'profile_picture',
             'is_active',
-            'is_staff'
         )
 
 
@@ -45,5 +44,5 @@ class EmailAuthenticationForm(AuthenticationForm):
 
     password = forms.CharField(
         label=_('Парола'),
-        widget=forms.PasswordInput
+        widget=forms.PasswordInput()
     )

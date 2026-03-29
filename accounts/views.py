@@ -11,8 +11,8 @@ class CustomLoginView(LoginView):
     authentication_form = EmailAuthenticationForm
     redirect_authenticated_user = True
 
-    success_url = reverse_lazy('home')
-
+    def get_success_url(self):
+        return reverse_lazy('home')
 
 
 class CustomLogoutView(LogoutView):
@@ -22,9 +22,11 @@ class CustomLogoutView(LogoutView):
 class RegisterUserView(CreateView):
     template_name = 'accounts/register.html'
     form_class = CustomUserCreationForm
-    success_url = reverse_lazy('home')
 
     def form_valid(self, form):
         response = super().form_valid(form)
         login(self.request, self.object)
         return response
+
+    def get_success_url(self):
+        return reverse_lazy('home')

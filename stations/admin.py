@@ -1,7 +1,9 @@
 from django.contrib import admin
+from django.contrib.auth import get_user_model
 from .models import Station
 from django.utils.translation import gettext_lazy as _
 
+User = get_user_model()
 @admin.register(Station)
 class StationAdmin(admin.ModelAdmin):
 
@@ -10,6 +12,7 @@ class StationAdmin(admin.ModelAdmin):
     search_fields = ('name', 'stop_id', 'address')
     list_filter = ('is_active', 'neighborhood')
     ordering = ('stop_id', 'name')
+    readonly_fields = ('has_coordinates',)
 
     fieldsets = (
         (_('Основна информация'), {
@@ -24,7 +27,6 @@ class StationAdmin(admin.ModelAdmin):
         }),
     )
 
-    readonly_fields = ('has_coordinates',)
 
     def has_coordinates(self, obj):
         return obj.latitude is not None and obj.longitude is not None

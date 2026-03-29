@@ -3,7 +3,7 @@ from .models import BusLine, Route
 
 class RouteInline(admin.TabularInline):
     model = Route
-    extra = 1
+    extra = 0
     ordering = ('position',)
     fields = ('stop', 'position')
 

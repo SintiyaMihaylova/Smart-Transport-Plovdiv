@@ -31,11 +31,13 @@ class RouteForm(forms.ModelForm):
 
 
 class BaseRouteFormSet(BaseInlineFormSet):
+
     def clean(self):
         super().clean()
         active_forms = [
             f for f in self.forms
-            if f.is_valid() and not (self.can_delete and self._should_delete_form(f))
+            if f.is_valid()
+            and not (self.can_delete and self._should_delete_form(f))
             and f.cleaned_data.get('stop')
         ]
         if len(active_forms) < 3:
@@ -44,7 +46,8 @@ class BaseRouteFormSet(BaseInlineFormSet):
     def save(self, commit=True):
         instances = super().save(commit=False)
         active_instances = [
-            form.instance for form in self.forms
+            form.instance
+            for form in self.forms
             if not (self.can_delete and self._should_delete_form(form))
             and form.cleaned_data.get('stop')
         ]
@@ -53,6 +56,7 @@ class BaseRouteFormSet(BaseInlineFormSet):
             instance.position = index
             if commit:
                 instance.save()
+
         return active_instances
 
 

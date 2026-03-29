@@ -37,10 +37,10 @@ class BusLine(models.Model):
     def __str__(self):
         return f"№{self.number} - {self.route_bus}"
 
-    def clean(self):
-        super().clean()
-        if self.pk and self.routes.count() < 3:
-            raise ValidationError(_("Линията трябва да има поне 3 спирки."))
+    # def clean(self):
+    #     super().clean()
+    #     if self.pk and self.routes.count() < 3:
+    #         raise ValidationError(_("Линията трябва да има поне 3 спирки."))
 
     def get_next_position(self):
         last_route = self.routes.order_by('-position').first()
@@ -93,7 +93,7 @@ class Route(models.Model):
         return f"{self.line.number} | {self.position}. {self.stop}"
 
     def save(self, *args, **kwargs):
-        self.full_clean()
         if not self.position:
             self.position = self.line.get_next_position()
+        self.full_clean()
         super().save(*args, **kwargs)

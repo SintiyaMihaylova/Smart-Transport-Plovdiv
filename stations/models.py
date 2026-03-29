@@ -1,8 +1,17 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+class StationQuerySet(models.QuerySet):
+    def active(self):
+        return self.filter(is_active=True)
+
+    def with_routes(self):
+        return self.prefetch_related('routes')
+
 
 class Station(models.Model):
+    objects = StationQuerySet.as_manager()
+
     name = models.CharField(
         max_length=100,
         verbose_name=_('Име на спирка')
@@ -48,14 +57,13 @@ class Station(models.Model):
         help_text=_('Географска дължина на спирката')
     )
 
+
     def __str__(self):
-        return f'{self.name}-{self.stop_id}'
+        return f'{self.name} ({self.stop_id})'
+
 
     class Meta:
         verbose_name = _('Спирка')
         verbose_name_plural = _('Спирки')
         ordering = ['stop_id', 'name']
 
-    @classmethod
-    def active(cls):
-        return cls.objects.filter(is_active=True)
