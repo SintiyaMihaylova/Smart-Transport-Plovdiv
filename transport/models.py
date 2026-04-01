@@ -1,4 +1,4 @@
-from django.core.exceptions import ValidationError
+from django.utils import timezone
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.db.models import Q
@@ -45,6 +45,22 @@ class BusLine(models.Model):
     def get_next_position(self):
         last_route = self.routes.order_by('-position').first()
         return (last_route.position + 1) if last_route else 1
+
+    @staticmethod
+    def get_current_day_type():
+        today = timezone.localdate().weekday()
+        return 'weekend' if today >= 5 else 'weekday'
+
+    def get_next_arrival(self, stop: 'stations.Station'):
+        now = timezone.localtime().time()
+        current_day = BusLine.get_current_day_type()
+
+        return self.schedules.filter(
+            stop=stop,
+            is_active=True,
+            arrival_time__gt=now,
+            day_type=current_day
+        ).order_by('arrival_time').first()
 
 
 class Route(models.Model):
@@ -97,3 +113,60 @@ class Route(models.Model):
             self.position = self.line.get_next_position()
         self.full_clean()
         super().save(*args, **kwargs)
+
+
+class Schedule(models.Model):
+    class DayType(models.TextChoices):
+        WEEKDAY = 'weekday', _('Делник')
+        WEEKEND = 'weekend', _('Празник/Уикенд')
+
+    class DirectionChoices(models.TextChoices):
+        FORWARD = 'forward', _('Отиване')
+        BACKWARD = 'backward', _('Връщане')
+
+    line = models.ForeignKey(
+        'transport.BusLine',
+        on_delete=models.CASCADE,
+        related_name='schedules'
+    )
+    stop = models.ForeignKey(
+        'stations.Station',
+        on_delete=models.CASCADE,
+        related_name='schedules'
+    )
+    arrival_time = models.TimeField(
+        verbose_name=_("Време на пристигане")
+    )
+
+    day_type = models.CharField(
+        max_length=10,
+        choices=DayType.choices,
+        default=DayType.WEEKDAY
+    )
+
+    direction = models.CharField(
+        max_length=10,
+        choices=DirectionChoices.choices,
+        default=DirectionChoices.FORWARD,
+        verbose_name=_("Посока")
+    )
+
+    is_active = models.BooleanField(
+        default=True,
+        verbose_name=_("Активно")
+    )
+
+    def __str__(self):
+        time_str = self.arrival_time.strftime('%H:%M')
+        return f"{self.line.number} - {self.stop.name} - {self.direction} ({time_str})"
+
+    class Meta:
+        ordering = ['arrival_time']
+        constraints = [
+            models.UniqueConstraint(
+                fields=['line', 'stop', 'direction', 'arrival_time', 'day_type'],
+                name='unique_schedule_entry'
+            )
+        ]
+        verbose_name = _("Разписание")
+        verbose_name_plural = _("Разписания")

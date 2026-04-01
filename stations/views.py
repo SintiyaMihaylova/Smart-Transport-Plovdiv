@@ -1,8 +1,9 @@
 from django.db.models import Q
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from transport.mixins import AdminRequiredMixin
-from transport.models import BusLine
+from transport.models import BusLine, Schedule
 from .models import Station
 from .forms import StationForm
 from django.views.decorators.cache import cache_page
@@ -96,3 +97,24 @@ class StationDeleteView(AdminRequiredMixin, DeleteView):
     model = Station
     template_name = 'stations/admin/station_confirm_delete.html'
     success_url = reverse_lazy('stations:admin_station_list')
+
+class StationDetailView(DetailView):
+    model = Station
+    template_name = 'stations/station_detail.html'
+    context_object_name = 'station'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        station = self.object
+        now = timezone.localtime().time()
+        current_day = BusLine.get_current_day_type()
+
+        context['upcoming_schedules'] = Schedule.objects.filter(
+            stop=station,
+            is_active=True,
+            day_type=current_day,
+            arrival_time__gte=now
+        ).select_related('line').order_by('arrival_time')[:10]
+
+        return context
+

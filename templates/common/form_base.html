@@ -1,0 +1,63 @@
+{% extends 'common/base.html' %}
+{% load i18n %}
+
+{% block content %}
+<div class="row justify-content-center animate-fade-in">
+    <div class="col-md-10 col-lg-8 col-xl-7"> <div class="card shadow-sm border-0 rounded-3">
+            <div class="card-body p-4 p-md-5">
+
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold text-dark">
+                        {% block form_title %}{% endblock %}
+                    </h2>
+                    <hr class="w-25 mx-auto text-primary opacity-75" style="height: 3px;">
+                </div>
+
+                {% include 'common/form_errors.html' %}
+
+                <form method="post" enctype="multipart/form-data" novalidate>
+                    {% csrf_token %}
+
+                    <div class="form-fields-wrapper">
+                        {% block form_fields %}
+                        {% endblock %}
+                    </div>
+
+                    <div class="mt-5 pt-3 border-top d-flex justify-content-between align-items-center">
+                        {% block form_actions %}
+                        {% endblock %}
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            {% block form_footer %}{% endblock %}
+        </div>
+
+    </div>
+</div>
+
+<style>
+
+    .animate-fade-in {
+        animation: fadeIn 0.4s ease-out;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .form-fields-wrapper input,
+    .form-fields-wrapper select,
+    .form-fields-wrapper textarea {
+        border-radius: 8px;
+        padding: 0.6rem 0.75rem;
+        border: 1px solid #dee2e6;
+    }
+    .form-fields-wrapper input:focus {
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.1);
+    }
+</style>
+{% endblock %}

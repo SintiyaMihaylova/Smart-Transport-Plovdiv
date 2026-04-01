@@ -1,57 +1,84 @@
-{% extends 'common/base.html' %}
+{% extends 'common/form_base.html' %}
 {% load i18n %}
 
-{% block title %}{% trans "Регистрация" %}{% endblock %}
+{% block title %}{% trans "Регистрация - Smart Transport" %}{% endblock %}
 
-{% block content %}
-<h2>{% trans "Регистрация" %}</h2>
+{% block form_title %}
+    <i class="fas fa-user-plus text-primary me-2"></i>{% trans "Създаване на профил" %}
+{% endblock %}
 
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
+{% block form_fields %}
+    {% for field in form %}
+        <div class="mb-3">
+            <label for="{{ field.id_for_label }}" class="form-label fw-bold text-muted small text-uppercase">
+                {{ field.label }}
+            </label>
 
-    {% include 'common/form_errors.html' %}
+            <div class="input-group">
+                <span class="input-group-text bg-light border-end-0">
+                    {% if "email" in field.name %}
+                        <i class="fas fa-envelope text-muted"></i>
+                    {% elif "password" in field.name %}
+                        <i class="fas fa-key text-muted"></i>
+                    {% else %}
+                        <i class="fas fa-user text-muted"></i>
+                    {% endif %}
+                </span>
+                {{ field }}
+            </div>
 
-    {{ form.non_field_errors }}
+            {% if field.help_text %}
+                <div class="form-text text-muted mb-2" style="font-size: 0.75rem;">
+                    {{ field.help_text|safe }}
+                </div>
+            {% endif %}
 
-    <div>
-        <label>{% trans "Имейл" %}</label>
-        {{ form.email }}
-        {{ form.email.errors }}
-    </div>
+            {% if field.errors %}
+                <div class="text-danger small mt-1">
+                    <i class="fas fa-exclamation-triangle me-1"></i>{{ field.errors|striptags }}
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+{% endblock %}
 
-    <div>
-        <label>{% trans "Парола" %}</label>
-        {{ form.password1 }}
-        {{ form.password1.errors }}
-    </div>
+{% block form_actions %}
+    <button type="submit" class="btn btn-primary btn-lg w-100 rounded-pill shadow-sm py-2 fw-bold">
+        {% trans "Регистрирай ме" %} <i class="fas fa-check-circle ms-2"></i>
+    </button>
+{% endblock %}
 
-    <div>
-        <label>{% trans "Потвърди парола" %}</label>
-        {{ form.password2 }}
-        {{ form.password2.errors }}
-    </div>
+{% block form_footer %}
+    <p class="text-muted">
+        {% trans "Вече имате профил?" %}
+        <a href="{% url 'login' %}" class="fw-bold text-decoration-none text-primary">
+            {% trans "Влезте тук" %}
+        </a>
+    </p>
+{% endblock %}
 
-    <div>
-        <label>{% trans "Роля" %}</label>
-        {{ form.role }}
-    </div>
+{% block extra_css %}
+<style>
 
-    <div>
-        <label>{% trans "Описание" %}</label>
-        {{ form.bio }}
-    </div>
+    .input-group .form-control {
+        border-left: none;
+        padding-left: 0.5rem;
+    }
+    .input-group-text {
+        border-right: none;
+        min-width: 45px;
+        justify-content: center;
+        color: #6c757d;
+    }
 
-    <div>
-        <label>{% trans "Профилна снимка" %}</label>
-        {{ form.profile_picture }}
-    </div>
-
-    <button type="submit">{% trans "Регистрация" %}</button>
-</form>
-
-<p>
-    {% trans "Вече имаш акаунт?" %}
-    <a href="{% url 'login' %}">{% trans "Вход" %}</a>
-</p>
-
+    .form-control:focus {
+        border-color: #dee2e6;
+        box-shadow: none;
+    }
+    .input-group:focus-within {
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.1);
+        border-radius: 8px;
+        transition: all 0.2s ease-in-out;
+    }
+</style>
 {% endblock %}

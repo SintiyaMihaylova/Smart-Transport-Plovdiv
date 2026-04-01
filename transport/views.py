@@ -2,7 +2,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView, DetailView
 from .forms import BusLineForm, RouteForm, UpdateRouteFormSet, BaseRouteFormSet
 from .mixins import BusLineWithRoutesMixin, AdminRequiredMixin
-from .models import BusLine
+from .models import BusLine, Schedule
 
 
 class BusLineCreateView(AdminRequiredMixin, BusLineWithRoutesMixin, CreateView):
@@ -71,3 +71,28 @@ class BusLineDetailView(DetailView):
         context['back_url'] = referer if referer else reverse_lazy('transport:line_list')
 
         return context
+
+
+# class NextArrivalView(View):
+#     def get(self, request, pk):
+#
+#         line = get_object_or_404(BusLine, pk=pk)
+#
+#         stop_id = request.GET.get('stop')
+#
+#         if not stop_id:
+#             return JsonResponse({'error': 'stop is required'}, status=400)
+#
+#         stop = line.stops.get(pk=stop_id)
+#
+#         next_arrival = line.get_next_arrival(stop)
+#
+#         if not next_arrival:
+#             return JsonResponse({'message': (_('Няма предстоящи курсове за днес.'))})
+#
+#         return JsonResponse({
+#             'line': line.number,
+#             'stop': stop.name,
+#             'time': next_arrival.arrival_time.strftime('%H:%M'),
+#             'direction': next_arrival.get_direction_display(),
+#         })

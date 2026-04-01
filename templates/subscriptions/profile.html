@@ -1,0 +1,129 @@
+{% extends 'common/base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Моят профил" %}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm overflow-hidden mb-4">
+            <div class="card-header bg-primary text-white py-3">
+                <h5 class="mb-0"><i class="fas fa-id-card me-2"></i>{% trans "Транспортна карта" %}</h5>
+            </div>
+            <div class="card-body text-center p-4">
+                <div class="mb-3">
+                    <span class="text-muted small">{% trans "Номер на карта" %}</span>
+                    <h3 class="fw-bold text-primary">{{ card.card_number }}</h3>
+                </div>
+
+                <div class="mb-4">
+                    {% if card.is_valid %}
+                        <span class="badge bg-success px-3 py-2">
+                            <i class="fas fa-check-circle me-1"></i> {% trans "Активна" %}
+                        </span>
+                    {% else %}
+                        <span class="badge bg-danger px-3 py-2">
+                            <i class="fas fa-times-circle me-1"></i> {% trans "Неактивна" %}
+                        </span>
+                    {% endif %}
+                </div>
+
+                <div class="p-3 bg-light rounded shadow-inner mb-3">
+                    <p class="mb-1 text-muted small">{% trans "Валидна до" %}</p>
+                    <h5 class="mb-0">
+                        {% if card.valid_until %}
+                            {{ card.valid_until|date:"d.m.Y" }}
+                        {% else %}
+                            {% trans "Няма активен план" %}
+                        {% endif %}
+                    </h5>
+                </div>
+
+                {# Добавяме Оставащи дни, ако картата е валидна #}
+                {% if card.is_valid %}
+                    <div class="alert alert-info py-2 mb-0">
+                         <strong>{% trans "Оставащи дни:" %}</strong> {{ card.remaining_days }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-white py-3">
+                <h5 class="mb-0"><i class="fas fa-history me-2 text-primary"></i>{% trans "История на зарежданията" %}</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-4">{% trans "План" %}</th>
+                                <th>{% trans "Период" %}</th>
+                                <th>{% trans "Цена" %}</th>
+                                <th class="text-center">{% trans "Статус" %}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for sub in subscriptions %}
+                            <tr>
+                                <td class="ps-4 fw-bold text-dark">{{ sub.plan.name }}</td>
+                                <td class="small">
+                                    {{ sub.start_date|date:"d.m.y" }} - {{ sub.end_date|date:"d.m.y" }}
+                                </td>
+                                <td>{{ sub.plan.price }} лв.</td>
+                                <td class="text-center">
+                                    {% if sub.is_active %}
+                                        <i class="fas fa-circle text-success small"></i>
+                                    {% else %}
+                                        <i class="fas fa-circle text-muted small opacity-50"></i>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center py-5 text-muted">
+                                    <i class="fas fa-info-circle mb-2 d-block fa-2x"></i>
+                                    {% trans "Все още нямате заредени абонаменти." %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white py-3">
+                <h5 class="mb-0"><i class="fas fa-shopping-cart me-2 text-warning"></i>{% trans "Налични планове" %}</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {% for plan in plans %}
+                    <div class="col-md-6 mb-3">
+                        <div class="border rounded p-3 bg-white shadow-sm h-100">
+                            <h6 class="fw-bold mb-1">{{ plan.name }}</h6>
+                            <p class="text-primary fw-bold mb-3">{{ plan.price }} лв.</p>
+
+                            <div class="d-grid">
+                                {% if card.is_valid %}
+                                    <button class="btn btn-secondary btn-sm" disabled>
+                                        <i class="fas fa-lock me-1"></i> {% trans "Вече имате активен абонамент" %}
+                                    </button>
+                                {% else %}
+                                    <a href="{% url 'subscriptions:purchase' plan.id %}" class="btn btn-warning btn-sm fw-bold shadow-sm">
+                                        <i class="fas fa-cart-plus me-1"></i> {% trans "Купи" %}
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

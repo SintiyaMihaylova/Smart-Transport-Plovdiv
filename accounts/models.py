@@ -101,9 +101,7 @@ class CustomUser(AbstractUser):
     def is_admin(self):
         return self.role == self.RoleChoices.ADMIN or self.is_superuser
 
-    # @property
-    # def is_staff(self):
-    #     return self.role == self.RoleChoices.ADMIN
-
     def get_full_name(self):
-        return self.email
+        full_name = f"{self.first_name} {self.last_name}".strip()
+        return full_name if full_name else self.email
+

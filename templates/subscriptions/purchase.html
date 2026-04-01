@@ -1,0 +1,50 @@
+{% extends 'common/base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Потвърждение на покупка" %}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6 col-lg-5">
+        <div class="card border-0 shadow-lg">
+            <div class="card-header bg-warning text-dark py-3 text-center">
+                <h4 class="mb-0 fw-bold">
+                    <i class="fas fa-shopping-cart me-2"></i>{% trans "Потвърждение на покупка" %}
+                </h4>
+            </div>
+            <div class="card-body p-4">
+                <div class="text-center mb-4">
+                    <div class="display-6 fw-bold text-primary mb-1">{{ plan.price }} лв.</div>
+                    <div class="text-muted">{{ plan.name }}</div>
+                </div>
+
+                <ul class="list-group list-group-flush mb-4">
+                    <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                        {% trans "Продължителност" %}
+                        <span class="fw-bold">{{ plan.duration_months }} {% trans "месеца" %}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                        {% trans "Валидност" %}
+                        <span class="badge bg-info text-dark">{% trans "Месечна карта" %}</span>
+                    </li>
+                </ul>
+
+                <div class="alert alert-light border small text-muted">
+                    <i class="fas fa-info-circle me-1"></i>
+                    {% trans "Абонаментът ще бъде активиран веднага след потвърждение." %}
+                </div>
+
+                <form method="post" class="d-grid gap-2">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-warning btn-lg fw-bold shadow-sm">
+                        {% trans "ПОТВЪРДИ И ПЛАТИ" %}
+                    </button>
+                    <a href="{% url 'subscriptions:profile' %}" class="btn btn-link text-muted mt-2">
+                        {% trans "Отказ" %}
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,24 +1,156 @@
 {% load i18n %}
 
-<nav>
-    <a href="{% url 'home' %}">{% trans "Начало" %}</a>
-    <a href="{% url 'transport:line_list' %}">{% trans "Градски транспорт" %}</a>
-    <a href="{% url 'stations:station_list' %}">{% trans "Спирки" %}</a>  {# нов линк към списъка с спирки #}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm py-2 sticky-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold d-flex align-items-center" href="{% url 'home' %}">
+            <div class="bg-warning rounded-circle me-2 d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+                <i class="fas fa-bus-alt text-dark small"></i>
+            </div>
+            <span class="tracking-tight">Smart Transport</span>
+        </a>
 
-    {% if user.is_authenticated %}
-        <span>{% trans "Здравей" %}, {{ user.email }}</span>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-        {% if user.is_staff_member %}
-            <span>({% trans "Персонал" %})</span>
-            <a href="{% url 'transport:admin_line_list' %}">{% trans "Управление на линии" %}</a>
-            <a href="{% url 'stations:admin_station_list' %}">{% trans "Управление на спирки" %}</a>  {# админ линк #}
-        {% endif %}
+        <div class="collapse navbar-collapse" id="navbarNav">
 
-        <a href="{% url 'logout' %}">{% trans "Изход" %}</a>
-    {% else %}
-        <a href="{% url 'login' %}">{% trans "Вход" %}</a>
-        <a href="{% url 'register' %}">{% trans "Регистрация" %}</a>
-    {% endif %}
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link px-3 {% if request.resolver_match.url_name == 'line_list' %}active fw-bold text-white border-bottom border-warning{% endif %}"
+                       href="{% url 'transport:line_list' %}">
+                        {% trans "Линии" %}
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link px-3 {% if request.resolver_match.url_name == 'station_list' %}active fw-bold text-white border-bottom border-warning{% endif %}"
+                       href="{% url 'stations:station_list' %}">
+                        {% trans "Спирки" %}
+                    </a>
+                </li>
+
+                {% if user.is_authenticated and user.is_traveler %}
+                    <li class="nav-item">
+                        <a class="nav-link text-info px-3 fw-medium" href="{% url 'subscriptions:profile' %}">
+                            <i class="fas fa-id-card-alt me-1"></i>{% trans "Моята карта" %}
+                        </a>
+                    </li>
+                {% endif %}
+
+                <li class="nav-item">
+                    <a class="nav-link text-warning px-3 fw-medium" href="{% url 'reports:report_create' %}">
+                        <i class="fas fa-bullhorn me-1"></i>{% trans "Подай сигнал" %}
+                    </a>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav ms-auto align-items-center">
+                {% if user.is_authenticated %}
+
+                    {% if user.is_operator or user.is_admin %}
+                        <li class="nav-item dropdown me-lg-3 mb-2 mb-lg-0">
+                            <a class="nav-link dropdown-toggle btn btn-outline-light btn-sm px-3 d-flex align-items-center"
+                               href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user-cog me-2"></i> {% trans "Управление" %}
+                            </a>
+
+                            <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 py-3 mt-lg-2">
+                                <li class="dropdown-header text-uppercase small letter-spacing-1 text-primary fw-bold mb-1">
+                                    <i class="fas fa-bus me-1"></i> {% trans "Транспорт" %}
+                                </li>
+                                <li><a class="dropdown-item py-2" href="{% url 'transport:admin_line_list' %}">{% trans "Линии" %}</a></li>
+                                <li><a class="dropdown-item py-2" href="{% url 'stations:admin_station_list' %}">{% trans "Спирки" %}</a></li>
+
+                                <li><hr class="dropdown-divider opacity-50"></li>
+
+                                <li class="dropdown-header text-uppercase small letter-spacing-1 text-primary fw-bold mb-1">
+                                    <i class="fas fa-credit-card me-1"></i> {% trans "Карти и Абонаменти" %}
+                                </li>
+                                <li><a class="dropdown-item py-2" href="{% url 'subscriptions:admin_cards' %}">{% trans "Всички карти" %}</a></li>
+                                <li><a class="dropdown-item py-2" href="{% url 'subscriptions:admin_subscriptions' %}">{% trans "Абонаменти" %}</a></li>
+
+                                <li><hr class="dropdown-divider opacity-50"></li>
+
+                                <li>
+                                    <a class="dropdown-item py-2 fw-bold text-danger" href="{% url 'reports:admin_report_list' %}">
+                                        <i class="fas fa-clipboard-check me-2"></i> {% trans "Преглед на Сигнали" %}
+                                    </a>
+                                </li>
+
+                                {% if user.is_admin %}
+                                    <li><hr class="dropdown-divider opacity-50"></li>
+                                    <li>
+                                        <a class="dropdown-item py-2 text-muted small" href="{% url 'admin:index' %}">
+                                            <i class="fas fa-shield-alt me-2"></i> {% trans "Django Admin" %}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </li>
+                    {% endif %}
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center p-0"
+                           href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+                            <div class="user-avatar-container">
+                                {% if user.profile_picture %}
+                                    <img src="{{ user.profile_picture.url }}" class="rounded-circle border border-2 border-warning"
+                                         style="width: 35px; height: 35px; object-fit: cover;">
+                                {% else %}
+                                    <div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center border border-2 border-light"
+                                         style="width: 35px; height: 35px;">
+                                        <i class="fas fa-user text-white small"></i>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <span class="ms-2 d-none d-xl-inline-block text-white small">{{ user.email|truncatechars:20 }}</span>
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 py-2 mt-lg-2" style="min-width: 200px;">
+                            <li class="px-3 py-2 border-bottom mb-2">
+                                <p class="mb-0 small fw-bold text-dark">{{ user.get_full_name|default:user.email }}</p>
+                                <span class="text-muted" style="font-size: 0.75rem;">{% trans "Потребител" %}</span>
+                            </li>
+                            <li>
+                                <a class="dropdown-item py-2" href="{% url 'subscriptions:profile' %}">
+                                    <i class="fas fa-id-badge me-2 text-muted"></i> {% trans "Моят профил" %}
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider opacity-50"></li>
+                            <li class="px-3">
+                                <form action="{% url 'logout' %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-sm w-100 mt-1 mb-2 rounded-pill">
+                                        <i class="fas fa-sign-out-alt me-1"></i> {% trans "Изход" %}
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link fw-medium" href="{% url 'login' %}">{% trans "Вход" %}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-warning btn-sm ms-lg-3 rounded-pill px-4 fw-bold shadow-sm"
+                           href="{% url 'register' %}">
+                            {% trans "Регистрация" %}
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+
+        </div>
+    </div>
 </nav>
 
-<hr>
+<style>
+    .letter-spacing-1 { letter-spacing: 1px; }
+    .bg-primary-soft { background-color: rgba(13, 110, 25, 0.1); }
+    .nav-link { transition: all 0.3s ease; }
+    .dropdown-item:hover { background-color: #f8f9fa; color: #0d6efd; }
+    .sticky-top { backdrop-filter: blur(10px); background-color: rgba(33, 37, 41, 0.95) !important; }
+</style>

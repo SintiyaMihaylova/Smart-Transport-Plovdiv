@@ -1,14 +1,103 @@
 {% extends 'common/base.html' %}
 {% load i18n %}
 
-{% block title %}{% trans "Начало" %}{% endblock %}
+{% block title %}{% trans "Начало - Smart Transport Пловдив" %}{% endblock %}
 
 {% block content %}
-    <h1>{% trans "Добре дошли в Smart Transport Plovdiv" %}</h1>
+<div class="py-lg-5 animate-fade-in">
+    <div class="row align-items-center g-5">
+        <div class="col-lg-6 text-center text-lg-start">
+            <span class="badge bg-warning text-dark mb-3 px-3 py-2 rounded-pill fw-bold text-uppercase shadow-sm">
+                <i class="fas fa-heart me-1 text-danger"></i> {% trans "От пловдивчани за Пловдив" %}
+            </span>
 
-    {% if user.is_authenticated %}
-        <p>{% blocktrans %}Влезли сте като {{ user.email }}{% endblocktrans %}</p>
-    {% else %}
-        <p>{% trans "Моля, логнете се или се регистрирайте." %}</p>
-    {% endif %}
+            <h1 class="display-4 fw-bold text-dark mb-3">
+                {% trans "Заедно за по-добър" %}<br>
+                <span class="text-primary">{% trans "градски транспорт" %}</span>
+            </h1>
+
+            <p class="lead text-muted mb-4 fs-5">
+                {% trans "Това е независима гражданска платформа. Следете линиите в реално време, подавайте сигнали за нередности и помогнете за подобряване на мобилността в нашия град." %}
+            </p>
+
+            <div class="d-flex flex-wrap justify-content-center justify-content-lg-start gap-3">
+                <a href="{% url 'reports:report_create' %}" class="btn btn-primary btn-lg px-4 shadow-sm rounded-pill">
+                    <i class="fas fa-bullhorn me-2"></i>{% trans "Подай сигнал" %}
+                </a>
+                <a href="{% url 'transport:line_list' %}" class="btn btn-outline-primary btn-lg px-4 rounded-pill">
+                    <i class="fas fa-route me-2"></i>{% trans "Транспортни линии" %}
+                </a>
+            </div>
+        </div>
+
+        <div class="col-lg-5 offset-lg-1 d-none d-lg-block">
+            <div class="card border-0 shadow-lg rounded-4 p-4 overflow-hidden position-relative">
+                <i class="fas fa-bus text-primary position-absolute"
+                   style="font-size: 10rem; right: -20px; bottom: -20px; opacity: 0.05; z-index: 0;"></i>
+
+                <div class="position-relative" style="z-index: 1;">
+                    <h3 class="h5 fw-bold mb-4 text-dark border-bottom pb-3">
+                        <i class="fas fa-tasks text-primary me-2"></i>{% trans "Твоите стъпки към промяната" %}
+                    </h3>
+
+                    <div class="d-flex mb-4">
+                        <div class="step-number bg-primary-soft text-primary me-3">1</div>
+                        <div>
+                            <h6 class="mb-1 fw-bold text-dark">{% trans "Бъди информиран" %}</h6>
+                            <p class="text-muted small mb-0">{% trans "Разгледай линиите и спирките, за да планираш пътуването си интелигентно." %}</p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex mb-4">
+                        <div class="step-number bg-primary-soft text-primary me-3">2</div>
+                        <div>
+                            <h6 class="mb-1 fw-bold text-dark">{% trans "Подобри средата" %}</h6>
+                            <p class="text-muted small mb-0">{% trans "Гражданските данни помагат на всички ни да разберем къде са тесните места." %}</p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex">
+                        <div class="step-number bg-primary-soft text-primary me-3">3</div>
+                        <div>
+                            <h6 class="mb-1 fw-bold text-dark">{% trans "Сподели опит" %}</h6>
+                            <p class="text-muted small mb-0">{% trans "Видял си проблем? Разкажи ни за него и помогни на другите пътници." %}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5 pt-lg-4">
+        <div class="col-12">
+            <div class="alert alert-light border-0 shadow-sm rounded-pill py-3 px-4 text-center">
+                <i class="fas fa-info-circle text-info me-2"></i>
+                <span class="text-muted small">
+                    {% trans "Важно: Сайтът е независим граждански проект и не е официално представителство на Община Пловдив или ОКТ." %}
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bg-primary-soft { background-color: rgba(13, 110, 253, 0.1); }
+    .step-number {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        flex-shrink: 0;
+    }
+    .animate-fade-in {
+        animation: fadeIn 0.8s ease-out;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
 {% endblock %}

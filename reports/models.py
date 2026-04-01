@@ -19,6 +19,15 @@ class Report(models.Model):
         RESOLVED = 'resolved', _('Решен')
         REJECTED = 'rejected', _('Отхвърлен')
 
+    user = models.ForeignKey(
+        'accounts.CustomUser',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='reports',
+        verbose_name=_('Потребител')
+    )
+
     reporter_name = models.CharField(
         max_length=50,
         blank=True,

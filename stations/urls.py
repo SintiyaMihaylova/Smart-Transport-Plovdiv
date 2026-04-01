@@ -1,8 +1,12 @@
 from django.urls import path
 from .views import (
-    StationPublicListView, StationPublicDetailView,
-    StationAdminListView, StationAdminDetailView,
-    StationCreateView, StationUpdateView, StationDeleteView
+    StationPublicListView,
+    StationPublicDetailView,
+    StationAdminListView,
+    StationCreateView,
+    StationUpdateView,
+    StationDeleteView,
+    StationDetailView
 )
 
 app_name = 'stations'
@@ -15,4 +19,5 @@ urlpatterns = [
     path('admin/add/', StationCreateView.as_view(), name='station_create'),
     path('admin/<int:pk>/edit/', StationUpdateView.as_view(), name='station_update'),
     path('admin/<int:pk>/delete/', StationDeleteView.as_view(), name='station_delete'),
+path('<int:pk>/', StationDetailView.as_view(), name='station_detail'),
 ]

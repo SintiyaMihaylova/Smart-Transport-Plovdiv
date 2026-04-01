@@ -1,0 +1,51 @@
+{% extends 'common/base.html' %}
+{% load i18n %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-dark text-white py-3">
+                <h5 class="mb-0">{% trans "Редакция на абонамент" %} #{{ object.id }}</h5>
+            </div>
+            <div class="card-body p-4">
+                <div class="mb-4">
+                    <p class="mb-1 text-muted small">{% trans "Потребител" %}</p>
+                    <h6>{{ object.card.user.email }}</h6>
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    <div class="form-check form-switch mb-4">
+                        {{ form.is_active.errors }}
+                        <input class="form-check-input" type="checkbox" name="{{ form.is_active.name }}"
+                               id="id_is_active" {% if form.is_active.value %}checked{% endif %}
+                               {% if form.is_active.field.disabled %}disabled{% endif %}>
+                        <label class="form-check-label fw-bold" for="id_is_active">
+                            {% trans "Активен статус" %}
+                        </label>
+                    </div>
+
+                    {% if form.is_active.field.disabled %}
+                        <div class="alert alert-warning small">
+                            <i class="fas fa-lock me-2"></i>
+                            {% trans "Статусът на изтекъл абонамент не може да бъде променян." %}
+                        </div>
+                    {% endif %}
+
+                    <hr>
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'subscriptions:admin_subscriptions' %}" class="btn btn-outline-secondary">
+                            {% trans "Назад" %}
+                        </a>
+                        <button type="submit" class="btn btn-primary px-4" {% if form.is_active.field.disabled %}disabled{% endif %}>
+                            {% trans "Запази промените" %}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

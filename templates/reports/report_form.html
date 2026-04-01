@@ -1,0 +1,40 @@
+{% extends 'common/base.html' %}
+{% load i18n %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow border-0">
+            <div class="card-header bg-warning text-dark py-3">
+                <h4 class="mb-0"><i class="fas fa-exclamation-triangle me-2"></i>{% trans "Подай сигнал" %}</h4>
+            </div>
+            <div class="card-body p-4">
+                <p class="text-muted">{% trans "Вашата обратна връзка ни помага да подобрим градския транспорт." %}</p>
+
+                <form method="post" novalidate>
+                    {% csrf_token %}
+
+                    {% for field in form %}
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.help_text %}
+                                <div class="form-text">{{ field.help_text }}</div>
+                            {% endif %}
+                            {% for error in field.errors %}
+                                <div class="text-danger small">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            {% trans "Изпрати сигнала" %}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
