@@ -2,58 +2,176 @@
 {% load i18n %}
 
 {% block content %}
-<h1>
-    {% if object %}
-        {% trans "Редакция на линия" %}
-    {% else %}
-        {% trans "Добавяне на нова линия" %}
-    {% endif %}
-</h1>
+<div class="container py-4" style="max-width: 800px;">
+    <form method="post" id="line-form">
+        {% csrf_token %}
 
-<form method="post">
-    {% csrf_token %}
-    {{ form.non_field_errors }}
-    
-    <table>
-        {% for field in form %}
-            <tr>
-                <th>{{ field.label_tag }}</th>
-                <td>
-                    {{ field.errors }}
-                    {{ field }}
-                    {% if field.help_text %}
-                        <p class="help">{{ field.help_text }}</p>
-                    {% endif %}
-                </td>
-            </tr>
-        {% endfor %}
-    </table>
+        {% if form.errors or routes.errors or routes.non_form_errors %}
+            <div class="alert alert-danger rounded-4 shadow-sm mb-4 p-3 small border-0">
+                <h6 class="fw-bold text-danger"><i class="bi bi-exclamation-circle-fill me-2"></i>{% trans "Грешка при запис:" %}</h6>
+                {{ routes.non_form_errors }}
+                {% for rf in routes %}{{ rf.errors }}{% endfor %}
+                {{ form.errors }}
+            </div>
+        {% endif %}
 
-    <h2>{% trans "Спирки в маршрута" %}</h2>
-    {{ routes.management_form }}
-    <table>
-        {% for form in routes.forms %}
-            <tr>
-                {% for field in form.visible_fields %}
-                    <td>
-                        {{ field.errors }}
-                        {{ field }}
-                        {% if field.help_text %}
-                            <p class="help">{{ field.help_text }}</p>
-                        {% endif %}
-                    </td>
-                {% endfor %}
-                <td>
-                    {% if routes.can_delete %}
-                        {{ form.DELETE }}
-                        <label>{% trans "Изтрий" %}</label>
-                    {% endif %}
-                </td>
-            </tr>
-        {% endfor %}
-    </table>
+        <div class="card border-0 shadow-sm rounded-4 mb-4 overflow-hidden">
+            <div class="bg-primary px-4 py-3 text-white d-flex justify-content-between align-items-center">
+                <h6 class="mb-0 fw-bold text-uppercase" style="letter-spacing: 1px;">{% trans "Линия" %}</h6>
+                {% if object.number %}<span class="badge bg-warning text-dark fw-black fs-6">{{ object.number }}</span>{% endif %}
+            </div>
+            <div class="card-body p-4 bg-primary bg-opacity-10">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label small fw-bold text-primary text-uppercase">{% trans "Номер на линия" %}</label>
+                        {{ form.number }}
+                    </div>
+                    <div class="col-md-8">
+                        <label class="form-label small fw-bold text-primary text-uppercase">{% trans "Име на маршрута" %}</label>
+                        {{ form.route_bus }}
+                    </div>
+                    </div>
+            </div>
+        </div>
 
-    <button type="submit">{% trans "Запази" %}</button>
-    <a href="{% url 'transport:admin_line_list' %}">{% trans "Отказ" %}</a>
-</form>
+        <div class="d-flex justify-content-between align-items-center mb-3 px-2">
+            <h6 class="fw-bold text-dark text-uppercase mb-0 small">
+                <i class="bi bi-signpost-2-fill text-primary me-2"></i>{% trans "Последователност на спирките" %}
+            </h6>
+            <button type="button" class="btn btn-primary btn-sm rounded-pill px-4 fw-bold shadow-sm" id="add-route-item">
+                <i class="bi bi-plus-lg me-1"></i>{% trans "Добави спирка" %}
+            </button>
+        </div>
+
+        {{ routes.management_form }}
+
+        <div id="routes-list" class="mb-4">
+            {% for route_form in routes %}
+                <div class="route-item card border-0 shadow-sm rounded-4 mb-2 border-start border-primary border-4 transition-all">
+                    <div class="card-body py-2 px-3">
+                        <div class="row g-2 align-items-center">
+                            <div class="col-auto">
+                                <span class="badge bg-primary rounded-circle d-flex align-items-center justify-content-center fw-bold row-number" style="width: 30px; height: 30px;">
+                                    {{ forloop.counter }}
+                                </span>
+                            </div>
+
+                            {% for hidden in route_form.hidden_fields %}{{ hidden }}{% endfor %}
+
+                            <div class="col">
+                                {{ route_form.stop }}
+                            </div>
+
+                            <div class="d-none">
+                                {{ route_form.position }}
+                            </div>
+
+                            <div class="col-auto border-start ps-2">
+                                {% if route_form.DELETE %}
+                                    <div class="d-none">{{ route_form.DELETE }}</div>
+                                    <button type="button" class="btn btn-outline-danger btn-sm border-0 delete-btn-trigger" title="{% trans 'Премахни' %}">
+                                        <i class="bi bi-trash3-fill"></i>
+                                    </button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+            <a href="{% url 'transport:admin_line_list' %}" class="btn btn-light rounded-pill px-4 btn-sm fw-bold text-muted border">
+                {% trans "Отказ" %}
+            </a>
+            <button type="submit" class="btn btn-primary btn-sm rounded-pill px-5 fw-bold shadow-sm">
+                <i class="bi bi-check-lg me-1"></i>{% trans "Запази линията" %}
+            </button>
+        </div>
+    </form>
+</div>
+
+<div id="empty-form-template" style="display:none;">
+    <div class="route-item card border-0 shadow-sm rounded-4 mb-2 border-start border-warning border-4 animate-fade-in">
+        <div class="card-body py-2 px-3">
+            <div class="row g-2 align-items-center">
+                <div class="col-auto">
+                    <span class="badge bg-warning text-dark rounded-circle d-flex align-items-center justify-content-center fw-bold row-number" style="width: 30px; height: 30px;">
+                        #
+                    </span>
+                </div>
+                <div class="col">
+                    {{ routes.empty_form.stop }}
+                </div>
+                <div class="d-none">
+                    {{ routes.empty_form.position }}
+                </div>
+                <div class="col-auto border-start ps-2">
+                    <button type="button" class="btn btn-outline-danger btn-sm border-0 remove-new-row">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .fw-extrabold { font-weight: 800; }
+    .fw-black { font-weight: 900; }
+    input, select { display: block; width: 100%; padding: 0.45rem 0.75rem; border: 1px solid #dee2e6; border-radius: 10px; font-weight: 600; font-size: 0.9rem; }
+    .animate-fade-in { animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    .marked-for-delete { opacity: 0.3; filter: grayscale(1); pointer-events: none; }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const container = document.getElementById('routes-list');
+    const addBtn = document.getElementById('add-route-item');
+    const totalForms = document.getElementById('id_routes-TOTAL_FORMS');
+
+    function updatePositions() {
+        const rows = container.querySelectorAll('.route-item:not(.marked-for-delete)');
+        rows.forEach((row, index) => {
+            const posInput = row.querySelector('input[name$="-position"]');
+            const rowNumSpan = row.querySelector('.row-number');
+            const newPos = index + 1;
+            if (posInput) posInput.value = newPos;
+            if (rowNumSpan) rowNumSpan.innerText = newPos;
+        });
+    }
+
+    addBtn.addEventListener('click', function() {
+        const count = parseInt(totalForms.value);
+        const template = document.getElementById('empty-form-template').innerHTML;
+        const newRowHtml = template.replace(/__prefix__/g, count);
+
+        const div = document.createElement('div');
+        div.innerHTML = newRowHtml;
+        container.appendChild(div.firstElementChild);
+
+        totalForms.value = count + 1;
+        updatePositions();
+    });
+
+    container.addEventListener('click', function(e) {
+        if (e.target.closest('.remove-new-row')) {
+            e.target.closest('.route-item').remove();
+            totalForms.value = parseInt(totalForms.value) - 1;
+            updatePositions();
+        }
+        if (e.target.closest('.delete-btn-trigger')) {
+            const row = e.target.closest('.route-item');
+            const cb = row.querySelector('input[type="checkbox"][name$="-DELETE"]');
+            cb.checked = true;
+            row.classList.add('marked-for-delete');
+            updatePositions();
+        }
+    });
+
+
+    updatePositions();
+});
+</script>
 {% endblock %}

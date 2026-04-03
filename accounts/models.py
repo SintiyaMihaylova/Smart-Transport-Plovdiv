@@ -55,7 +55,7 @@ class CustomUser(AbstractUser):
     )
 
     profile_picture = models.ImageField(
-        upload_to='profiles/',
+        upload_to='profile_pictures/',
         null=True,
         blank=True,
         verbose_name=_('Профилна снимка')

@@ -1,31 +1,170 @@
+{% extends 'common/base.html' %}
 {% load i18n %}
-<!DOCTYPE html>
-<html lang="bg">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ station.name }} - {% trans "Детайли" %}</title>
-</head>
-<body>
-    <h1>{{ station.name }} ({{ station.stop_id }})</h1>
-    {% if station.neighborhood %}
-        <p><strong>{% trans "Квартал" %}:</strong> {{ station.neighborhood }}</p>
-    {% endif %}
-    {% if station.address %}
-        <p><strong>{% trans "Адрес" %}:</strong> {{ station.address }}</p>
-    {% endif %}
-    {% if station.latitude and station.longitude %}
-        <p><strong>{% trans "Координати" %}:</strong> {{ station.latitude }}, {{ station.longitude }}</p>
-    {% endif %}
 
-    <h2>{% trans "Линии, които минават през спирката" %}</h2>
-    <ul>
-        {% for line in lines_passing_by %}
-            <li>{{ line.name }}</li>
-        {% empty %}
-            <li>{% trans "Няма активни линии." %}</li>
-        {% endfor %}
-    </ul>
+{% block title %}{{ station.name }} - Smart Transport Plovdiv{% endblock %}
 
-    <a href="{% url 'stations:station_list' %}">{% trans "Обратно към списъка" %}</a>
-</body>
-</html>
+{% block content %}
+<div class="container py-5 animate-fade-in text-start">
+
+    <div class="d-flex align-items-center flex-wrap mb-5 gap-3">
+        <a href="{% url 'stations:station_list' %}"
+           class="btn btn-white border shadow-sm rounded-circle d-flex align-items-center justify-content-center"
+           style="width: 48px; height: 48px; transition: all 0.3s; background: white;">
+            <i class="bi bi-arrow-left text-primary fs-5"></i>
+        </a>
+
+        <div class="bg-primary text-white rounded-3 px-3 d-flex align-items-center shadow-sm"
+             style="height: 54px; min-width: 80px; justify-content: center;">
+            <div class="text-center">
+                <small class="d-block fw-bold text-uppercase" style="font-size: 0.55rem; opacity: 0.9; margin-bottom: -4px;">
+                    {% trans "СПИРКА" %}
+                </small>
+                <span class="h2 fw-black mb-0" style="font-family: 'Segoe UI Mono', 'Monaco', monospace; letter-spacing: -1px;">
+                    {{ station.stop_id }}
+                </span>
+            </div>
+        </div>
+
+        <div class="ms-2">
+            <h1 class="h2 fw-extrabold text-dark mb-0">{{ station.name }}</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item small">
+                        <a href="{% url 'home' %}" class="text-decoration-none">{% trans "Начало" %}</a>
+                    </li>
+                    <li class="breadcrumb-item small">
+                        <a href="{% url 'stations:station_list' %}" class="text-decoration-none">{% trans "Спирки" %}</a>
+                    </li>
+                    <li class="breadcrumb-item small active text-muted">{{ station.name }}</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm rounded-4 bg-white p-4 mb-4">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h5 class="fw-bold text-dark mb-0">
+                        <i class="bi bi-bus-front text-primary me-2"></i>{% trans "Преминаващи линии" %}
+                    </h5>
+                    <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 fw-bold">
+                        {{ station.bus_lines.count }} {% trans "линии" %}
+                    </span>
+                </div>
+
+                <div class="row g-3">
+                    {% for line in station.bus_lines.all %}
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center p-3 border rounded-4 hover-shadow transition-all bg-white h-100">
+                                <div class="bg-primary text-white rounded-3 d-flex align-items-center justify-content-center fw-bold shadow-sm"
+                                     style="width: 45px; height: 45px; min-width: 45px; font-size: 1.1rem;">
+                                    {{ line.number }}
+                                </div>
+
+                                <div class="ms-3 overflow-hidden">
+                                    <h6 class="mb-0 fw-bold text-dark">{% trans "Линия" %} {{ line.number }}</h6>
+                                    <small class="text-muted text-truncate d-block" title="{{ line.route_bus }}">
+                                        {{ line.route_bus }}
+                                    </small>
+                                </div>
+
+                                <a href="{% url 'transport:line_detail' line.pk %}"
+                                   class="ms-auto btn btn-sm btn-light rounded-circle shadow-sm border">
+                                    <i class="bi bi-chevron-right text-primary"></i>
+                                </a>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <div class="col-12 text-center py-5">
+                            <i class="bi bi-info-circle fs-1 text-muted d-block mb-3 opacity-25"></i>
+                            <p class="text-muted fw-medium">{% trans "В момента няма регистрирани линии за тази спирка." %}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="d-flex flex-column gap-3">
+                <div class="bg-white border-0 shadow-sm rounded-4 overflow-hidden">
+                    <div class="p-3 {% if station.is_active %}bg-success{% else %}bg-danger{% endif %} text-white text-center">
+                        <small class="fw-bold text-uppercase" style="letter-spacing: 1px; font-size: 0.7rem;">
+                            {% if station.is_active %}
+                                <i class="bi bi-check-circle-fill me-1"></i> {% trans "АКТИВЕН ОБЕКТ" %}
+                            {% else %}
+                                <i class="bi bi-exclamation-octagon-fill me-1"></i> {% trans "НЕАКТИВЕН ОБЕКТ" %}
+                            {% endif %}
+                        </small>
+                    </div>
+
+                    <div class="p-4">
+                        <div class="d-flex align-items-center mb-4 text-start">
+                            <div class="bg-primary bg-opacity-10 p-3 rounded-4 me-3 text-primary">
+                                <i class="bi bi-building fs-5"></i>
+                            </div>
+                            <div>
+                                <small class="text-muted d-block text-uppercase fw-bold" style="font-size: 0.6rem;">{% trans "Район / Квартал" %}</small>
+                                <span class="fw-bold text-dark fs-5">{{ station.neighborhood|default:_("Пловдив") }}</span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-start mb-4 text-start">
+                            <div class="bg-danger bg-opacity-10 p-3 rounded-4 me-3 text-danger">
+                                <i class="bi bi-geo-alt-fill fs-5"></i>
+                            </div>
+                            <div>
+                                <small class="text-muted d-block text-uppercase fw-bold" style="font-size: 0.6rem;">{% trans "Точен адрес" %}</small>
+                                <span class="fw-bold text-dark">{{ station.address|default:_("Няма въведен адрес") }}</span>
+                            </div>
+                        </div>
+
+                        <hr class="my-4 opacity-50">
+
+                        <a href="https://www.google.com/maps/search/?api=1&query={{ station.name|urlencode }}+{{ station.stop_id|urlencode }}+Пловдив"
+                           target="_blank"
+                           class="btn btn-outline-primary w-100 rounded-pill fw-bold py-2 shadow-sm transition-all">
+                            <i class="bi bi-map-fill me-2"></i>{% trans "Виж в Карти" %}
+                        </a>
+                    </div>
+                </div>
+
+                <a href="{% url 'reports:report_create' %}?stop={{ station.id }}"
+                   class="btn btn-warning btn-lg rounded-4 fw-bold py-3 shadow-sm border-0 text-dark hover-lift">
+                    <i class="bi bi-megaphone-fill me-2"></i>{% trans "ПОДАЙ СИГНАЛ ТУК" %}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .fw-black { font-weight: 900; }
+    .fw-extrabold { font-weight: 800; }
+    .animate-fade-in { animation: fadeIn 0.6s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+    .btn-white { background: #fff; color: #0d6efd; }
+    .btn-white:hover { background: #f8f9fa; transform: scale(1.05); }
+
+    .hover-shadow:hover {
+        box-shadow: 0 10px 20px rgba(13, 110, 253, 0.1) !important;
+        border-color: #0d6efd !important;
+        transform: translateY(-3px);
+    }
+
+    .hover-lift:hover {
+        transform: translateY(-3px);
+        filter: brightness(1.05);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .transition-all { transition: all 0.3s ease-in-out; }
+
+    .breadcrumb-item + .breadcrumb-item::before {
+        content: "→"; font-size: 0.8rem; vertical-align: middle; color: #6c757d;
+    }
+
+    .bg-primary-subtle { background-color: rgba(13, 110, 253, 0.1) !important; }
+</style>
+{% endblock %}

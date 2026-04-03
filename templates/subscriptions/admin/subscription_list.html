@@ -1,42 +1,126 @@
 {% extends 'common/base.html' %}
 {% load i18n %}
 
+{% block title %}{% trans "Всички транзакции и абонаменти" %}{% endblock %}
+
 {% block content %}
-<div class="card border-0 shadow-sm">
-    <div class="card-header bg-white py-3">
-        <h5 class="mb-0 text-dark fw-bold">
-            <i class="fas fa-receipt me-2 text-warning"></i>{% trans "Всички абонаменти" %}
-        </h5>
+<div class="container py-4 animate-fade-in">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">
+                <i class="bi bi-receipt-cutoff text-warning me-2"></i>{% trans "Хронология на плащанията" %}
+            </h2>
+            <p class="text-muted small mb-0">{% trans "Пълен архив на закупените абонаментни планове" %}</p>
+        </div>
+        <div class="dropdown">
+            <button class="btn btn-white border rounded-pill px-3 shadow-sm btn-sm dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown">
+                <i class="bi bi-filter-right me-1"></i> {% trans "Сортирай" %}
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 rounded-3">
+                <li><a class="dropdown-item small" href="?sort=-purchase_date">{% trans "Най-нови първо" %}</a></li>
+                <li><a class="dropdown-item small" href="?sort=purchase_date">{% trans "Най-стари първо" %}</a></li>
+            </ul>
+        </div>
     </div>
-    <div class="card-body p-0">
-        <table class="table table-hover mb-0">
-            <thead class="table-light">
-                <tr>
-                    <th class="ps-4">{% trans "Дата" %}</th>
-                    <th>{% trans "Карта" %}</th>
-                    <th>{% trans "План" %}</th>
-                    <th>{% trans "Период" %}</th>
-                    <th class="text-center">{% trans "Действие" %}</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for sub in subscriptions %}
-                <tr>
-                    <td class="ps-4">{{ sub.purchase_date|date:"d.m.Y H:i" }}</td>
-                    <td><code>{{ sub.card.card_number }}</code></td>
-                    <td>{{ sub.plan.name }}</td>
-                    <td class="small">{{ sub.start_date|date:"d.m.y" }} - {{ sub.end_date|date:"d.m.y" }}</td>
-                    <td class="text-center">
-                        {% if user.is_admin %}
-                        <a href="{% url 'subscriptions:subscription_update' sub.pk %}" class="btn btn-sm btn-light">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light text-muted small text-uppercase">
+                    <tr>
+                        <th class="ps-4 py-3 border-0">{% trans "Дата и час" %}</th>
+                        <th class="border-0">{% trans "Карта / Потребител" %}</th>
+                        <th class="border-0">{% trans "План" %}</th>
+                        <th class="border-0">{% trans "Валидност" %}</th>
+                        <th class="border-0">{% trans "Сума" %}</th>
+                        <th class="text-center pe-4 border-0">{% trans "Действие" %}</th>
+                    </tr>
+                </thead>
+                <tbody class="border-top-0">
+                    {% for sub in subscriptions %}
+                    <tr class="transition-all">
+                        <td class="ps-4">
+                            <div class="fw-bold text-dark small">{{ sub.purchase_date|date:"d.m.Y" }}</div>
+                            <div class="text-muted" style="font-size: 0.7rem;">{{ sub.purchase_date|date:"H:i" }} {% trans "ч." %}</div>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div class="badge bg-light text-primary border font-monospace px-2 py-1 me-2" style="font-size: 0.8rem;">
+                                    {{ sub.card.card_number }}
+                                </div>
+                                <div class="small text-muted d-none d-md-block">
+                                    {{ sub.card.user.get_full_name|default:sub.card.user.email|truncatechars:20 }}
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="fw-bold text-dark">{{ sub.plan.name }}</span>
+                            {% if sub.is_active %}
+                                <i class="bi bi-check-circle-fill text-success small ms-1" title="{% trans 'В сила' %}"></i>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="small fw-medium text-muted">
+                                {{ sub.start_date|date:"d.m.y" }} <i class="bi bi-arrow-right mx-1 opacity-50"></i> {{ sub.end_date|date:"d.m.y" }}
+                            </div>
+                        </td>
+                        <td>
+                            <span class="fw-bold text-success">{{ sub.plan.price }} {% trans "лв." %}</span>
+                        </td>
+                        <td class="text-center pe-4">
+                            {% if user.is_staff or user.is_superuser %}
+                            <a href="{% url 'subscriptions:admin_subscription_edit' sub.pk %}"
+                               class="btn btn-sm btn-light rounded-circle shadow-sm border hover-lift"
+                               title="{% trans 'Редактирай транзакция' %}">
+                                <i class="bi bi-pencil-square text-primary"></i>
+                            </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center py-5">
+                            <div class="opacity-25 mb-3">
+                                <i class="bi bi-journal-x fa-4x text-muted"></i>
+                            </div>
+                            <h5 class="text-muted fw-bold">{% trans "Все още няма извършени продажби." %}</h5>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card-footer bg-white py-3 px-4 border-0 border-top">
+            <div class="row align-items-center">
+                <div class="col-md-6 small text-muted">
+                    {% trans "Показани записи:" %} <strong>{{ subscriptions|length }}</strong>
+                </div>
+                <div class="col-md-6 text-md-end mt-2 mt-md-0">
+                    <span class="small text-muted me-2">{% trans "Общ оборот в списъка:" %}</span>
+                    <span class="h6 fw-bold text-dark mb-0">
+                        {% comment %} Тук може да се добави логика за сумиране в View {% endcomment %}
+                        <i class="bi bi-cash-stack text-success me-1"></i>...
+                    </span>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+<style>
+    .animate-fade-in { animation: fadeIn 0.4s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .btn-white { background-color: #fff; }
+    .btn-white:hover { background-color: #f8f9fa; }
+
+    .hover-lift:hover { transform: translateY(-2px); transition: 0.2s; }
+    .transition-all { transition: all 0.2s; }
+
+    .table-hover tbody tr:hover { background-color: rgba(255, 193, 7, 0.03); }
+
+    .font-monospace { letter-spacing: 0.5px; }
+</style>
 {% endblock %}

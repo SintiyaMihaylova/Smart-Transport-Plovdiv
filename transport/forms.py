@@ -25,10 +25,14 @@ class RouteForm(forms.ModelForm):
     class Meta:
         model = Route
         fields = ['stop', 'position']
+        labels = {
+            'stop': _('Спирка'),
+            'position': _('Позиция'),
+        }
         widgets = {
+            'stop': forms.Select(attrs={'class': 'form-select'}),
             'position': forms.NumberInput(attrs={'class': 'form-control', 'min': 1})
         }
-
 
 class BaseRouteFormSet(BaseInlineFormSet):
 

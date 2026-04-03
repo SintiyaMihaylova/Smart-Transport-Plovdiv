@@ -1,16 +1,155 @@
-{% extends "common/base.html" %}
+{% extends 'common/base.html' %}
 {% load i18n %}
 
 {% block content %}
-<h1>№{{ line.number }} - {{ line.route_bus }}</h1>
-<p>{{ line.description }}</p>
+    <div class="py-4">
+        <div class="row align-items-center mb-5 g-3">
+            <div class="col-auto">
+                <a href="{% url 'transport:line_list' %}"
+                   class="btn btn-light rounded-circle border shadow-sm d-flex align-items-center justify-content-center"
+                   style="width: 45px; height: 45px;">
+                    <i class="bi bi-arrow-left fs-5"></i>
+                </a>
+            </div>
+            <div class="col">
+                <div class="d-flex align-items-center flex-wrap gap-2">
+                    <h1 class="h2 fw-extrabold text-dark mb-0">
+                        {% trans "Линия" %} <span class="text-primary">{{ line.number }}</span>
+                    </h1>
+                    <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 fw-bold"
+                          style="font-size: 0.85rem;">
+                        <i class="bi bi-bus-front me-1"></i> {% trans "Градски транспорт" %}
+                    </span>
+                </div>
+                <h2 class="h4 fw-bold text-secondary mt-2 mb-0" style="letter-spacing: -0.5px;">
+                    {{ line.route_bus }}
+                </h2>
+            </div>
+        </div>
 
-<h2>{% trans "Маршрут" %}</h2>
-<ol>
-    {% for route in routes %}
-    <li>{{ route.stop.name }}</li>
-    {% endfor %}
-</ol>
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm rounded-4 bg-white overflow-hidden">
+                    <div class="bg-primary p-3 text-white">
+                        <h6 class="mb-0 fw-bold">
+                            <i class="bi bi-geo-alt-fill me-2"></i>{% trans "Маршрут и последователност" %}
+                        </h6>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="timeline">
+                            {% for route in routes %}
+                                <div class="timeline-item d-flex">
+                                    <div class="timeline-visual d-flex flex-column align-items-center me-3">
+                                        <div class="timeline-dot shadow-sm">{{ route.position }}</div>
+                                        {% if not forloop.last %}
+                                            <div class="timeline-line"></div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="timeline-content pb-4">
+                                        <h6 class="fw-bold text-dark mb-1">{{ route.stop.name }}</h6>
+                                        <div class="d-flex gap-2 align-items-center">
+                                            {% if route.stop.neighborhood and route.stop.neighborhood != "Пловдив" %}
+                                                <span class="badge bg-light text-muted border-0 p-0 extra-small">
+                                                    <i class="bi bi-geo-alt me-1 text-primary"></i>{{ route.stop.neighborhood }}
+                                                </span>
+                                            {% elif route.stop.address %}
+                                                <span class="badge bg-light text-muted border-0 p-0 extra-small">
+                                                    <i class="bi bi-geo-alt me-1"></i>{{ route.stop.address }}
+                                                </span>
+                                            {% endif %}
 
-<a href="{% url 'transport:line_list' %}">{% trans "Обратно към списъка" %}</a>
+                                            <span class="text-muted extra-small">| ID: {{ route.stop.stop_id }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% empty %}
+                                <div class="text-center py-5">
+                                    <i class="bi bi-info-circle text-muted fs-2 mb-3 d-block"></i>
+                                    <p class="text-muted">{% trans "Все още няма добавени спирки." %}</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm rounded-4 bg-white p-4 mb-4 border-start border-primary border-4">
+                    <h5 class="fw-extrabold text-dark mb-4"
+                        style="font-size: 1.1rem;">{% trans "Детайли за маршрута" %}</h5>
+
+                    <div class="d-flex align-items-start mb-4">
+                        <div class="bg-primary text-white rounded-3 p-2 me-3 shadow-sm">
+                            <i class="bi bi-signpost-2 fs-4"></i>
+                        </div>
+                        <div>
+                            <small class="text-muted d-block text-uppercase fw-bold"
+                                   style="font-size: 0.65rem; letter-spacing: 1px;">
+                                {% trans "Направление" %}
+                            </small>
+                            <span class="text-dark fw-bold">{{ line.route_bus }}</span>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-start">
+                        <div class="bg-success text-white rounded-3 p-2 me-3 shadow-sm">
+                            <i class="bi bi-hash fs-4"></i>
+                        </div>
+                        <div>
+                            <small class="text-muted d-block text-uppercase fw-bold"
+                                   style="font-size: 0.65rem; letter-spacing: 1px;">
+                                {% trans "Брой спирки" %}
+                            </small>
+                            <span class="text-dark fw-bold">{{ routes|length }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm rounded-4 bg-primary text-white p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="bi bi-exclamation-triangle-fill fs-3 me-2 text-warning"></i>
+                        <h6 class="fw-bold mb-0">{% trans "Проблем по линията?" %}</h6>
+                    </div>
+                    <p class="extra-small opacity-75 mb-3">
+                        {% trans "Закъснение или проблем със спирка? Сигнализирайте ни." %}
+                    </p>
+                    <a href="{% url 'reports:report_create' %}?line={{ line.id }}"
+                       class="btn btn-light btn-sm rounded-pill fw-bold text-primary px-4 w-100 py-2 shadow-sm">
+                        {% trans "Подай сигнал" %}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .timeline-dot {
+            width: 28px;
+            height: 28px;
+            background: #0d6efd;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+            z-index: 2;
+        }
+        .timeline-line {
+            width: 2px;
+            background: #e9ecef;
+            flex-grow: 1;
+            margin: 4px 0;
+        }
+        .extra-small { font-size: 0.75rem; }
+        .fw-extrabold { font-weight: 800; }
+
+
+        .timeline-item:hover .timeline-dot {
+            transform: scale(1.1);
+            transition: 0.2s ease-in-out;
+            background: #0056b3;
+        }
+    </style>
 {% endblock %}

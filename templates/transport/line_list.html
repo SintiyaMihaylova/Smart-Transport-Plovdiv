@@ -1,18 +1,112 @@
-{% extends "common/base.html" %}
+{% extends 'common/base.html' %}
 {% load i18n %}
 
 {% block content %}
-<h1>{% trans "Линии на градския транспорт" %}</h1>
+<div class="py-4">
+    <div class="row align-items-center mb-5 g-4 text-start">
+        <div class="col-md-6">
+            <h1 class="h2 fw-extrabold text-dark mb-2">
+                {% trans "Транспортни линии" %} <span style="font-size: 1.8rem; vertical-align: middle;">🚌</span><span class="text-primary">.</span>
+            </h1>
+            <p class="text-muted small mb-0 fw-medium">
+                <i class="bi bi-info-circle me-1"></i>
+                {% trans "Разгледайте маршрутите и разписанията в Пловдив" %}
+            </p>
+        </div>
 
-<ul>
-    {% for line in lines %}
-    <li>
-        <a href="{% url 'transport:line_detail' line.number %}">
-            №{{ line.number }} - {{ line.route_bus }}
-        </a>
-    </li>
-    {% empty %}
-    <li>{% trans "Няма налични линии." %}</li>
-    {% endfor %}
-</ul>
+        <div class="col-md-6">
+            <form method="get" class="search-wrapper shadow-sm">
+                <i class="bi bi-search search-icon"></i>
+                <input type="text" name="q" class="form-control search-input"
+                       placeholder="{% trans 'Търси номер на линия или име...' %}"
+                       value="{{ request.GET.q|default:'' }}">
+
+                {% if request.GET.q %}
+                    <a href="{% url 'transport:line_list' %}" class="clear-search text-decoration-none">
+                        <i class="bi bi-x-circle-fill"></i>
+                    </a>
+                {% endif %}
+
+                <button type="submit" class="btn btn-primary btn-sm rounded-circle me-1 d-flex align-items-center justify-content-center"
+                        style="width: 38px; height: 38px; min-width: 38px;">
+                    <i class="bi bi-search text-white"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="line-list-container shadow-sm border rounded-4 bg-white overflow-hidden text-start">
+        <div class="d-none d-md-flex bg-light border-bottom px-4 py-2 text-uppercase fw-bold text-muted extra-small" style="letter-spacing: 1px;">
+            <div style="width: 80px;">{% trans "Линия" %}</div>
+            <div class="flex-grow-1">{% trans "Маршрут / Направление" %}</div>
+            <div class="text-end" style="width: 150px;">{% trans "Детайли" %}</div>
+        </div>
+
+        {% for line in lines %}
+        <div class="line-item border-bottom transition-all">
+            <div class="d-flex align-items-center px-4 py-3">
+                <div class="me-4" style="width: 60px;">
+                    <span class="line-number-pill shadow-sm">
+                        {{ line.number }}
+                    </span>
+                </div>
+
+                <div class="flex-grow-1">
+                    <h5 class="mb-1 fw-bold text-dark mb-0" style="letter-spacing: -0.3px; font-size: 1.05rem;">
+                        {{ line.route_bus }}
+                    </h5>
+                    <div class="d-flex align-items-center text-muted extra-small fw-medium">
+                        <i class="bi bi-geo-alt me-1 text-primary"></i>
+                        {% trans "Градска линия на Пловдив" %}
+                    </div>
+                </div>
+
+                <div class="ms-3 text-end">
+                    <a href="{% url 'transport:line_detail' line.number %}"
+                       class="btn btn-primary btn-sm rounded-pill px-4 d-none d-md-inline-flex align-items-center shadow-sm fw-bold transition-all"
+                       style="font-size: 0.8rem; padding-top: 8px; padding-bottom: 8px;">
+                        {% trans "Виж маршрут" %} <i class="bi bi-chevron-right ms-2"></i>
+                    </a>
+                    <a href="{% url 'transport:line_detail' line.number %}"
+                       class="btn btn-primary btn-sm rounded-circle d-inline-flex d-md-none align-items-center justify-content-center shadow-sm"
+                       style="width: 36px; height: 36px;">
+                        <i class="bi bi-chevron-right text-white"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="p-5 text-center">
+            <i class="bi bi-search text-muted display-1 opacity-25"></i>
+            <p class="mt-3 text-muted">{% trans "Не бяха намерени линии по този критерий." %}</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .fw-extrabold { font-weight: 800; }
+    .extra-small { font-size: 0.72rem; }
+    .transition-all { transition: all 0.2s ease-in-out; }
+    .line-item:hover { background-color: #f8fbff; }
+
+    .line-number-pill {
+        display: inline-block;
+        background: #eef4ff;
+        border-left: 4px solid #004a99;
+        color: #004a99;
+        font-weight: 800;
+        padding: 8px 12px;
+        border-radius: 8px;
+        min-width: 55px;
+        text-align: center;
+        font-size: 1rem;
+    }
+
+
+    .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(13, 110, 253, 0.2);
+    }
+</style>
 {% endblock %}

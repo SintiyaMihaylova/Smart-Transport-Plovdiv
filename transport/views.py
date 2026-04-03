@@ -2,7 +2,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView, DetailView
 from .forms import BusLineForm, RouteForm, UpdateRouteFormSet, BaseRouteFormSet
 from .mixins import BusLineWithRoutesMixin, AdminRequiredMixin
-from .models import BusLine, Schedule
+from .models import BusLine
 
 
 class BusLineCreateView(AdminRequiredMixin, BusLineWithRoutesMixin, CreateView):
@@ -72,6 +72,15 @@ class BusLineDetailView(DetailView):
 
         return context
 
+class AdminBusLineListView(AdminRequiredMixin, ListView):
+    model = BusLine
+    template_name = 'transport/admin/line_list.html'
+    context_object_name = 'lines'
+    ordering = ['number']
+
+    def get_queryset(self):
+
+        return BusLine.objects.all().prefetch_related('routes__stop')
 
 # class NextArrivalView(View):
 #     def get(self, request, pk):

@@ -1,6 +1,8 @@
 from django.db.models.signals import post_save, post_migrate
-from django.dispatch import receiver
 from django.contrib.auth.models import Group
+import cloudinary.uploader
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 from .models import CustomUser
 
 
@@ -30,3 +32,20 @@ def create_groups(sender, **kwargs):
 
     for group_name in ROLE_TO_GROUP.values():
         Group.objects.get_or_create(name=group_name)
+
+
+@receiver(pre_save, sender=CustomUser)
+def delete_old_profile_picture(sender, instance, **kwargs):
+    if not instance.pk:
+        return
+
+    try:
+        old_instance = CustomUser.objects.get(pk=instance.pk)
+    except CustomUser.DoesNotExist:
+        return
+
+    old_image = old_instance.profile_picture
+    new_image = instance.profile_picture
+
+    if old_image and old_image != new_image:
+        cloudinary.uploader.destroy(old_image.public_id)

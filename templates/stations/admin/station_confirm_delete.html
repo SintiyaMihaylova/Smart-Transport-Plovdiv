@@ -1,18 +1,71 @@
+{% extends 'common/base.html' %}
 {% load i18n %}
-<!DOCTYPE html>
-<html lang="bg">
-<head>
-    <meta charset="UTF-8">
-    <title>{% trans "Изтрий спирка" %}</title>
-</head>
-<body>
-    <h1>{% trans "Изтрий спирка" %}</h1>
-    <p>{% blocktrans with name=station.name %}Сигурни ли сте, че искате да изтриете спирката "{{ name }}"?{% endblocktrans %}</p>
 
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit">{% trans "Да, изтрий" %}</button>
-        <a href="{% url 'stations:admin_station_list' %}">{% trans "Откажи" %}</a>
-    </form>
-</body>
-</html>
+{% block title %}{% trans "Потвърждение за изтриване" %} - {{ station.name }}{% endblock %}
+
+{% block content %}
+<div class="container py-5 animate-fade-in">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="card-header bg-danger text-white text-center py-4 border-0">
+                    <i class="fas fa-exclamation-triangle fa-3x mb-3 animate-pulse"></i>
+                    <h3 class="fw-bold mb-0">{% trans "Изтриване на спирка" %}</h3>
+                </div>
+
+                <div class="card-body p-4 p-md-5 text-center">
+                    <p class="fs-5 text-dark mb-4">
+                        {% blocktrans with name=station.name %}
+                            Сигурни ли сте, че искате да изтриете спирка <br>
+                            <strong class="text-danger">"{{ name }}"</strong>?
+                        {% endblocktrans %}
+                    </p>
+
+                    <div class="alert alert-warning small border-0 shadow-sm mb-4">
+                        <i class="fas fa-info-circle me-2"></i>
+                        {% trans "Това действие е необратимо. Спирката ще бъде премахната от всички маршрути." %}
+                    </div>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="d-grid gap-3">
+                            <button type="submit" class="btn btn-danger btn-lg rounded-pill shadow-sm fw-bold py-3">
+                                <i class="fas fa-trash-alt me-2"></i>{% trans "Да, потвърждавам изтриването" %}
+                            </button>
+
+                            <a href="{% url 'stations:admin_station_list' %}" class="btn btn-light btn-lg rounded-pill border py-3 fw-medium">
+                                {% trans "Не, върни ме обратно" %}
+                            </a>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="card-footer bg-light border-0 py-3 text-center">
+                    <span class="text-muted small">
+                        <i class="fas fa-id-badge me-1"></i> ID на обекта: #{{ station.pk }}
+                    </span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+    .animate-fade-in { animation: fadeIn 0.4s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+
+    .animate-pulse { animation: pulse 2s infinite; }
+    @keyframes pulse {
+        0% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.1); opacity: 0.8; }
+        100% { transform: scale(1); opacity: 1; }
+    }
+
+    .btn-danger:hover {
+        background-color: #bb2d3b;
+        box-shadow: 0 0.5rem 1rem rgba(220, 53, 69, 0.25) !important;
+    }
+</style>
+{% endblock %}

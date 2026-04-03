@@ -5,6 +5,15 @@ from .models import CustomUser
 
 
 class CustomUserCreationForm(UserCreationForm):
+    first_name = forms.CharField(label=_("Име"), required=False)
+    last_name = forms.CharField(label=_("Фамилия"), required=False)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
+
     def clean_email(self):
         email = self.cleaned_data.get('email')
         if email:
@@ -13,7 +22,7 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta:
         model = CustomUser
-        fields = ('email', 'profile_picture')
+        fields = ('email', 'first_name', 'last_name', 'profile_picture')
 
 
 class CustomUserChangeForm(UserChangeForm):

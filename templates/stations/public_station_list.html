@@ -1,31 +1,104 @@
+{% extends 'common/base.html' %}
 {% load i18n %}
-<!DOCTYPE html>
-<html lang="bg">
-<head>
-    <meta charset="UTF-8">
-    <title>{% trans "Списък на спирките" %}</title>
-</head>
-<body>
-    <h1>{% trans "Списък на активните спирки" %}</h1>
 
-    <form method="get">
-        <input type="text" name="q" value="{{ request.GET.q }}" placeholder="{% trans 'Търсене по име или номер' %}">
-        <button type="submit">{% trans "Търси" %}</button>
-    </form>
+{% block content %}
+<div class="py-4">
+    <div class="row align-items-center mb-5 g-4 text-start">
+        <div class="col-md-6">
+            <h1 class="h2 fw-extrabold text-dark mb-2">
+                {% trans "Спирки" %} <span class="text-primary">.</span><span style="font-size: 1.8rem; vertical-align: middle;">🚏</span>
+            </h1>
+            <p class="text-muted small mb-0 fw-medium">
+                <i class="bi bi-info-circle me-1"></i>
+                {% trans "Намерете информация за всяка точка от градската мрежа" %}
+            </p>
+        </div>
 
-    <ul>
-        {% for station in stations %}
-            <li>
-                <a href="{% url 'stations:station_detail' station.pk %}">
-                    {{ station.name }} ({{ station.stop_id }})
-                </a>
-                {% if station.neighborhood %}
-                    - {{ station.neighborhood }}
+        <div class="col-md-6">
+            <form method="get" class="search-wrapper shadow-sm">
+                <i class="bi bi-search search-icon"></i>
+                <input type="text" name="q" class="form-control search-input"
+                       placeholder="{% trans 'Търси по име или номер...' %}"
+                       value="{{ request.GET.q|default:'' }}">
+
+                {% if request.GET.q %}
+                    <a href="{% url 'stations:station_list' %}" class="clear-search text-decoration-none">
+                        <i class="bi bi-x-circle-fill"></i>
+                    </a>
                 {% endif %}
-            </li>
+
+                <button type="submit" class="btn btn-primary btn-sm rounded-circle me-1 d-flex align-items-center justify-content-center"
+                        style="width: 38px; height: 38px; min-width: 38px;">
+                    <i class="bi bi-search text-white"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="station-list-container shadow-sm border rounded-4 bg-white overflow-hidden text-start">
+        <div class="d-none d-md-flex bg-light border-bottom px-4 py-2 text-uppercase fw-bold text-muted extra-small" style="letter-spacing: 1px;">
+            <div style="width: 80px;">{% trans "Код" %}</div>
+            <div class="flex-grow-1">{% trans "Наименование" %}</div>
+            <div class="text-end" style="width: 100px;">{% trans "Детайли" %}</div>
+        </div>
+
+        {% for station in stations %}
+        <div class="station-item border-bottom transition-all">
+            <div class="d-flex align-items-center px-4 py-3">
+                <div class="me-4" style="width: 60px;">
+                    <span class="station-code-pill shadow-sm">
+                        {{ station.stop_id|default:station.id }}
+                    </span>
+                </div>
+
+                <div class="flex-grow-1">
+                    <h6 class="mb-0 fw-bold text-dark station-name">{{ station.name }}</h6>
+                    <div class="d-flex align-items-center mt-1 text-muted extra-small fw-medium">
+                        <i class="bi bi-geo-alt me-1 text-primary"></i>
+                        {{ station.neighborhood|default:_("Пловдив, България") }}
+                    </div>
+                </div>
+
+                <div class="ms-3 text-end">
+                    <a href="{% url 'stations:station_detail' station.id %}"
+                       class="btn btn-primary btn-sm rounded-circle shadow-sm d-flex align-items-center justify-content-center"
+                       style="width: 36px; height: 36px;">
+                        <i class="bi bi-chevron-right text-white" style="font-size: 0.9rem;"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
         {% empty %}
-            <li>{% trans "Няма намерени спирки." %}</li>
+        <div class="p-5 text-center">
+            <div class="bg-light d-inline-block rounded-circle p-4 mb-3 text-muted">
+                <i class="bi bi-search fs-1"></i>
+            </div>
+            <h5 class="text-dark fw-bold">{% trans "Няма открити спирки" %}</h5>
+            <a href="{% url 'stations:station_list' %}" class="btn btn-primary rounded-pill px-4 btn-sm mt-2 shadow-sm">
+                {% trans "Виж всички" %}
+            </a>
+        </div>
         {% endfor %}
-    </ul>
-</body>
-</html>
+    </div>
+</div>
+
+<style>
+    .fw-extrabold { font-weight: 800; }
+    .extra-small { font-size: 0.72rem; }
+    .transition-all { transition: all 0.2s ease-in-out; }
+    .station-item:hover { background-color: #f8fbff; }
+
+    .station-code-pill {
+        display: inline-block;
+        background: #eef4ff;
+        border-left: 4px solid #004a99;
+        color: #004a99;
+        font-weight: 800;
+        padding: 6px 10px;
+        border-radius: 6px;
+        min-width: 50px;
+        text-align: center;
+        font-size: 0.85rem;
+    }
+</style>
+{% endblock %}

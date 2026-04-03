@@ -1,81 +1,151 @@
 {% extends 'common/base.html' %}
 {% load i18n %}
 
+{% block title %}{% trans "Управление на сигнали" %} - Smart Transport{% endblock %}
+
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h2><i class="fas fa-clipboard-list text-primary"></i> {% trans "Управление на сигнали" %}</h2>
-    <span class="badge bg-info">{{ paginator.count }} {% trans "сигнала общо" %}</span>
-</div>
+<div class="container py-4 animate-fade-in">
 
-<div class="card mb-4 border-0 shadow-sm bg-light">
-    <div class="card-body">
-        <form method="get" class="row g-3">
-            <div class="col-md-3">
-                <input type="text" name="search" class="form-control" placeholder="{% trans 'Търси в описание/име...' %}" value="{{ request.GET.search }}">
-            </div>
-            <div class="col-md-2">
-                <select name="status" class="form-select">
-                    <option value="">-- {% trans "Всички статуси" %} --</option>
-                    {% for val, name in form.fields.status.choices %} <option value="{{ val }}" {% if request.GET.status == val %}selected{% endif %}>{{ name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col-md-2">
-                <input type="date" name="date" class="form-control" value="{{ request.GET.date }}">
-            </div>
-            <div class="col-md-2">
-                <button type="submit" class="btn btn-primary w-100">{% trans "Филтрирай" %}</button>
-            </div>
-            <div class="col-md-1">
-                <a href="{% url 'reports:admin_report_list' %}" class="btn btn-outline-secondary w-100"><i class="fas fa-undo"></i></a>
-            </div>
-        </form>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">
+                <i class="fas fa-clipboard-check text-primary me-2"></i>{% trans "Управление на сигнали" %}
+            </h2>
+            <p class="text-muted small mb-0">{% trans "Преглед и обработка на потребителски сигнали" %}</p>
+        </div>
+        <div class="bg-primary text-white px-3 py-2 rounded-pill shadow-sm fw-bold">
+            <i class="fas fa-layer-group me-1"></i> {{ paginator.count }} {% trans "общо" %}
+        </div>
     </div>
-</div>
 
-<div class="table-responsive shadow-sm rounded">
-    <table class="table table-hover align-middle bg-white">
-        <thead class="table-dark">
-            <tr>
-                <th>{% trans "Дата" %}</th>
-                <th>{% trans "Категория" %}</th>
-                <th>{% trans "Обект" %}</th>
-                <th>{% trans "Статус" %}</th>
-                <th>{% trans "Действие" %}</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for report in reports %}
-            <tr>
-                <td class="small">{{ report.created_at|date:"d.m.Y H:i" }}</td>
-                <td><span class="badge bg-secondary">{{ report.get_category_display }}</span></td>
-                <td>
-                    {% if report.bus_line %}<i class="fas fa-bus small"></i> {{ report.bus_line }}{% endif %}
-                    {% if report.stop %}<br><i class="fas fa-map-marker-alt small"></i> {{ report.stop.name }}{% endif %}
-                </td>
-                <td>
-                    <span class="badge
-                        {% if report.status == 'new' %}bg-danger
-                        {% elif report.status == 'in_progress' %}bg-warning text-dark
-                        {% elif report.status == 'resolved' %}bg-success
-                        {% else %}bg-light text-muted{% endif %}">
-                        {{ report.get_status_display }}
-                    </span>
-                </td>
-                <td>
-                    <a href="{% url 'reports:report_update' report.pk %}" class="btn btn-sm btn-outline-primary">
-                        <i class="fas fa-edit"></i> {% trans "Преглед" %}
+    <div class="card border-0 shadow-sm rounded-4 mb-4">
+        <div class="card-body p-4">
+            <form method="get" class="row g-3 align-items-end">
+
+                <div class="col-md-4">
+                    <label class="form-label small text-muted fw-bold text-uppercase mb-1">{% trans "Търсене" %}</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-end-0"><i class="fas fa-search text-muted"></i></span>
+                        <input type="text" name="search" class="form-control border-start-0 ps-0"
+                               placeholder="{% trans 'Търси в описание или име...' %}" value="{{ request.GET.search }}">
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label small text-muted fw-bold text-uppercase mb-1">{% trans "Статус" %}</label>
+                    <select name="status" class="form-select">
+                        <option value="">-- {% trans "Всички статуси" %} --</option>
+                        {% for val, name in form.fields.status.choices %}
+                            <option value="{{ val }}" {% if request.GET.status == val %}selected{% endif %}>
+                                {{ name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <label class="form-label small text-muted fw-bold text-uppercase mb-1">{% trans "Дата" %}</label>
+                    <input type="date" name="date" class="form-control" value="{{ request.GET.date }}">
+                </div>
+
+                <div class="col-md-3 d-flex gap-2">
+                    <button type="submit" class="btn btn-primary flex-grow-1 shadow-sm">
+                        <i class="fas fa-filter me-1"></i> {% trans "Филтрирай" %}
+                    </button>
+                    <a href="{% url 'reports:admin_report_list' %}" class="btn btn-outline-secondary px-3" title="{% trans 'Изчисти филтрите' %}">
+                        <i class="fas fa-times"></i>
                     </a>
-                </td>
-            </tr>
-            {% empty %}
-            <tr><td colspan="5" class="text-center py-4">{% trans "Няма намерени сигнали." %}</td></tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0 bg-white">
+                <thead class="table-light text-uppercase small text-muted">
+                    <tr>
+                        <th class="ps-4">{% trans "Дата" %}</th>
+                        <th>{% trans "Категория" %}</th>
+                        <th>{% trans "Обект" %}</th>
+                        <th>{% trans "Статус" %}</th>
+                        <th class="text-end pe-4">{% trans "Действие" %}</th>
+                    </tr>
+                </thead>
+                <tbody class="border-top-0">
+                    {% for report in reports %}
+                    <tr>
+                        <td class="ps-4 text-muted small">
+                            <i class="far fa-calendar-alt me-1"></i>{{ report.created_at|date:"d.m.Y" }}<br>
+                            <span class="text-black-50"><i class="far fa-clock me-1"></i>{{ report.created_at|time:"H:i" }}</span>
+                        </td>
+
+                        <td>
+                            <span class="badge bg-light text-dark border shadow-sm">
+                                <i class="fas fa-tag text-secondary me-1"></i>{{ report.get_category_display }}
+                            </span>
+                        </td>
+
+                        <td>
+                            {% if report.bus_line %}
+                                <div class="mb-1"><i class="fas fa-bus text-primary small me-1"></i> <span class="fw-medium">{{ report.bus_line }}</span></div>
+                            {% endif %}
+                            {% if report.stop %}
+                                <div><i class="fas fa-map-marker-alt text-danger small me-1"></i> <span class="small text-muted">{{ report.stop.name }}</span></div>
+                            {% endif %}
+                            {% if not report.bus_line and not report.stop %}
+                                <span class="text-muted small">-</span>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            <span class="badge rounded-pill px-3 py-2 shadow-sm
+                                {% if report.status == 'new' %}bg-danger
+                                {% elif report.status == 'in_progress' %}bg-warning text-dark
+                                {% elif report.status == 'resolved' %}bg-success
+                                {% else %}bg-secondary{% endif %}">
+                                {{ report.get_status_display }}
+                            </span>
+                        </td>
+
+                        <td class="text-end pe-4">
+                            <a href="{% url 'reports:report_update' report.pk %}" class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                                {% trans "Отвори" %} <i class="fas fa-chevron-right ms-1 small"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center py-5">
+                            <div class="text-muted mb-3">
+                                <i class="fas fa-inbox fa-3x opacity-50"></i>
+                            </div>
+                            <h5 class="fw-bold text-dark">{% trans "Няма намерени сигнали" %}</h5>
+                            <p class="small">{% trans "Опитайте да промените филтрите или проверете по-късно." %}</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {% if is_paginated %}
+        <div class="mt-4">
+            {% include "includes/pagination.html" %}
+        </div>
+    {% endif %}
+
 </div>
 
-{% if is_paginated %}
-    {% include "includes/pagination.html" %}
-{% endif %}
+<style>
+    .animate-fade-in { animation: fadeIn 0.4s ease-in-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .form-control:focus, .form-select:focus { box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.1); border-color: #86b7fe; }
+
+
+    .table-hover tbody tr:hover { background-color: #f8f9fa; transition: background-color 0.2s ease; }
+    th { letter-spacing: 0.5px; font-weight: 600; }
+</style>
 {% endblock %}

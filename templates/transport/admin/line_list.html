@@ -2,18 +2,116 @@
 {% load i18n %}
 
 {% block content %}
-<h1>{% trans "Администрация на линии" %}</h1>
-<a href="{% url 'transport:line_create' %}">{% trans "Добави линия" %}</a>
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-end mb-4">
+        <div>
+            <h1 class="h3 fw-extrabold text-dark mb-1">
+                <i class="bi bi-gear-fill text-warning me-1"></i> {% trans "Управление на линиите" %}
+            </h1>
+            <p class="text-muted small mb-0 fw-bold">{% trans "Административен панел за Градски транспорт Пловдив" %}</p>
+        </div>
+    </div>
 
-<ul>
-    {% for line in lines %}
-    <li>
-        №{{ line.number }} - {{ line.route_bus }}
-        <a href="{% url 'transport:line_update' line.number %}">{% trans "Редакция" %}</a>
-        <a href="{% url 'transport:line_delete' line.number %}">{% trans "Изтриване" %}</a>
-    </li>
-    {% empty %}
-    <li>{% trans "Няма налични линии." %}</li>
-    {% endfor %}
-</ul>
+    <div class="card border-0 shadow-sm rounded-4 bg-white mb-4 border-bottom border-4 border-primary">
+        <div class="card-body py-3 px-4">
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                <div class="d-flex align-items-center gap-2">
+                    <label for="num_stops" class="small fw-bold text-muted text-uppercase" style="letter-spacing: 0.5px;">
+                        {% trans "Спирки по подразбиране:" %}
+                    </label>
+                    <input type="number" id="num_stops" value="3" min="3"
+                           class="form-control form-control-sm fw-bold text-center border-2"
+                           style="width: 65px; border-radius: 8px;">
+                </div>
+
+                <button onclick="createLineWithStops()" class="btn btn-primary btn-sm rounded-pill px-4 fw-bold shadow-sm hover-lift">
+                    <i class="bi bi-plus-lg me-1"></i> {% trans "Добави нова линия" %}
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light">
+                    <tr>
+                        <th class="px-4 py-3 border-0 small fw-bold text-muted text-uppercase" style="width: 100px;">{% trans "№" %}</th>
+                        <th class="px-4 py-3 border-0 small fw-bold text-muted text-uppercase">{% trans "Маршрут / Направление" %}</th>
+                        <th class="px-4 py-3 border-0 small fw-bold text-muted text-uppercase text-end" style="width: 250px;">{% trans "Действия" %}</th>
+                    </tr>
+                </thead>
+                <tbody class="border-top-0">
+                    {% for line in lines %}
+                    <tr>
+                        <td class="px-4 py-3">
+                            <div class="bg-primary text-white rounded-3 d-flex align-items-center justify-content-center fw-black shadow-sm mx-auto"
+                                 style="width: 42px; height: 42px; font-size: 1rem;">
+                                {{ line.number }}
+                            </div>
+                        </td>
+                        <td class="px-4 py-3">
+                            <span class="fw-bold text-dark fs-6">{{ line.route_bus }}</span>
+                        </td>
+                        <td class="px-4 py-3 text-end">
+                            <div class="d-flex justify-content-end gap-2">
+                                <a href="{% url 'transport:line_update' number=line.number %}"
+                                   class="btn btn-primary btn-sm rounded-pill px-3 fw-bold d-inline-flex align-items-center shadow-sm">
+                                    <i class="bi bi-pencil-square me-2"></i> {% trans "Редактирай" %}
+                                </a>
+
+                                <a href="{% url 'transport:line_delete' number=line.number %}"
+                                   class="btn btn-danger btn-sm rounded-pill px-3 fw-bold d-inline-flex align-items-center shadow-sm">
+                                    <i class="bi bi-trash3 me-2"></i> {% trans "Изтрий" %}
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3" class="px-4 py-5 text-center">
+                            <i class="bi bi-info-circle text-muted fs-2 mb-2 d-block"></i>
+                            <p class="text-muted small mb-0">{% trans "Все още няма въведени автобусни линии." %}</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .fw-extrabold { font-weight: 800; }
+    .fw-black { font-weight: 900; }
+
+    .hover-lift { transition: transform 0.2s, box-shadow 0.2s; }
+    .hover-lift:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important; }
+
+    .table-hover tbody tr:hover {
+        background-color: rgba(13, 110, 253, 0.02) !important;
+    }
+
+
+    .btn-sm {
+        font-size: 0.8rem;
+        padding-top: 0.4rem;
+        padding-bottom: 0.4rem;
+    }
+</style>
+
+<script>
+function createLineWithStops() {
+    const stopsInput = document.getElementById('num_stops');
+    const stops = stopsInput ? stopsInput.value : 3;
+
+    if (stops < 3) {
+        alert("{% trans 'Минималният брой спирки е 3!' %}");
+        return;
+    }
+
+    const baseUrl = "{% url 'transport:line_create' %}";
+    window.location.href = `${baseUrl}?stops=${stops}`;
+}
+</script>
 {% endblock %}

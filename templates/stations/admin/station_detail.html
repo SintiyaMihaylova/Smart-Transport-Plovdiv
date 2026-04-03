@@ -1,34 +1,92 @@
+{% extends 'common/base.html' %}
 {% load i18n %}
-<!DOCTYPE html>
-<html lang="bg">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ station.name }} - {% trans "Админ детайли" %}</title>
-</head>
-<body>
-    <h1>{{ station.name }} ({{ station.stop_id }})</h1>
-    <p><strong>{% trans "Активна" %}:</strong> {{ station.is_active }}</p>
-    {% if station.neighborhood %}
-        <p><strong>{% trans "Квартал" %}:</strong> {{ station.neighborhood }}</p>
-    {% endif %}
-    {% if station.address %}
-        <p><strong>{% trans "Адрес" %}:</strong> {{ station.address }}</p>
-    {% endif %}
-    {% if station.latitude and station.longitude %}
-        <p><strong>{% trans "Координати" %}:</strong> {{ station.latitude }}, {{ station.longitude }}</p>
-    {% endif %}
 
-    <h2>{% trans "Линии, които минават през спирката" %}</h2>
-    <ul>
-        {% for line in lines_passing_by %}
-            <li>{{ line.name }}</li>
-        {% empty %}
-            <li>{% trans "Няма линии." %}</li>
-        {% endfor %}
-    </ul>
+{% block title %}{{ station.name }} - {% trans "Админ панел" %}{% endblock %}
 
-    <a href="{% url 'stations:admin_station_list' %}">{% trans "Обратно към списъка" %}</a>
-    | <a href="{% url 'stations:station_update' station.pk %}">{% trans "Редактирай" %}</a>
-    | <a href="{% url 'stations:station_delete' station.pk %}">{% trans "Изтрий" %}</a>
-</body>
-</html>
+{% block content %}
+<div class="container py-4 animate-fade-in">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="{% url 'stations:admin_station_list' %}">{% trans "Спирки" %}</a></li>
+                <li class="breadcrumb-item active">{{ station.name }}</li>
+            </ol>
+        </nav>
+        <div class="d-flex gap-2">
+            <a href="{% url 'stations:station_update' station.pk %}" class="btn btn-primary btn-sm rounded-pill px-3 shadow-sm">
+                <i class="bi bi-pencil-square me-1"></i> {% trans "Редактирай" %}
+            </a>
+            <a href="{% url 'stations:station_delete' station.pk %}" class="btn btn-danger btn-sm rounded-pill px-3 shadow-sm">
+                <i class="bi bi-trash me-1"></i> {% trans "Изтрий" %}
+            </a>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-7">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-4">
+                        <div>
+                            <h2 class="fw-bold mb-1 text-dark">{{ station.name }}</h2>
+                            <p class="text-muted small mb-0"><i class="bi bi-hash"></i> Код: <strong>{{ station.stop_id }}</strong></p>
+                        </div>
+                        <span class="badge rounded-pill {% if station.is_active %}bg-success-subtle text-success{% else %}bg-danger-subtle text-danger{% endif %} px-3 py-2 border">
+                            <i class="bi bi-circle-fill small me-1"></i>
+                            {% if station.is_active %}{% trans "Активна" %}{% else %}{% trans "Неактивна" %}{% endif %}
+                        </span>
+                    </div>
+
+                    <hr class="opacity-10 mb-4">
+
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <label class="text-muted small fw-bold text-uppercase d-block mb-1">{% trans "Квартал" %}</label>
+                            <p class="fw-bold"><i class="bi bi-building text-primary me-2"></i>{{ station.neighborhood|default:"-" }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="text-muted small fw-bold text-uppercase d-block mb-1">{% trans "Адрес" %}</label>
+                            <p class="fw-bold"><i class="bi bi-geo-alt text-danger me-2"></i>{{ station.address|default:"-" }}</p>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="text-muted small fw-bold text-uppercase d-block mb-2">{% trans "Геолокация и Карти" %}</label>
+                            <div class="d-flex flex-wrap gap-2 align-items-center">
+                                {% if station.latitude and station.longitude %}
+                                <div class="bg-light p-2 rounded-3 border small font-monospace">
+                                    <i class="bi bi-crosshair me-1"></i>{{ station.latitude }}, {{ station.longitude }}
+                                </div>
+                                {% endif %}
+
+                                <a href="https://www.google.com/maps/search/?api=1&query={{ station.name|urlencode }}+{{ station.stop_id|urlencode }}+Пловдив"
+                                   target="_blank" class="btn btn-sm btn-dark rounded-pill px-3 shadow-sm">
+                                    <i class="bi bi-eye-fill me-1"></i> {% trans "Отвори в Карти за проверка" %}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+            <div class="card border-0 shadow-sm rounded-4 h-100 bg-primary bg-opacity-10" style="border: 1px dashed rgba(13, 110, 253, 0.2) !important;">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-4 text-primary"><i class="bi bi-bus-front me-2"></i>{% trans "Минаващи линии" %}</h5>
+                    <div class="d-flex flex-wrap gap-2">
+                        {% for line in lines_passing_by %}
+                            <div class="bg-white border rounded-3 p-2 shadow-sm d-flex align-items-center" style="min-width: 100px;">
+                                <div class="badge bg-primary me-2">{{ line.number }}</div>
+                                <span class="fw-bold small">{{ line.name|truncatechars:10 }}</span>
+                            </div>
+                        {% empty %}
+                            <p class="text-muted small">{% trans "Няма асоциирани линии." %}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}+6

@@ -4,88 +4,142 @@
 {% block title %}{% trans "Моят профил" %}{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-4">
-        <div class="card border-0 shadow-sm overflow-hidden mb-4">
-            <div class="card-header bg-primary text-white py-3">
-                <h5 class="mb-0"><i class="fas fa-id-card me-2"></i>{% trans "Транспортна карта" %}</h5>
-            </div>
-            <div class="card-body text-center p-4">
-                <div class="mb-3">
-                    <span class="text-muted small">{% trans "Номер на карта" %}</span>
-                    <h3 class="fw-bold text-primary">{{ card.card_number }}</h3>
-                </div>
+<div class="container py-5 animate-fade-in">
+    <div class="row g-4">
 
-                <div class="mb-4">
-                    {% if card.is_valid %}
-                        <span class="badge bg-success px-3 py-2">
-                            <i class="fas fa-check-circle me-1"></i> {% trans "Активна" %}
-                        </span>
-                    {% else %}
-                        <span class="badge bg-danger px-3 py-2">
-                            <i class="fas fa-times-circle me-1"></i> {% trans "Неактивна" %}
-                        </span>
-                    {% endif %}
-                </div>
-
-                <div class="p-3 bg-light rounded shadow-inner mb-3">
-                    <p class="mb-1 text-muted small">{% trans "Валидна до" %}</p>
-                    <h5 class="mb-0">
-                        {% if card.valid_until %}
-                            {{ card.valid_until|date:"d.m.Y" }}
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden mb-4 transport-card-gradient border-bottom border-4 border-warning">
+                <div class="card-body p-4 text-white position-relative">
+                    <div class="position-absolute top-0 end-0 p-3 text-end">
+                        {% if user.profile_picture %}
+                            <img src="{{ user.profile_picture.url }}"
+                                 alt="Profile"
+                                 class="rounded-3 border border-2 border-white shadow-sm object-fit-cover"
+                                 style="width: 85px; height: 105px; object-position: center top;">
                         {% else %}
-                            {% trans "Няма активен план" %}
+                            <div class="rounded-3 border border-2 border-white shadow-sm d-inline-flex align-items-center justify-content-center bg-white bg-opacity-25"
+                                 style="width: 85px; height: 105px;">
+                                <i class="bi bi-person-bounding-box fs-1 text-white"></i>
+                            </div>
                         {% endif %}
-                    </h5>
-                </div>
-
-                {# Добавяме Оставащи дни, ако картата е валидна #}
-                {% if card.is_valid %}
-                    <div class="alert alert-info py-2 mb-0">
-                         <strong>{% trans "Оставащи дни:" %}</strong> {{ card.remaining_days }}
                     </div>
-                {% endif %}
+
+                    <div class="mb-5">
+                        <small class="text-uppercase fw-bold opacity-75" style="letter-spacing: 2px;">Smart Transport Plovdiv</small>
+                        <h5 class="mt-1 fw-black">{% trans "ТРАНСПОРТНА КАРТА" %}</h5>
+                    </div>
+
+                    <div class="mb-4 pt-2">
+                        <span class="d-block small opacity-75">{% trans "Притежател" %}</span>
+                        <h6 class="fw-bold mb-3 text-uppercase fs-5">
+                            {{ user.first_name }} {{ user.last_name|default:"" }}
+                            {% if not user.first_name %}{% trans "ПЪТНИК №" %}{{ user.id|add:"1000" }}{% endif %}
+                        </h6>
+                        <span class="d-block small opacity-75">{% trans "Номер на карта" %}</span>
+                        <h3 class="fw-bold font-monospace mb-0" style="letter-spacing: 3px;">
+                            {{ card.card_number|default:"---- ---- ----" }}
+                        </h3>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-end">
+                        <div>
+                            <span class="d-block small opacity-75">{% trans "Валидна до" %}</span>
+                            <span class="fw-bold fs-5">{{ card.valid_until|date:"d.m.Y"|default:"-- / -- / ----" }}</span>
+                        </div>
+                        <div class="text-end">
+                            <span class="badge rounded-pill bg-white {% if card.is_valid %}text-success{% else %}text-danger{% endif %} px-3 py-2 fw-bold shadow-sm">
+                                <i class="bi {% if card.is_valid %}bi-check-circle-fill{% else %}bi-exclamation-octagon-fill{% endif %} me-1"></i>
+                                {% if card.is_valid %}{% trans "АКТИВНА" %}{% else %}{% trans "НЕАКТИВНА" %}{% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card border-0 shadow-sm rounded-4 mb-4 bg-white border-top border-3 border-primary shadow-hover text-start">
+                <div class="card-body p-4">
+                    <h6 class="fw-bold mb-3 small text-uppercase text-primary">
+                        <i class="bi bi-pencil-square me-2"></i>{% trans "Персонализиране на картата" %}
+                    </h6>
+                    <form method="post"> {% csrf_token %}
+                        <div class="row g-2 mb-3">
+                            <div class="col-6">
+                                <label class="small text-muted mb-1 text-start d-block">{% trans "Име" %}</label>
+                                <input type="text" name="first_name" class="form-control form-control-sm rounded-pill px-3 shadow-none border-2" value="{{ user.first_name }}">
+                            </div>
+                            <div class="col-6">
+                                <label class="small text-muted mb-1 text-start d-block">{% trans "Фамилия" %}</label>
+                                <input type="text" name="last_name" class="form-control form-control-sm rounded-pill px-3 shadow-none border-2" value="{{ user.last_name }}">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-sm rounded-pill w-100 fw-bold py-2 shadow-sm transition-all">
+                            {% trans "ЗАПАЗИ ПРОМЕНИТЕ" %}
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="col-md-8">
-        <div class="card border-0 shadow-sm mb-4">
-            <div class="card-header bg-white py-3">
-                <h5 class="mb-0"><i class="fas fa-history me-2 text-primary"></i>{% trans "История на зарежданията" %}</h5>
+        <div class="col-lg-8">
+            <div id="recharge-section" class="card border-0 shadow-sm rounded-4 mb-4 overflow-hidden bg-white border-start border-warning border-5 shadow-hover text-start">
+                <div class="card-header bg-white py-3 px-4 border-0">
+                    <h5 class="mb-0 fw-bold text-dark">
+                        <i class="bi bi-cart-plus text-warning me-2"></i>{% trans "Зареждане на карта" %}
+                    </h5>
+                </div>
+                <div class="card-body px-4 pb-4 pt-2">
+                    <div class="row g-3">
+                        {% for plan in plans %}
+                        <div class="col-md-6 text-start">
+                            <div class="p-3 border rounded-4 hover-bg-light transition-all h-100 d-flex flex-column justify-content-between shadow-sm bg-white">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <h6 class="fw-bold mb-0 text-dark">{{ plan.name }}</h6>
+                                        <small class="text-muted">{{ plan.duration_months }} {% trans "мес." %}</small>
+                                    </div>
+                                    <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill fs-6 fw-bold">{{ plan.price }} €</span>
+                                </div>
+                                <div class="d-grid mt-3">
+                                    <a href="{% url 'subscriptions:purchase' plan.id %}" class="btn {% if card.is_valid %}btn-outline-warning{% else %}btn-warning{% endif %} btn-sm rounded-pill fw-bold px-4 transition-all shadow-sm">
+                                        {% if card.is_valid %}{% trans "Удължи" %}{% else %}{% trans "Купи сега" %}{% endif %}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
-            <div class="card-body p-0">
+
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white shadow-hover mb-4 text-start">
+                <div class="card-header bg-white py-3 px-4 border-0">
+                    <h5 class="mb-0 fw-bold text-dark">
+                        <i class="bi bi-clock-history text-primary me-2"></i>{% trans "История на транзакциите" %}
+                    </h5>
+                </div>
                 <div class="table-responsive">
-                    <table class="table table-hover mb-0">
-                        <thead class="table-light">
+                    <table class="table table-hover align-middle mb-0 text-center">
+                        <thead class="bg-light text-muted small text-uppercase">
                             <tr>
-                                <th class="ps-4">{% trans "План" %}</th>
-                                <th>{% trans "Период" %}</th>
-                                <th>{% trans "Цена" %}</th>
-                                <th class="text-center">{% trans "Статус" %}</th>
+                                <th class="ps-4 border-0 text-start">{% trans "План" %}</th>
+                                <th class="border-0">{% trans "Период" %}</th>
+                                <th class="border-0">{% trans "Цена" %}</th>
+                                <th class="pe-4 border-0">{% trans "Статус" %}</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for sub in subscriptions %}
+                            {% for sub in card.subscriptions.all|dictsortreversed:"purchase_date" %}
                             <tr>
-                                <td class="ps-4 fw-bold text-dark">{{ sub.plan.name }}</td>
-                                <td class="small">
-                                    {{ sub.start_date|date:"d.m.y" }} - {{ sub.end_date|date:"d.m.y" }}
+                                <td class="ps-4 text-start">
+                                    <div class="fw-bold text-dark small">{{ sub.plan.name }}</div>
+                                    <small class="text-muted" style="font-size: 0.65rem;">{{ sub.purchase_date|date:"d.m.Y" }}</small>
                                 </td>
-                                <td>{{ sub.plan.price }} лв.</td>
-                                <td class="text-center">
-                                    {% if sub.is_active %}
-                                        <i class="fas fa-circle text-success small"></i>
-                                    {% else %}
-                                        <i class="fas fa-circle text-muted small opacity-50"></i>
-                                    {% endif %}
-                                </td>
-                            </tr>
-                            {% empty %}
-                            <tr>
-                                <td colspan="4" class="text-center py-5 text-muted">
-                                    <i class="fas fa-info-circle mb-2 d-block fa-2x"></i>
-                                    {% trans "Все още нямате заредени абонаменти." %}
+                                <td class="small text-muted" style="font-size: 0.75rem;">{{ sub.start_date|date:"d.m.y" }} - {{ sub.end_date|date:"d.m.y" }}</td>
+                                <td class="fw-bold text-primary small">{{ sub.plan.price }} €</td>
+                                <td class="pe-4">
+                                    <span class="badge {% if sub.is_active %}bg-success-subtle text-success{% else %}bg-light text-muted{% endif %} rounded-pill px-2 py-1 small" style="font-size: 0.6rem;">
+                                        {% if sub.is_active %}{% trans "АКТИВЕН" %}{% else %}{% trans "ИЗТЕКЪЛ" %}{% endif %}
+                                    </span>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -93,37 +147,68 @@
                     </table>
                 </div>
             </div>
-        </div>
 
-        <div class="card border-0 shadow-sm">
-            <div class="card-header bg-white py-3">
-                <h5 class="mb-0"><i class="fas fa-shopping-cart me-2 text-warning"></i>{% trans "Налични планове" %}</h5>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    {% for plan in plans %}
-                    <div class="col-md-6 mb-3">
-                        <div class="border rounded p-3 bg-white shadow-sm h-100">
-                            <h6 class="fw-bold mb-1">{{ plan.name }}</h6>
-                            <p class="text-primary fw-bold mb-3">{{ plan.price }} лв.</p>
-
-                            <div class="d-grid">
-                                {% if card.is_valid %}
-                                    <button class="btn btn-secondary btn-sm" disabled>
-                                        <i class="fas fa-lock me-1"></i> {% trans "Вече имате активен абонамент" %}
-                                    </button>
-                                {% else %}
-                                    <a href="{% url 'subscriptions:purchase' plan.id %}" class="btn btn-warning btn-sm fw-bold shadow-sm">
-                                        <i class="fas fa-cart-plus me-1"></i> {% trans "Купи" %}
-                                    </a>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white border-start border-primary border-5 shadow-hover text-start">
+                <div class="card-header bg-white py-3 px-4 border-0">
+                    <h5 class="mb-0 fw-bold text-dark">
+                        <i class="bi bi-chat-right-text text-primary me-2"></i>{% trans "Моите сигнали" %}
+                    </h5>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0 text-center">
+                        <thead class="bg-light text-muted small text-uppercase">
+                            <tr>
+                                <th class="ps-4 border-0 text-start">{% trans "Обект" %}</th>
+                                <th class="border-0">{% trans "Категория" %}</th>
+                                <th class="border-0">{% trans "Статус" %}</th>
+                                <th class="pe-4 border-0">{% trans "Дата" %}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for report in user_reports %}
+                            <tr>
+                                <td class="ps-4 text-start">
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi {% if report.bus_line %}bi-bus-front text-primary{% else %}bi-geo-alt text-danger{% endif %} me-2"></i>
+                                        <span class="fw-bold text-dark small">
+                                            {% if report.bus_line %}{{ report.bus_line.number }}{% else %}{{ report.stop.name }}{% endif %}
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="small text-muted">{{ report.get_category_display }}</td>
+                                <td>
+                                    <span class="badge {% if report.status == 'pending' %}bg-warning-subtle text-warning{% elif report.status == 'resolved' %}bg-success-subtle text-success{% else %}bg-danger-subtle text-danger{% endif %} rounded-pill px-2 py-1 small" style="font-size: 0.6rem;">
+                                        {{ report.get_status_display }}
+                                    </span>
+                                </td>
+                                <td class="pe-4 small text-muted">{{ report.created_at|date:"d.m.Y" }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr><td colspan="4" class="py-4 text-center text-muted small">{% trans "Няма намерени сигнали." %}</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
+
+<style>
+    .animate-fade-in { animation: fadeIn 0.5s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .fw-black { font-weight: 900; }
+    .transport-card-gradient {
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        min-height: 240px;
+        box-shadow: 0 10px 30px rgba(30, 60, 114, 0.3) !important;
+    }
+    .hover-bg-light:hover { background-color: #fcfcfc !important; border-color: #ffc107 !important; transform: translateY(-3px); }
+    .shadow-hover:hover { box-shadow: 0 15px 35px rgba(0,0,0,0.1) !important; transition: 0.3s; }
+    .transition-all { transition: all 0.25s ease-in-out; }
+    .bg-warning-subtle { background-color: #fff9e6 !important; color: #856404 !important; }
+    .bg-success-subtle { background-color: #eafaf1 !important; color: #1b5e20 !important; }
+    .bg-danger-subtle { background-color: #fdf2f2 !important; color: #9b1c1c !important; }
+</style>
 {% endblock %}

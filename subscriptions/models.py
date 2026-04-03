@@ -72,7 +72,10 @@ class Card(models.Model):
 
     @property
     def is_valid(self):
-        return self.valid_until and self.valid_until > timezone.now()
+        return self.subscriptions.filter(
+            is_active=True,
+            end_date__gt=timezone.now()
+        ).exists()
 
     @property
     def remaining_days(self):
@@ -110,14 +113,6 @@ class CardSubscription(models.Model):
     is_active = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs):
-        is_new = self.pk is None
-
-        if self.is_active:
-            CardSubscription.objects.filter(
-                card=self.card,
-                is_active=True
-            ).exclude(pk=self.pk).update(is_active=False)
-
         if not self.start_date:
             if self.card.valid_until and self.card.valid_until > timezone.now():
                 self.start_date = self.card.valid_until
@@ -129,27 +124,7 @@ class CardSubscription(models.Model):
                 months=self.plan.duration_months
             )
 
-        self.full_clean()
-
         super().save(*args, **kwargs)
-
-        Card.objects.filter(pk=self.card.pk).update(
-            valid_until=self.end_date,
-            is_active=True
-        )
-
-        if is_new:
-            try:
-                from .services import send_subscription_email
-                send_subscription_email(
-                    self.card.user,
-                    self.plan,
-                    self.end_date
-                )
-            except Exception as e:
-                import logging
-                logger = logging.getLogger(__name__)
-                logger.error(f"Email error: {e}")
 
     class Meta:
         ordering = ['-purchase_date']

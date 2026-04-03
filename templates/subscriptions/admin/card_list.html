@@ -1,45 +1,98 @@
 {% extends 'common/base.html' %}
 {% load i18n %}
 
+{% block title %}{% trans "Управление на транспортни карти" %}{% endblock %}
+
 {% block content %}
-<div class="card border-0 shadow-sm">
-    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-        <h5 class="mb-0 text-primary fw-bold">
-            <i class="fas fa-users-cog me-2"></i>{% trans "Управление на карти" %}
-        </h5>
+<div class="container py-4 animate-fade-in">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">
+                <i class="bi bi-person-vcard text-primary me-2"></i>{% trans "Регистър на картите" %}
+            </h2>
+            <p class="text-muted small mb-0">{% trans "Преглед на активните абонаменти и статуси на потребителите" %}</p>
+        </div>
+        <div class="d-flex gap-2">
+            <button class="btn btn-outline-primary rounded-pill px-3 shadow-sm btn-sm fw-bold">
+                <i class="bi bi-download me-1"></i> {% trans "Експорт" %}
+            </button>
+        </div>
     </div>
-    <div class="card-body p-0">
+
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
+        <div class="card-header bg-white py-3 px-4 border-0 border-bottom">
+            <h5 class="mb-0 fw-bold text-dark small text-uppercase opacity-75">
+                <i class="bi bi-list-stars me-2"></i>{% trans "Всички издадени карти" %}
+            </h5>
+        </div>
+
         <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
-                <thead class="table-light">
+            <table class="table table-hover align-middle mb-0 bg-white">
+                <thead class="bg-light text-muted small text-uppercase">
                     <tr>
-                        <th class="ps-4">{% trans "Потребител" %}</th>
-                        <th>{% trans "Номер на карта" %}</th>
-                        <th>{% trans "Статус" %}</th>
-                        <th>{% trans "Валидна до" %}</th>
-                        <th class="text-end pe-4">{% trans "Действие" %}</th>
+                        <th class="ps-4 py-3 border-0">{% trans "Притежател" %}</th>
+                        <th class="border-0">{% trans "Номер на карта" %}</th>
+                        <th class="border-0 text-center">{% trans "Статус" %}</th>
+                        <th class="border-0">{% trans "Валидна до" %}</th>
+                        <th class="text-end pe-4 border-0">{% trans "Действие" %}</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="border-top-0">
                     {% for card in cards %}
-                    <tr>
-                        <td class="ps-4">
-                            <div class="fw-bold">{{ card.user.get_full_name|default:card.user.email }}</div>
-                            <small class="text-muted">{{ card.user.email }}</small>
+                    <tr class="transition-all">
+                        <td class="ps-4 py-3">
+                            <div class="d-flex align-items-center">
+                                <div class="avatar-sm bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 38px; height: 38px;">
+                                    <i class="bi bi-person-fill"></i>
+                                </div>
+                                <div>
+                                    <div class="fw-bold text-dark mb-0">{{ card.user.get_full_name|default:card.user.email }}</div>
+                                    <div class="text-muted" style="font-size: 0.75rem;">{{ card.user.email }}</div>
+                                </div>
+                            </div>
                         </td>
-                        <td><code>{{ card.card_number }}</code></td>
                         <td>
+                            <span class="badge bg-light text-primary border font-monospace px-2 py-1">
+                                <i class="bi bi-credit-card-2-front me-1"></i>{{ card.card_number }}
+                            </span>
+                        </td>
+                        <td class="text-center">
                             {% if card.is_valid %}
-                                <span class="badge bg-success-subtle text-success border border-success">{% trans "Активна" %}</span>
+                                <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-2">
+                                    <i class="bi bi-check-circle-fill me-1"></i>{% trans "Активна" %}
+                                </span>
                             {% else %}
-                                <span class="badge bg-danger-subtle text-danger border border-danger">{% trans "Изтекла" %}</span>
+                                <span class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill px-3 py-2">
+                                    <i class="bi bi-exclamation-triangle-fill me-1"></i>{% trans "Изтекла" %}
+                                </span>
                             {% endif %}
                         </td>
-                        <td>{{ card.valid_until|date:"d.m.Y"|default:"-" }}</td>
+                        <td>
+                            <div class="fw-medium text-dark small">
+                                {% if card.valid_until %}
+                                    {{ card.valid_until|date:"d.m.Y" }}
+                                {% else %}
+                                    <span class="text-muted opacity-50">-- / -- / ----</span>
+                                {% endif %}
+                            </div>
+                        </td>
                         <td class="text-end pe-4">
-                            <a href="{% url 'subscriptions:card_detail' card.pk %}" class="btn btn-sm btn-outline-primary">
-                                <i class="fas fa-eye"></i>
+                            <a href="{% url 'subscriptions:admin_card_detail' card.pk %}"
+                               class="btn btn-sm btn-white border rounded-pill shadow-sm px-3 hover-lift"
+                               title="{% trans 'Преглед на детайли' %}">
+                                <i class="bi bi-eye text-primary me-1"></i> {% trans "Детайли" %}
                             </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center py-5">
+                            <div class="opacity-25 mb-3">
+                                <i class="bi bi-vcard fa-4x text-muted"></i>
+                            </div>
+                            <h5 class="text-muted fw-bold">{% trans "Няма регистрирани карти." %}</h5>
+                            <p class="small text-muted">{% trans "Системата автоматично ще ги добави при първа поръчка." %}</p>
                         </td>
                     </tr>
                     {% endfor %}
@@ -48,4 +101,22 @@
         </div>
     </div>
 </div>
+
+<style>
+    .animate-fade-in { animation: fadeIn 0.4s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .btn-white { background-color: #fff; }
+    .btn-white:hover { background-color: #f8f9fa; }
+
+    .hover-lift:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: 0.2s; }
+    .transition-all { transition: all 0.2s; }
+
+    .table-hover tbody tr:hover { background-color: rgba(13, 110, 253, 0.02); }
+
+    code, .font-monospace {
+        letter-spacing: 0.5px;
+        font-weight: 600;
+    }
+</style>
 {% endblock %}

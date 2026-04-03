@@ -1,38 +1,130 @@
+{% extends 'common/base.html' %}
 {% load i18n %}
-<!DOCTYPE html>
-<html lang="bg">
-<head>
-    <meta charset="UTF-8">
-    <title>{% trans "Админ - Списък на спирките" %}</title>
-</head>
-<body>
-    <h1>{% trans "Администраторски списък на спирките" %}</h1>
 
-    <a href="{% url 'stations:station_create' %}">{% trans "Добави нова спирка" %}</a>
+{% block title %}{% trans "Админ - Списък на спирките" %}{% endblock %}
 
-    <form method="get">
-        <select name="neighborhood">
-            <option value="">{% trans "Всички квартали" %}</option>
-            {% for n in neighborhoods %}
-                <option value="{{ n }}" {% if request.GET.neighborhood == n %}selected{% endif %}>{{ n }}</option>
-            {% endfor %}
-        </select>
-        <button type="submit">{% trans "Филтрирай" %}</button>
-    </form>
+{% block content %}
+<div class="container py-4 animate-fade-in">
 
-    <ul>
-        {% for station in stations %}
-            <li>
-                {{ station.stop_id }} - {{ station.name }}
-                {% if station.neighborhood %}({{ station.neighborhood }}){% endif %}
-                - <a href="{% url 'stations:admin_station_detail' station.pk %}">{% trans "Детайли" %}</a>
-                - <a href="{% url 'stations:station_update' station.pk %}">{% trans "Редактирай" %}</a>
-                - <a href="{% url 'stations:station_delete' station.pk %}">{% trans "Изтрий" %}</a>
-            </li>
-        {% empty %}
-            <li>{% trans "Няма спирки." %}</li>
-        {% endfor %}
-    </ul>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">
+                <i class="fas fa-map-signs text-primary me-2"></i>{% trans "Управление на спирки" %}
+            </h2>
+            <p class="text-muted small mb-0">{% trans "Пълен списък и контрол на транспортните обекти в Пловдив" %}</p>
+        </div>
+        <a href="{% url 'stations:station_create' %}" class="btn btn-primary rounded-pill px-4 shadow-sm fw-bold">
+            <i class="fas fa-plus-circle me-1"></i> {% trans "Добави нова спирка" %}
+        </a>
+    </div>
 
-</body>
-</html>
+    <div class="card border-0 shadow-sm rounded-4 mb-4 bg-light">
+        <div class="card-body p-3">
+            <form method="get" class="row g-2 align-items-end">
+                <div class="col-md-4">
+                    <label class="form-label small fw-bold text-muted ps-1">{% trans "Филтър по квартал" %}</label>
+                    <select name="neighborhood" class="form-select border-0 shadow-sm rounded-3">
+                        <option value="">-- {% trans "Всички квартали" %} --</option>
+                        {% for n in neighborhoods %}
+                            <option value="{{ n }}" {% if request.GET.neighborhood == n %}selected{% endif %}>{{ n }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-dark w-100 rounded-3 shadow-sm">
+                        <i class="fas fa-filter me-1 small"></i> {% trans "Филтрирай" %}
+                    </button>
+                </div>
+                {% if request.GET.neighborhood %}
+                <div class="col-md-1">
+                    <a href="{% url 'stations:admin_station_list' %}" class="btn btn-outline-secondary w-100 rounded-3 border-0" title="{% trans 'Изчисти' %}">
+                        <i class="fas fa-times"></i>
+                    </a>
+                </div>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0 bg-white">
+                <thead class="bg-primary text-white">
+                    <tr>
+                        <th class="ps-4 py-3 fw-medium">ID</th>
+                        <th class="fw-medium">{% trans "Име на спирка" %}</th>
+                        <th class="fw-medium">{% trans "Квартал" %}</th>
+                        <th class="fw-medium text-center">{% trans "Статус" %}</th>
+                        <th class="text-end pe-4 fw-medium">{% trans "Действия" %}</th>
+                    </tr>
+                </thead>
+                <tbody class="border-top-0">
+                    {% for station in stations %}
+                    <tr>
+                        <td class="ps-4">
+                            <span class="badge bg-light text-dark border font-monospace">{{ station.stop_id }}</span>
+                        </td>
+                        <td>
+                            <div class="fw-bold text-dark">{{ station.name }}</div>
+                            {% if station.address %}
+                                <div class="small text-muted"><i class="fas fa-map-marker-alt me-1 text-danger opacity-75"></i>{{ station.address|truncatechars:40 }}</div>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if station.neighborhood %}
+                                <span class="badge bg-info-subtle text-info-emphasis border border-info-subtle rounded-pill px-3">
+                                    {{ station.neighborhood }}
+                                </span>
+                            {% else %}
+                                <span class="text-muted small"><em>{% trans "Не е посочен" %}</em></span>
+                            {% endif %}
+                        </td>
+                        <td class="text-center">
+                            {% if station.is_active %}
+                                <i class="fas fa-check-circle text-success" title="{% trans 'Активна' %}"></i>
+                            {% else %}
+                                <i class="fas fa-times-circle text-danger" title="{% trans 'Неактивна' %}"></i>
+                            {% endif %}
+                        </td>
+                        <td class="text-end pe-4">
+                            <div class="btn-group shadow-sm rounded-3">
+                                <a href="{% url 'stations:station_detail' station.pk %}" class="btn btn-sm btn-white border" title="{% trans 'Детайли' %}">
+                                    <i class="fas fa-eye text-primary"></i>
+                                </a>
+                                <a href="{% url 'stations:station_update' station.pk %}" class="btn btn-sm btn-white border" title="{% trans 'Редактирай' %}">
+                                    <i class="fas fa-edit text-warning"></i>
+                                </a>
+                                <a href="{% url 'stations:station_delete' station.pk %}" class="btn btn-sm btn-white border" title="{% trans 'Изтрий' %}">
+                                    <i class="fas fa-trash-alt text-danger"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center py-5">
+                            <div class="opacity-25 mb-3">
+                                <i class="fas fa-map-marked-alt fa-4x"></i>
+                            </div>
+                            <h5 class="fw-bold text-muted">{% trans "Все още няма добавени спирки." %}</h5>
+                            <p class="small text-muted">{% trans "Използвайте бутона горе, за да създадете първата." %}</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .animate-fade-in { animation: fadeIn 0.4s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .btn-white { background-color: #fff; }
+    .btn-white:hover { background-color: #f8f9fa; }
+
+    .table-hover tbody tr:hover { background-color: rgba(13, 110, 253, 0.02); transition: 0.2s; }
+    th { letter-spacing: 0.5px; font-size: 0.85rem; }
+</style>
+{% endblock %}
