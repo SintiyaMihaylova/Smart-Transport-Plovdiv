@@ -1,13 +1,14 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from rest_framework import status
+from rest_framework import status, generics
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ValidationError
 from .models import CardSubscription, SubscriptionPlan
+from .permissions import IsOwner
 from .serializers import CardSubscriptionSerializer, SubscriptionPlanSerializer
-
-
+from .services import create_subscription
+from .tasks import send_subscription_email_task
 
 class UserSubscriptionsAPIView(APIView):
     permission_classes = [IsAuthenticated]
@@ -51,11 +52,15 @@ class PurchaseSubscriptionAPIView(APIView):
 
         plan = get_object_or_404(SubscriptionPlan, pk=plan_id)
 
-        subscription = CardSubscription(card=card, plan=plan)
-
         try:
-            subscription.full_clean()
-            subscription.save()
+            subscription = create_subscription(card, plan)
+
+            user_email = request.user.email
+            plan_name = plan.name
+            end_date_str = subscription.end_date.strftime('%d.%m.%Y')
+
+            send_subscription_email_task.delay(user_email, plan_name, end_date_str)
+
         except ValidationError as e:
             return Response(
                 {"detail": e.message_dict if hasattr(e, 'message_dict') else e.messages},
@@ -72,3 +77,8 @@ class SubscriptionPlanListAPIView(APIView):
         plans = SubscriptionPlan.objects.filter(is_active=True)
         serializer = SubscriptionPlanSerializer(plans, many=True)
         return Response(serializer.data)
+
+class SubscriptionDetailAPIView(generics.RetrieveAPIView):
+    queryset = CardSubscription.objects.all()
+    serializer_class = CardSubscriptionSerializer
+    permission_classes = [IsAuthenticated, IsOwner]
