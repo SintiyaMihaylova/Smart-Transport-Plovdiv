@@ -1,0 +1,26 @@
+{% extends 'common/home.html' %}
+{% load i18n %} {# ЗАДЪЛЖИТЕЛНО #}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">{% trans "Редактиране на лични данни" %}</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <div class="d-flex justify-content-between mt-4">
+                            <button type="submit" class="btn btn-success">{% trans "Запази промените" %}</button>
+                            <a href="{% url 'subscriptions:profile' %}" class="btn btn-secondary">{% trans "Отказ" %}</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

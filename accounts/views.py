@@ -4,7 +4,29 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
 from django.contrib.auth import login
 from .forms import CustomUserCreationForm, EmailAuthenticationForm
+from django.views.generic import UpdateView, DeleteView
+from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin
 
+User = get_user_model()
+
+class UserProfileUpdateView(LoginRequiredMixin, UpdateView):
+    model = User
+    # Променяме пътя към папката на subscriptions
+    template_name = 'subscriptions/profile_edit.html'
+    fields = ['first_name', 'last_name', 'email']
+    success_url = reverse_lazy('subscriptions:profile') # Увери се, че това е името на URL-а за профила ти
+
+    def get_object(self, queryset=None):
+        return self.request.user
+
+class UserProfileDeleteView(LoginRequiredMixin, DeleteView):
+    model = User
+    template_name = 'subscriptions/profile_confirm_delete.html'
+    success_url = reverse_lazy('home')
+
+    def get_object(self, queryset=None):
+        return self.request.user
 
 class CustomLoginView(LoginView):
     template_name = 'accounts/login.html'

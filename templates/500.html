@@ -1,0 +1,17 @@
+{% extends "common/base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="container text-center py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1 class="display-1 fw-bold text-danger">500</h1>
+            <h2 class="mb-4">{% trans "Възникна грешка в системата" %}</h2>
+            <p class="lead mb-5">{% trans "Нашите техници вече работят по отстраняването на проблема. Моля, опитайте по-късно." %}</p>
+            <a href="{% url 'home' %}" class="btn btn-outline-secondary px-4 rounded-pill">
+                {% trans "Начало" %}
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

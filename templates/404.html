@@ -1,0 +1,17 @@
+{% extends "common/base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="container text-center py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1 class="display-1 fw-bold text-primary">404</h1>
+            <h2 class="mb-4">{% trans "Страницата не е намерена" %}</h2>
+            <p class="lead mb-5">{% trans "Маршрутът, който търсите, не съществува или е бил променен." %}</p>
+            <a href="{% url 'home' %}" class="btn btn-primary px-4 rounded-pill">
+                <i class="fas fa-home me-2"></i>{% trans "Обратно към началната страница" %}
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

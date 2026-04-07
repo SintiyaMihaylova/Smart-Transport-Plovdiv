@@ -1,0 +1,1792 @@
+# Smart Transport Plovdiv Translation File.
+# Copyright (C) 2026
+# This file is distributed under the same license as the Smart Transport Plovdiv package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-07 13:01+0300\n"
+"PO-Revision-Date: 2026-04-07 02:20+0300\n"
+"Last-Translator: Gemini AI\n"
+"Language-Team: English\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\accounts\admin.py:18
+#, fuzzy
+#| msgid "Основна информация"
+msgid "Допълнителна информация"
+msgstr "Basic Information"
+
+#: .\accounts\admin.py:19
+msgid "Права и достъп"
+msgstr ""
+
+#: .\accounts\forms.py:8 .\templates\subscriptions\profile.html:67
+msgid "Име"
+msgstr "First Name"
+
+#: .\accounts\forms.py:9 .\templates\subscriptions\profile.html:71
+msgid "Фамилия"
+msgstr "Last Name"
+
+#: .\accounts\forms.py:44 .\accounts\models.py:51
+#, fuzzy
+#| msgid "Имейл адрес"
+msgid "Имейл"
+msgstr "Email Address"
+
+#: .\accounts\forms.py:55 .\templates\accounts\login.html:26
+msgid "Парола"
+msgstr "Password"
+
+#: .\accounts\mixins.py:16
+msgid "Нямате необходимата роля за достъп."
+msgstr ""
+
+#: .\accounts\models.py:10
+#, fuzzy
+#| msgid "Абонаментът е заключен"
+msgid "Имейлът е задължителен"
+msgstr "Subscription is locked"
+
+#: .\accounts\models.py:13
+#, fuzzy
+#| msgid "Продължителност"
+msgid "Паролата е задължителна"
+msgstr "Duration"
+
+#: .\accounts\models.py:29
+msgid "Superuser must have is_staff=True."
+msgstr ""
+
+#: .\accounts\models.py:32
+msgid "Superuser must have is_superuser=True."
+msgstr ""
+
+#: .\accounts\models.py:41
+msgid "Пътуващ"
+msgstr ""
+
+#: .\accounts\models.py:42
+msgid "Оператор"
+msgstr ""
+
+#: .\accounts\models.py:43
+#, fuzzy
+#| msgid "Регистрация"
+msgid "Администратор"
+msgstr "Registration"
+
+#: .\accounts\models.py:53
+msgid "Потребител с този имейл вече съществува."
+msgstr ""
+
+#: .\accounts\models.py:61
+#, fuzzy
+#| msgid "Преглед на сигнал"
+msgid "Профилна снимка"
+msgstr "View Report"
+
+#: .\accounts\models.py:66 .\transport\forms.py:15 .\transport\models.py:19
+#, fuzzy
+#| msgid "Внимание!"
+msgid "Описание"
+msgstr "Attention!"
+
+#: .\accounts\models.py:67
+#, fuzzy
+#| msgid "Анонимен потребител"
+msgid "Кратка информация за потребителя"
+msgstr "Anonymous User"
+
+#: .\accounts\models.py:74
+msgid "Роля"
+msgstr ""
+
+#: .\accounts\models.py:75
+#, fuzzy
+#| msgid "Преглед и обработка на потребителски сигнали"
+msgid "Определя правата на потребителя"
+msgstr "View and process user reports"
+
+#: .\accounts\models.py:88 .\reports\models.py:28 .\subscriptions\models.py:37
+#: .\templates\reports\report_update.html:67
+msgid "Потребител"
+msgstr "User"
+
+#: .\accounts\models.py:89
+#, fuzzy
+#| msgid "Потребител"
+msgid "Потребители"
+msgstr "User"
+
+#: .\reports\forms.py:10
+msgid "Вашето име"
+msgstr ""
+
+#: .\reports\forms.py:14
+#, fuzzy
+#| msgid "Описание на проблема"
+msgid "Опишете проблема подробно..."
+msgstr "Problem Description"
+
+#: .\reports\forms.py:17
+msgid "Изберете линия, ако проблемът е свързан с конкретен автобус."
+msgstr ""
+
+#: .\reports\forms.py:18
+msgid "Изберете спирка, ако проблемът е свързан с нея."
+msgstr ""
+
+#: .\reports\forms.py:30
+#, fuzzy
+#| msgid "Детайли на сигнал"
+msgid "Статус на сигнала"
+msgstr "Report Details"
+
+#: .\reports\models.py:9
+#, fuzzy
+#| msgid "Управление"
+msgid "Закъснение"
+msgstr "Management"
+
+#: .\reports\models.py:10
+msgid "Пропуснат курс"
+msgstr ""
+
+#: .\reports\models.py:11
+#, fuzzy
+#| msgid "Добави спирка"
+msgid "Проблем със спирка"
+msgstr "Add Stop"
+
+#: .\reports\models.py:12
+msgid "Грубо отношение"
+msgstr ""
+
+#: .\reports\models.py:13
+msgid "Повреда/Ремонт"
+msgstr ""
+
+#: .\reports\models.py:14
+msgid "Друго"
+msgstr ""
+
+#: .\reports\models.py:17
+#, fuzzy
+#| msgid "Код"
+msgid "Нов"
+msgstr "Code"
+
+#: .\reports\models.py:18
+#, fuzzy
+#| msgid "Номер на карта"
+msgid "В процес на обработка"
+msgstr "Card Number"
+
+#: .\reports\models.py:19
+msgid "Решен"
+msgstr ""
+
+#: .\reports\models.py:20
+msgid "Отхвърлен"
+msgstr ""
+
+#: .\reports\models.py:35
+#, fuzzy
+#| msgid "Подай сигнал"
+msgid "Подаден от"
+msgstr "Submit Report"
+
+#: .\reports\models.py:41 .\templates\reports\admin_report_list.html:69
+#: .\templates\reports\report_update.html:35
+#: .\templates\subscriptions\profile.html:178
+msgid "Категория"
+msgstr "Category"
+
+#: .\reports\models.py:44 .\templates\reports\report_update.html:45
+msgid "Описание на проблема"
+msgstr "Problem Description"
+
+#: .\reports\models.py:52 .\templates\stations\public_station_detail.html:68
+#: .\templates\transport\admin\line_form.html:20
+#: .\templates\transport\line_detail.html:17
+#: .\templates\transport\line_list.html:40 .\transport\models.py:33
+#: .\transport\models.py:72
+msgid "Линия"
+msgstr "Line"
+
+#: .\reports\models.py:60 .\stations\models.py:66 .\transport\forms.py:29
+#: .\transport\models.py:79
+#, fuzzy
+#| msgid "Спирки"
+msgid "Спирка"
+msgstr "Stops"
+
+#: .\reports\models.py:64
+#, fuzzy
+#| msgid "Дата на подаване"
+msgid "Дата на създаване"
+msgstr "Submission Date"
+
+#: .\reports\models.py:70 .\templates\reports\admin_report_list.html:35
+#: .\templates\reports\admin_report_list.html:71
+#: .\templates\stations\admin\station_list.html:57
+#: .\templates\subscriptions\admin\card_detail.html:104
+#: .\templates\subscriptions\admin\card_list.html:36
+#: .\templates\subscriptions\profile.html:143
+#: .\templates\subscriptions\profile.html:179
+msgid "Статус"
+msgstr "Status"
+
+#: .\reports\models.py:74 .\templates\common\navbar.html:24
+msgid "Сигнал"
+msgstr "Report"
+
+#: .\reports\models.py:75 .\templates\common\navbar.html:82
+msgid "Сигнали"
+msgstr "Reports"
+
+#: .\reports\models.py:89 .\reports\models.py:90
+#, fuzzy
+#| msgid "Моля, попълнете коректно всички задължителни полета"
+msgid "Моля, попълнете поне Линия или Спирка."
+msgstr "Please correctly fill in all mandatory fields"
+
+#: .\reports\models.py:95
+#, fuzzy
+#| msgid "При проблем със спирка е задължително да изберете спирка."
+msgid "При проблем със спирка е задължително да изберете спирка."
+msgstr "For a bus stop issue, selecting a stop is mandatory."
+
+#: .\reports\models.py:103
+msgid "При проблеми по маршрута е задължително да въведете номер на линията."
+msgstr ""
+
+#: .\reports\models.py:109
+msgid "Избраната спирка не принадлежи към маршрута на тази линия."
+msgstr ""
+
+#: .\reports\views.py:17
+msgid "Вашият сигнал беше изпратен успешно! Благодарим ви."
+msgstr ""
+
+#: .\reports\views.py:70
+msgid "Сигналът беше обновен успешно!"
+msgstr ""
+
+#: .\stations\admin.py:18 .\templates\stations\admin\station_form.html:40
+msgid "Основна информация"
+msgstr "Basic Information"
+
+#: .\stations\admin.py:21
+#, fuzzy
+#| msgid "Регистрация"
+msgid "Локация"
+msgstr "Registration"
+
+#: .\stations\admin.py:24
+msgid "Географски данни (Смарт)"
+msgstr ""
+
+#: .\stations\admin.py:26
+#, fuzzy
+#| msgid "Отвори в Карти за проверка"
+msgid "Координати за GPS проследяване и карти"
+msgstr "Open in Maps for verification"
+
+#: .\stations\admin.py:34
+msgid "Координати?"
+msgstr ""
+
+#: .\stations\forms.py:25
+msgid "Номерът трябва да съдържа само цифри."
+msgstr ""
+
+#: .\stations\forms.py:35
+msgid "Ширината трябва да е между -90 и 90."
+msgstr ""
+
+#: .\stations\forms.py:38
+msgid "Дължината трябва да е между -180 и 180."
+msgstr ""
+
+#: .\stations\models.py:17 .\templates\stations\admin\station_list.html:55
+msgid "Име на спирка"
+msgstr "Stop Name"
+
+#: .\stations\models.py:22
+#, fuzzy
+#| msgid "Име на спирка"
+msgid "Номер на спирка"
+msgstr "Stop Name"
+
+#: .\stations\models.py:23
+#, fuzzy
+#| msgid "Последователност на спирките"
+msgid "Официален идентификатор на спирката"
+msgstr "Stop Sequence"
+
+#: .\stations\models.py:29 .\templates\stations\admin\station_detail.html:45
+#: .\templates\stations\admin\station_list.html:56
+msgid "Квартал"
+msgstr "Neighborhood"
+
+#: .\stations\models.py:35
+msgid "Адрес/Ориентир"
+msgstr ""
+
+#: .\stations\models.py:47
+msgid "Ширина (latitude)"
+msgstr ""
+
+#: .\stations\models.py:48
+#, fuzzy
+#| msgid "Редактиране на спирка"
+msgid "Географска ширина на спирката"
+msgstr "Editing Stop"
+
+#: .\stations\models.py:56
+msgid "Дължина (longitude)"
+msgstr ""
+
+#: .\stations\models.py:57
+#, fuzzy
+#| msgid "Редактиране на спирка"
+msgid "Географска дължина на спирката"
+msgstr "Editing Stop"
+
+#: .\stations\models.py:67 .\templates\common\navbar.html:20
+#: .\templates\common\navbar.html:78
+#: .\templates\stations\admin\station_detail.html:12
+#: .\templates\stations\public_station_detail.html:38
+#: .\templates\stations\public_station_list.html:9 .\transport\models.py:26
+msgid "Спирки"
+msgstr "Stops"
+
+#: .\subscriptions\admin.py:66
+msgid "System info"
+msgstr ""
+
+#: .\subscriptions\admin.py:71
+#, fuzzy
+#| msgid "Оставащи дни:"
+msgid "Оставащо време"
+msgstr "Days remaining:"
+
+#: .\subscriptions\admin.py:76
+#: .\templates\subscriptions\admin\card_list.html:67
+msgid "Изтекла"
+msgstr "Expired"
+
+#: .\subscriptions\admin.py:79
+#, fuzzy
+#| msgid "Линии"
+msgid "дни"
+msgstr "Lines"
+
+#: .\subscriptions\apps.py:8
+#, fuzzy
+#| msgid "Геолокация и Карти"
+msgid "Абонаменти и Карти"
+msgstr "Geolocation and Maps"
+
+#: .\subscriptions\models.py:11
+#, fuzzy
+#| msgid "Име на спирка"
+msgid "Име на план"
+msgstr "Stop Name"
+
+#: .\subscriptions\models.py:15
+#, fuzzy
+#| msgid "Продължителност"
+msgid "Продължителност (месеци)"
+msgstr "Duration"
+
+#: .\subscriptions\models.py:21
+#: .\templates\subscriptions\admin\card_detail.html:103
+#: .\templates\subscriptions\profile.html:142
+msgid "Цена"
+msgstr "Price"
+
+#: .\subscriptions\models.py:44
+#: .\templates\subscriptions\admin\card_list.html:35
+#: .\templates\subscriptions\profile.html:38
+msgid "Номер на карта"
+msgstr "Card Number"
+
+#: .\subscriptions\models.py:49
+#: .\templates\stations\admin\station_detail.html:37
+#: .\templates\stations\admin\station_list.html:84
+#: .\templates\subscriptions\admin\card_list.html:63
+msgid "Активна"
+msgstr "Active"
+
+#: .\subscriptions\models.py:55
+#: .\templates\subscriptions\admin\card_detail.html:63
+#: .\templates\subscriptions\admin\card_list.html:37
+#: .\templates\subscriptions\profile.html:46
+msgid "Валидна до"
+msgstr "Valid Until"
+
+#: .\subscriptions\models.py:62
+#, fuzzy
+#| msgid "Създай абонамент"
+msgid "Абонаменти"
+msgstr "Create Subscription"
+
+#: .\subscriptions\models.py:131
+#, fuzzy
+#| msgid "Номер на карта"
+msgid "Абонамент на карта"
+msgstr "Card Number"
+
+#: .\subscriptions\models.py:132
+#, fuzzy
+#| msgid "Абонаментът е заключен"
+msgid "Абонаменти на карти"
+msgstr "Subscription is locked"
+
+#: .\subscriptions\tasks.py:8
+#, fuzzy
+#| msgid "Редактиране на абонамент"
+msgid "Успешно активиран абонамент"
+msgstr "Edit Subscription"
+
+#: .\subscriptions\tasks.py:11
+msgid ""
+"Здравейте,\n"
+"\n"
+msgstr ""
+
+#: .\subscriptions\views.py:40
+#, fuzzy
+#| msgid "Използвайте бутона горе, за да създадете първата."
+msgid "Възникна проблем: Все още нямате създадена карта."
+msgstr "Use the button above to create the first one."
+
+#: .\subscriptions\views.py:66
+#, fuzzy
+#| msgid "Абонаментът е заключен"
+msgid "Абонаментът беше активиран успешно!"
+msgstr "Subscription is locked"
+
+#: .\subscriptions\views.py:87
+#, fuzzy
+#| msgid "Няма регистрирани карти."
+msgid "Нямате активна карта."
+msgstr "No cards registered."
+
+#: .\subscriptions\views.py:96
+msgid "Началната дата не може да бъде в миналото."
+msgstr ""
+
+#: .\subscriptions\views.py:177
+#, fuzzy
+#| msgid "Абонаментът е заключен"
+msgid "Абонаментът беше обновен успешно!"
+msgstr "Subscription is locked"
+
+#: .\subscriptions\views.py:194
+#, fuzzy
+#| msgid "Редактиране на абонамент"
+msgid "Не може да редактирате изтекъл абонамент."
+msgstr "Edit Subscription"
+
+#: .\subscriptions\views.py:217
+#, fuzzy
+#| msgid "Абонаментът е заключен"
+msgid "Абонаментът беше добавен ръчно успешно!"
+msgstr "Subscription is locked"
+
+#: .\templates\404.html:9
+msgid "Страницата не е намерена"
+msgstr "Page Not Found"
+
+#: .\templates\404.html:10
+msgid "Маршрутът, който търсите, не съществува или е бил променен."
+msgstr "The route you are looking for does not exist or has been changed."
+
+#: .\templates\404.html:12
+msgid "Обратно към началната страница"
+msgstr "Back to Home Page"
+
+#: .\templates\500.html:9
+msgid "Възникна грешка в системата"
+msgstr "A system error occurred"
+
+#: .\templates\500.html:10
+msgid ""
+"Нашите техници вече работят по отстраняването на проблема. Моля, опитайте по-"
+"късно."
+msgstr ""
+"Our technicians are already working to fix the problem. Please try again "
+"later."
+
+#: .\templates\500.html:12 .\templates\stations\public_station_detail.html:35
+msgid "Начало"
+msgstr "Home"
+
+#: .\templates\accounts\login.html:4
+msgid "Вход - Smart Transport"
+msgstr "Login - Smart Transport"
+
+#: .\templates\accounts\login.html:7
+msgid "Вход в системата"
+msgstr "System Login"
+
+#: .\templates\accounts\login.html:13
+msgid "Имейл адрес"
+msgstr "Email Address"
+
+#: .\templates\accounts\login.html:41
+msgid "Запомни ме"
+msgstr "Remember Me"
+
+#: .\templates\accounts\login.html:44
+msgid "Забравена парола?"
+msgstr "Forgot Password?"
+
+#: .\templates\accounts\login.html:50
+msgid "Влез"
+msgstr "Login"
+
+#: .\templates\accounts\login.html:56
+msgid "Нямате акаунт?"
+msgstr "Don't have an account?"
+
+#: .\templates\accounts\login.html:58
+msgid "Създайте профил тук"
+msgstr "Create a profile here"
+
+#: .\templates\accounts\logout.html:4
+msgid "Изход - Smart Transport"
+msgstr "Logout - Smart Transport"
+
+#: .\templates\accounts\logout.html:14
+msgid "Успешно излязохте"
+msgstr "Successfully Logged Out"
+
+#: .\templates\accounts\logout.html:16
+msgid ""
+"Благодарим Ви, че използвахте платформата за независим граждански контрол "
+"над транспорта в Пловдив!"
+msgstr ""
+"Thank you for using the platform for independent citizen control over "
+"transport in Plovdiv!"
+
+#: .\templates\accounts\logout.html:23
+msgid "Какво искате да направите сега?"
+msgstr "What would you like to do now?"
+
+#: .\templates\accounts\logout.html:26
+msgid "Влез отново"
+msgstr "Login Again"
+
+#: .\templates\accounts\logout.html:29
+msgid "Към началото"
+msgstr "To Home"
+
+#: .\templates\accounts\register.html:4
+msgid "Регистрация - Smart Transport"
+msgstr "Registration - Smart Transport"
+
+#: .\templates\accounts\register.html:7
+msgid "Създаване на профил"
+msgstr "Create Profile"
+
+#: .\templates\accounts\register.html:47
+msgid "Регистрирай ме"
+msgstr "Register Me"
+
+#: .\templates\accounts\register.html:53
+msgid "Вече имате профил?"
+msgstr "Already have a profile?"
+
+#: .\templates\accounts\register.html:55
+msgid "Влезте тук"
+msgstr "Login here"
+
+#: .\templates\common\base.html:9
+#: .\templates\stations\public_station_detail.html:5
+#, fuzzy
+#| msgid "Транспортни линии"
+msgid "Смарт Транспорт Пловдив"
+msgstr "Transport Lines"
+
+#: .\templates\common\base.html:117
+msgid "Smart Transport Пловдив"
+msgstr "Smart Transport Plovdiv"
+
+#: .\templates\common\base.html:121
+msgid "Градска мобилност от ново поколение"
+msgstr "Next Generation Urban Mobility"
+
+#: .\templates\common\form_errors.html:8
+msgid "Открити са грешки във формата:"
+msgstr "Form errors found:"
+
+#: .\templates\common\home.html:4
+#, fuzzy
+#| msgid "Транспортни линии"
+msgid "Начало - Смарт Транспорт Пловдив"
+msgstr "Transport Lines"
+
+#: .\templates\common\home.html:11
+msgid "От пловдивчани за Пловдив"
+msgstr "From Plovdivians for Plovdiv"
+
+#: .\templates\common\home.html:15
+msgid "Заедно за по-добър"
+msgstr "Together for a better"
+
+#: .\templates\common\home.html:16
+msgid "градски транспорт"
+msgstr "public transport"
+
+#: .\templates\common\home.html:20
+msgid ""
+"Това е независима гражданска платформа. Следете линиите в реално време, "
+"подавайте сигнали за нередности и помогнете за подобряване на мобилността в "
+"нашия град."
+msgstr ""
+"This is an independent citizen platform. Track lines in real-time, submit "
+"reports on irregularities, and help improve mobility in our city."
+
+#: .\templates\common\home.html:25 .\templates\transport\line_detail.html:118
+msgid "Подай сигнал"
+msgstr "Submit Report"
+
+#: .\templates\common\home.html:28 .\templates\transport\line_list.html:9
+msgid "Транспортни линии"
+msgstr "Transport Lines"
+
+#: .\templates\common\home.html:40
+msgid "Твоите стъпки към промяната"
+msgstr "Your steps towards change"
+
+#: .\templates\common\home.html:46
+msgid "Бъди информиран"
+msgstr "Stay Informed"
+
+#: .\templates\common\home.html:47
+msgid ""
+"Разгледай линиите и спирките, за да планираш пътуването си интелигентно."
+msgstr "Browse lines and stops to plan your trip smartly."
+
+#: .\templates\common\home.html:54
+msgid "Подобри средата"
+msgstr "Improve the Environment"
+
+#: .\templates\common\home.html:55
+msgid ""
+"Гражданските данни помагат на всички ни да разберем къде са тесните места."
+msgstr "Citizen data helps us all understand where the bottlenecks are."
+
+#: .\templates\common\home.html:62
+msgid "Сподели опит"
+msgstr "Share Experience"
+
+#: .\templates\common\home.html:63
+msgid "Видял си проблем? Разкажи ни за него и помогни на другите пътници."
+msgstr "Seen a problem? Tell us about it and help other passengers."
+
+#: .\templates\common\home.html:76
+msgid ""
+"Важно: Сайтът е независим граждански проект и не е официално "
+"представителство на Община Пловдив или ОКТ."
+msgstr ""
+"Important: This site is an independent citizen project and is not an "
+"official representation of Plovdiv Municipality or OCT."
+
+#: .\templates\common\navbar.html:7
+#, fuzzy
+#| msgid "Транспортни линии"
+msgid "Транспорт Пловдив"
+msgstr "Transport Lines"
+
+#: .\templates\common\navbar.html:17 .\templates\common\navbar.html:74
+#: .\transport\models.py:34
+msgid "Линии"
+msgstr "Lines"
+
+#: .\templates\common\navbar.html:59
+msgid "Влязъл като:"
+msgstr "Logged in as:"
+
+#: .\templates\common\navbar.html:65 .\templates\subscriptions\profile.html:4
+msgid "Моят профил"
+msgstr "My Profile"
+
+#: .\templates\common\navbar.html:71
+msgid "Управление"
+msgstr "Management"
+
+#: .\templates\common\navbar.html:92
+msgid "Изход"
+msgstr "Logout"
+
+#: .\templates\common\navbar.html:101
+msgid "Вход"
+msgstr "Login"
+
+#: .\templates\common\navbar.html:104
+msgid "Регистрация"
+msgstr "Registration"
+
+#: .\templates\reports\admin_report_list.html:4
+#: .\templates\reports\admin_report_list.html:12
+msgid "Управление на сигнали"
+msgstr "Report Management"
+
+#: .\templates\reports\admin_report_list.html:14
+msgid "Преглед и обработка на потребителски сигнали"
+msgstr "View and process user reports"
+
+#: .\templates\reports\admin_report_list.html:17
+msgid "общо"
+msgstr "total"
+
+#: .\templates\reports\admin_report_list.html:26
+msgid "Търсене"
+msgstr "Search"
+
+#: .\templates\reports\admin_report_list.html:30
+msgid "Търси в описание или име..."
+msgstr "Search in description or name..."
+
+#: .\templates\reports\admin_report_list.html:37
+msgid "Всички статуси"
+msgstr "All Statuses"
+
+#: .\templates\reports\admin_report_list.html:47
+#: .\templates\reports\admin_report_list.html:68
+#: .\templates\subscriptions\profile.html:180
+msgid "Дата"
+msgstr "Date"
+
+#: .\templates\reports\admin_report_list.html:53
+#: .\templates\stations\admin\station_list.html:35
+msgid "Филтрирай"
+msgstr "Filter"
+
+#: .\templates\reports\admin_report_list.html:55
+msgid "Изчисти филтрите"
+msgstr "Clear Filters"
+
+#: .\templates\reports\admin_report_list.html:70
+#: .\templates\subscriptions\profile.html:177
+msgid "Обект"
+msgstr "Object"
+
+#: .\templates\reports\admin_report_list.html:72
+#: .\templates\subscriptions\admin\card_list.html:38
+#: .\templates\subscriptions\admin\subscription_list.html:37
+msgid "Действие"
+msgstr "Action"
+
+#: .\templates\reports\admin_report_list.html:113
+msgid "Отвори"
+msgstr "Open"
+
+#: .\templates\reports\admin_report_list.html:123
+msgid "Няма намерени сигнали"
+msgstr "No reports found"
+
+#: .\templates\reports\admin_report_list.html:124
+msgid "Опитайте да промените филтрите или проверете по-късно."
+msgstr "Try changing the filters or check back later."
+
+#: .\templates\reports\report_form.html:4
+#: .\templates\reports\report_form.html:7
+msgid "Редактиране на сигнал"
+msgstr "Edit Report"
+
+#: .\templates\reports\report_form.html:29
+#: .\templates\reports\report_update.html:121
+#: .\templates\stations\admin\station_form.html:70
+#: .\templates\subscriptions\admin\subscription_edit.html:86
+#: .\templates\subscriptions\profile_edit.html:17
+msgid "Запази промените"
+msgstr "Save Changes"
+
+#: .\templates\reports\report_form.html:32
+#: .\templates\stations\admin\station_form.html:73
+#: .\templates\subscriptions\admin\subscription_form.html:35
+#: .\templates\subscriptions\profile_edit.html:18
+#: .\templates\transport\admin\line_delete.html:48
+#: .\templates\transport\admin\line_form.html:85
+msgid "Отказ"
+msgstr "Cancel"
+
+#: .\templates\reports\report_update.html:4
+msgid "Детайли на сигнал"
+msgstr "Report Details"
+
+#: .\templates\reports\report_update.html:10
+msgid "Обратно към списъка"
+msgstr "Back to List"
+
+#: .\templates\reports\report_update.html:13
+msgid "Преглед на сигнал"
+msgstr "View Report"
+
+#: .\templates\reports\report_update.html:29
+msgid "Детайли от подателя"
+msgstr "Sender Details"
+
+#: .\templates\reports\report_update.html:39
+msgid "Дата на подаване"
+msgstr "Submission Date"
+
+#: .\templates\reports\report_update.html:40
+#: .\templates\subscriptions\admin\subscription_list.html:45
+msgid "ч."
+msgstr "h."
+
+#: .\templates\reports\report_update.html:53
+msgid "Свързан обект"
+msgstr "Related Object"
+
+#: .\templates\reports\report_update.html:62
+msgid "Няма посочен конкретен обект"
+msgstr "No specific object specified"
+
+#: .\templates\reports\report_update.html:75
+msgid "Анонимен потребител"
+msgstr "Anonymous User"
+
+#: .\templates\reports\report_update.html:92
+#: .\templates\stations\admin\station_list.html:58
+#: .\templates\transport\admin\line_list.html:41
+msgid "Действия"
+msgstr "Actions"
+
+#: .\templates\reports\report_update.html:100
+msgid "Промени статус"
+msgstr "Change Status"
+
+#: .\templates\reports\report_update.html:113
+msgid "Вътрешна бележка"
+msgstr "Internal Note"
+
+#: .\templates\reports\report_update.html:116
+msgid "Вижда се само от администратори."
+msgstr "Visible only to administrators."
+
+#: .\templates\stations\admin\station_confirm_delete.html:4
+msgid "Потвърждение за изтриване"
+msgstr "Confirm Deletion"
+
+#: .\templates\stations\admin\station_confirm_delete.html:14
+msgid "Изтриване на спирка"
+msgstr "Delete Stop"
+
+#: .\templates\stations\admin\station_confirm_delete.html:19
+#, python-format
+msgid ""
+"\n"
+"                            Сигурни ли сте, че искате да изтриете спирка "
+"<br>\n"
+"                            <strong class=\"text-danger\">\"%(name)s\"</"
+"strong>?\n"
+"                        "
+msgstr ""
+"\n"
+"                            Are you sure you want to delete stop <br>\n"
+"                            <strong class=\"text-danger\">\"%(name)s\"</"
+"strong>?\n"
+"                        "
+
+#: .\templates\stations\admin\station_confirm_delete.html:27
+msgid ""
+"Това действие е необратимо. Спирката ще бъде премахната от всички маршрути."
+msgstr "This action is irreversible. The stop will be removed from all routes."
+
+#: .\templates\stations\admin\station_confirm_delete.html:34
+msgid "Да, потвърждавам изтриването"
+msgstr "Yes, confirm deletion"
+
+#: .\templates\stations\admin\station_confirm_delete.html:38
+msgid "Не, върни ме обратно"
+msgstr "No, take me back"
+
+#: .\templates\stations\admin\station_confirm_delete.html:46
+#, fuzzy
+#| msgid "Свързан обект"
+msgid "ID на обекта"
+msgstr "Related Object"
+
+#: .\templates\stations\admin\station_detail.html:4
+msgid "Админ панел"
+msgstr "Admin Panel"
+
+#: .\templates\stations\admin\station_detail.html:18
+#: .\templates\stations\admin\station_list.html:94
+#: .\templates\transport\admin\line_list.html:60
+msgid "Редактирай"
+msgstr "Edit"
+
+#: .\templates\stations\admin\station_detail.html:21
+#: .\templates\stations\admin\station_list.html:97
+#: .\templates\transport\admin\line_list.html:65
+msgid "Изтрий"
+msgstr "Delete"
+
+#: .\templates\stations\admin\station_detail.html:37
+#: .\templates\stations\admin\station_list.html:86
+msgid "Неактивна"
+msgstr "Inactive"
+
+#: .\templates\stations\admin\station_detail.html:49
+msgid "Адрес"
+msgstr "Address"
+
+#: .\templates\stations\admin\station_detail.html:54
+msgid "Геолокация и Карти"
+msgstr "Geolocation and Maps"
+
+#: .\templates\stations\admin\station_detail.html:64
+msgid "Отвори в Карти за проверка"
+msgstr "Open in Maps for verification"
+
+#: .\templates\stations\admin\station_detail.html:76
+msgid "Минаващи линии"
+msgstr "Passing Lines"
+
+#: .\templates\stations\admin\station_detail.html:84
+msgid "Няма асоциирани линии."
+msgstr "No associated lines."
+
+#: .\templates\stations\admin\station_form.html:5
+msgid "Редактирай спирка"
+msgstr "Edit Stop"
+
+#: .\templates\stations\admin\station_form.html:5
+#: .\templates\transport\admin\line_form.html:42
+msgid "Добави спирка"
+msgstr "Add Stop"
+
+#: .\templates\stations\admin\station_form.html:15
+msgid "Обратно към списъка със спирки"
+msgstr "Back to Stop List"
+
+#: .\templates\stations\admin\station_form.html:27
+msgid "Редактиране на спирка"
+msgstr "Editing Stop"
+
+#: .\templates\stations\admin\station_form.html:27
+msgid "Нова спирка в мрежата"
+msgstr "New Stop in Network"
+
+#: .\templates\stations\admin\station_form.html:29
+msgid "Моля, попълнете коректно всички задължителни полета"
+msgstr "Please correctly fill in all mandatory fields"
+
+#: .\templates\stations\admin\station_form.html:85
+msgid "Бърз съвет"
+msgstr "Quick Tip"
+
+#: .\templates\stations\admin\station_form.html:86
+msgid ""
+"Използвайте Google Maps, за да вземете точните координати (Latitude и "
+"Longitude). Това е важно за правилното позициониране на спирката в мобилното "
+"приложение."
+msgstr ""
+"Use Google Maps to get accurate coordinates (Latitude and Longitude). This "
+"is important for correct stop positioning in the mobile app."
+
+#: .\templates\stations\admin\station_list.html:4
+msgid "Админ - Списък на спирките"
+msgstr "Admin - Stop List"
+
+#: .\templates\stations\admin\station_list.html:12
+msgid "Управление на спирки"
+msgstr "Stop Management"
+
+#: .\templates\stations\admin\station_list.html:14
+msgid "Пълен списък и контрол на транспортните обекти в Пловдив"
+msgstr "Full list and control of transport objects in Plovdiv"
+
+#: .\templates\stations\admin\station_list.html:17
+msgid "Добави нова спирка"
+msgstr "Add New Stop"
+
+#: .\templates\stations\admin\station_list.html:25
+msgid "Филтър по квартал"
+msgstr "Filter by neighborhood"
+
+#: .\templates\stations\admin\station_list.html:27
+msgid "Всички квартали"
+msgstr "All neighborhoods"
+
+#: .\templates\stations\admin\station_list.html:40
+msgid "Изчисти"
+msgstr "Clear"
+
+#: .\templates\stations\admin\station_list.html:79
+msgid "Не е посочен"
+msgstr "Not specified"
+
+#: .\templates\stations\admin\station_list.html:91
+#: .\templates\stations\public_station_list.html:42
+#: .\templates\subscriptions\admin\card_list.html:84
+#: .\templates\transport\line_list.html:42
+msgid "Детайли"
+msgstr "Details"
+
+#: .\templates\stations\admin\station_list.html:109
+#: .\templates\transport\line_detail.html:68
+msgid "Все още няма добавени спирки."
+msgstr "No stops added yet."
+
+#: .\templates\stations\admin\station_list.html:110
+msgid "Използвайте бутона горе, за да създадете първата."
+msgstr "Use the button above to create the first one."
+
+#: .\templates\stations\public_station_detail.html:22
+msgid "СПИРКА"
+msgstr "STOP"
+
+#: .\templates\stations\public_station_detail.html:51
+msgid "Преминаващи линии"
+msgstr "Passing Lines"
+
+#: .\templates\stations\public_station_detail.html:54
+msgid "линии"
+msgstr "lines"
+
+#: .\templates\stations\public_station_detail.html:83
+msgid "В момента няма регистрирани линии за тази спирка."
+msgstr "There are currently no registered lines for this stop."
+
+#: .\templates\stations\public_station_detail.html:96
+msgid "АКТИВЕН ОБЕКТ"
+msgstr "ACTIVE OBJECT"
+
+#: .\templates\stations\public_station_detail.html:98
+msgid "НЕАКТИВЕН ОБЕКТ"
+msgstr "INACTIVE OBJECT"
+
+#: .\templates\stations\public_station_detail.html:109
+msgid "Район / Квартал"
+msgstr "District / Neighborhood"
+
+#: .\templates\stations\public_station_detail.html:110
+msgid "Пловдив"
+msgstr "Plovdiv"
+
+#: .\templates\stations\public_station_detail.html:119
+msgid "Точен адрес"
+msgstr "Exact Address"
+
+#: .\templates\stations\public_station_detail.html:120
+msgid "Няма въведен адрес"
+msgstr "No address entered"
+
+#: .\templates\stations\public_station_detail.html:129
+msgid "Виж в Карти"
+msgstr "See in Maps"
+
+#: .\templates\stations\public_station_detail.html:136
+msgid "ПОДАЙ СИГНАЛ ТУК"
+msgstr "SUBMIT REPORT HERE"
+
+#: .\templates\stations\public_station_list.html:13
+msgid "Намерете информация за всяка точка от градската мрежа"
+msgstr "Find information for every point in the urban network"
+
+#: .\templates\stations\public_station_list.html:21
+msgid "Търси по име или номер..."
+msgstr "Search by name or number..."
+
+#: .\templates\stations\public_station_list.html:40
+msgid "Код"
+msgstr "Code"
+
+#: .\templates\stations\public_station_list.html:41
+msgid "Наименование"
+msgstr "Name"
+
+#: .\templates\stations\public_station_list.html:58
+msgid "Пловдив, България"
+msgstr "Plovdiv, Bulgaria"
+
+#: .\templates\stations\public_station_list.html:76
+msgid "Няма открити спирки"
+msgstr "No stops found"
+
+#: .\templates\stations\public_station_list.html:78
+msgid "Виж всички"
+msgstr "See all"
+
+#: .\templates\subscriptions\admin\card_detail.html:4
+msgid "Детайли на карта"
+msgstr "Card Details"
+
+#: .\templates\subscriptions\admin\card_detail.html:11
+msgid "Назад към списъка"
+msgstr "Back to List"
+
+#: .\templates\subscriptions\admin\card_detail.html:15
+#: .\templates\subscriptions\profile.html:52
+msgid "АКТИВНА"
+msgstr "ACTIVE"
+
+#: .\templates\subscriptions\admin\card_detail.html:15
+msgid "ИЗТЕКЛА / НЕАКТИВНА"
+msgstr "EXPIRED / INACTIVE"
+
+#: .\templates\subscriptions\admin\card_detail.html:25
+msgid "Собственик"
+msgstr "Owner"
+
+#: .\templates\subscriptions\admin\card_detail.html:44
+msgid "Роля в системата"
+msgstr "System Role"
+
+#: .\templates\subscriptions\admin\card_detail.html:49
+msgid "Дата на регистрация"
+msgstr "Registration Date"
+
+#: .\templates\subscriptions\admin\card_detail.html:58
+msgid "Номер на транспортна карта"
+msgstr "Transport Card Number"
+
+#: .\templates\subscriptions\admin\card_detail.html:68
+msgid "Няма активен план"
+msgstr "No active plan"
+
+#: .\templates\subscriptions\admin\card_detail.html:76
+msgid "Оставащи дни:"
+msgstr "Days remaining:"
+
+#: .\templates\subscriptions\admin\card_detail.html:87
+msgid "История на абонаментите"
+msgstr "Subscription History"
+
+#: .\templates\subscriptions\admin\card_detail.html:92
+msgid "Добави ръчно"
+msgstr "Add Manually"
+
+#: .\templates\subscriptions\admin\card_detail.html:100
+msgid "Дата на покупка"
+msgstr "Purchase Date"
+
+#: .\templates\subscriptions\admin\card_detail.html:101
+#: .\templates\subscriptions\admin\subscription_list.html:34
+#: .\templates\subscriptions\profile.html:140
+msgid "План"
+msgstr "Plan"
+
+#: .\templates\subscriptions\admin\card_detail.html:102
+#: .\templates\subscriptions\profile.html:141
+msgid "Период"
+msgstr "Period"
+
+#: .\templates\subscriptions\admin\card_detail.html:124
+msgid "Активен"
+msgstr "Active"
+
+#: .\templates\subscriptions\admin\card_detail.html:128
+msgid "Изтекъл"
+msgstr "Expired"
+
+#: .\templates\subscriptions\admin\card_detail.html:139
+msgid "Все още няма регистрирани абонаменти за тази карта."
+msgstr "No subscriptions registered for this card yet."
+
+#: .\templates\subscriptions\admin\card_list.html:4
+msgid "Управление на транспортни карти"
+msgstr "Transport Card Management"
+
+#: .\templates\subscriptions\admin\card_list.html:12
+msgid "Регистър на картите"
+msgstr "Card Registry"
+
+#: .\templates\subscriptions\admin\card_list.html:14
+msgid "Преглед на активните абонаменти и статуси на потребителите"
+msgstr "Overview of active subscriptions and user statuses"
+
+#: .\templates\subscriptions\admin\card_list.html:18
+msgid "Експорт"
+msgstr "Export"
+
+#: .\templates\subscriptions\admin\card_list.html:26
+msgid "Всички издадени карти"
+msgstr "All issued cards"
+
+#: .\templates\subscriptions\admin\card_list.html:34
+#: .\templates\subscriptions\profile.html:33
+msgid "Притежател"
+msgstr "Holder"
+
+#: .\templates\subscriptions\admin\card_list.html:83
+msgid "Преглед на детайли"
+msgstr "View details"
+
+#: .\templates\subscriptions\admin\card_list.html:94
+msgid "Няма регистрирани карти."
+msgstr "No cards registered."
+
+#: .\templates\subscriptions\admin\card_list.html:95
+msgid "Системата автоматично ще ги добави при първа поръчка."
+msgstr "The system will automatically add them upon the first order."
+
+#: .\templates\subscriptions\admin\subscription_edit.html:4
+msgid "Редактиране на абонамент"
+msgstr "Edit Subscription"
+
+#: .\templates\subscriptions\admin\subscription_edit.html:25
+#, fuzzy
+#| msgid "Редация на абонамент"
+msgid "Редакция на абонамент"
+msgstr "Subscription Edit"
+
+#: .\templates\subscriptions\admin\subscription_edit.html:26
+msgid "Системен номер:"
+msgstr "System Number:"
+
+#: .\templates\subscriptions\admin\subscription_edit.html:37
+msgid "Потребител / Карта"
+msgstr "User / Card"
+
+#: .\templates\subscriptions\admin\subscription_edit.html:52
+msgid "Активен статус"
+msgstr "Active Status"
+
+#: .\templates\subscriptions\admin\subscription_edit.html:54
+msgid "Позволява или забранява ползването на картата"
+msgstr "Allows or denies the use of the card"
+
+#: .\templates\subscriptions\admin\subscription_edit.html:72
+msgid "Абонаментът е заключен"
+msgstr "Subscription is locked"
+
+#: .\templates\subscriptions\admin\subscription_edit.html:73
+msgid ""
+"Статусът на изтекъл или анулиран абонамент не може да бъде променян ръчно."
+msgstr ""
+"The status of an expired or canceled subscription cannot be manually changed."
+
+#: .\templates\subscriptions\admin\subscription_edit.html:82
+msgid "План:"
+msgstr "Plan:"
+
+#: .\templates\subscriptions\admin\subscription_form.html:10
+msgid "Ръчно добавяне на абонамент"
+msgstr "Manual Subscription Addition"
+
+#: .\templates\subscriptions\admin\subscription_form.html:32
+msgid "Създай абонамент"
+msgstr "Create Subscription"
+
+#: .\templates\subscriptions\admin\subscription_list.html:4
+msgid "Всички транзакции и абонаменти"
+msgstr "All transactions and subscriptions"
+
+#: .\templates\subscriptions\admin\subscription_list.html:12
+msgid "Хронология на плащанията"
+msgstr "Payment History"
+
+#: .\templates\subscriptions\admin\subscription_list.html:14
+msgid "Пълен архив на закупените абонаментни планове"
+msgstr "Full archive of purchased subscription plans"
+
+#: .\templates\subscriptions\admin\subscription_list.html:18
+msgid "Сортирай"
+msgstr "Sort"
+
+#: .\templates\subscriptions\admin\subscription_list.html:21
+msgid "Най-нови първо"
+msgstr "Newest first"
+
+#: .\templates\subscriptions\admin\subscription_list.html:22
+msgid "Най-стари първо"
+msgstr "Oldest first"
+
+#: .\templates\subscriptions\admin\subscription_list.html:32
+msgid "Дата и час"
+msgstr "Date and Time"
+
+#: .\templates\subscriptions\admin\subscription_list.html:33
+msgid "Карта / Потребител"
+msgstr "Card / User"
+
+#: .\templates\subscriptions\admin\subscription_list.html:35
+msgid "Валидност"
+msgstr "Validity"
+
+#: .\templates\subscriptions\admin\subscription_list.html:36
+msgid "Сума"
+msgstr "Amount"
+
+#: .\templates\subscriptions\admin\subscription_list.html:60
+msgid "В сила"
+msgstr "In effect"
+
+#: .\templates\subscriptions\admin\subscription_list.html:69
+msgid "лв."
+msgstr "BGN"
+
+#: .\templates\subscriptions\admin\subscription_list.html:75
+msgid "Редактирай транзакция"
+msgstr "Edit transaction"
+
+#: .\templates\subscriptions\admin\subscription_list.html:87
+msgid "Все още няма извършени продажби."
+msgstr "No sales have been made yet."
+
+#: .\templates\subscriptions\admin\subscription_list.html:98
+msgid "Показани записи:"
+msgstr "Records shown:"
+
+#: .\templates\subscriptions\admin\subscription_list.html:101
+msgid "Общ оборот в списъка:"
+msgstr "Total turnover in list:"
+
+#: .\templates\subscriptions\profile.html:29
+msgid "ТРАНСПОРТНА КАРТА"
+msgstr "TRANSPORT CARD"
+
+#: .\templates\subscriptions\profile.html:36
+msgid "ПЪТНИК №"
+msgstr "PASSENGER №"
+
+#: .\templates\subscriptions\profile.html:52
+msgid "НЕАКТИВНА"
+msgstr "INACTIVE"
+
+#: .\templates\subscriptions\profile.html:62
+msgid "Персонализиране на картата"
+msgstr "Personalize Card"
+
+#: .\templates\subscriptions\profile.html:76
+msgid "ЗАПАЗИ ПРОМЕНИТЕ"
+msgstr "SAVE CHANGES"
+
+#: .\templates\subscriptions\profile.html:85
+msgid "Настройки на акаунта"
+msgstr "Account Settings"
+
+#: .\templates\subscriptions\profile.html:89
+msgid "РЕДАКТИРАЙ ПРОФИЛА"
+msgstr "EDIT PROFILE"
+
+#: .\templates\subscriptions\profile.html:92
+msgid "ИЗТРИЙ АКАУНТА"
+msgstr "DELETE ACCOUNT"
+
+#: .\templates\subscriptions\profile.html:103
+msgid "Зареждане на карта"
+msgstr "Reload Card"
+
+#: .\templates\subscriptions\profile.html:114
+msgid "мес."
+msgstr "mon."
+
+#: .\templates\subscriptions\profile.html:120
+msgid "Удължи"
+msgstr "Extend"
+
+#: .\templates\subscriptions\profile.html:120
+msgid "Купи сега"
+msgstr "Buy Now"
+
+#: .\templates\subscriptions\profile.html:133
+msgid "История на транзакциите"
+msgstr "Transaction History"
+
+#: .\templates\subscriptions\profile.html:157
+msgid "АКТИВЕН"
+msgstr "ACTIVE"
+
+#: .\templates\subscriptions\profile.html:157
+msgid "ИЗТЕКЪЛ"
+msgstr "EXPIRED"
+
+#: .\templates\subscriptions\profile.html:170
+msgid "Моите сигнали"
+msgstr "My Reports"
+
+#: .\templates\subscriptions\profile.html:203
+msgid "Няма намерени сигнали."
+msgstr "No reports found."
+
+#: .\templates\subscriptions\profile_confirm_delete.html:10
+#, fuzzy
+#| msgid "Създаване на профил"
+msgid "Внимание: Изтриване на профил"
+msgstr "Create Profile"
+
+#: .\templates\subscriptions\profile_confirm_delete.html:14
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "                            Сигурни ли сте, че искате да изтриете спирка "
+#| "<br>\n"
+#| "                            <strong class=\"text-danger\">\"%(name)s\"</"
+#| "strong>?\n"
+#| "                        "
+msgid ""
+"\n"
+"                        Сигурни ли сте, че искате да изтриете акаунта си в "
+"<strong>Smart Transport Plovdiv</strong>?\n"
+"                        "
+msgstr ""
+"\n"
+"                            Are you sure you want to delete stop <br>\n"
+"                            <strong class=\"text-danger\">\"%(name)s\"</"
+"strong>?\n"
+"                        "
+
+#: .\templates\subscriptions\profile_confirm_delete.html:19
+#, fuzzy
+#| msgid ""
+#| "Това действие е необратимо. Спирката ще бъде премахната от всички "
+#| "маршрути."
+msgid ""
+"Това действие е необратимо и ще загубите всичките си активни абонаменти!"
+msgstr "This action is irreversible. The stop will be removed from all routes."
+
+#: .\templates\subscriptions\profile_confirm_delete.html:26
+#, fuzzy
+#| msgid "Да, изтрий линията"
+msgid "Да, изтрий профила ми завинаги"
+msgstr "Yes, delete the line"
+
+#: .\templates\subscriptions\profile_confirm_delete.html:29
+#, fuzzy
+#| msgid "Върни се в профила"
+msgid "Не, върни ме в профила"
+msgstr "Return to Profile"
+
+#: .\templates\subscriptions\profile_edit.html:10
+#, fuzzy
+#| msgid "Редактиране на сигнал"
+msgid "Редактиране на лични данни"
+msgstr "Edit Report"
+
+#: .\templates\subscriptions\purchase.html:4
+msgid "Потвърждение на покупка"
+msgstr "Purchase Confirmation"
+
+#: .\templates\subscriptions\purchase.html:16
+msgid "Върни се в профила"
+msgstr "Return to Profile"
+
+#: .\templates\subscriptions\purchase.html:25
+msgid "Детайли за поръчката"
+msgstr "Order Details"
+
+#: .\templates\subscriptions\purchase.html:47
+msgid "Сума за плащане"
+msgstr "Amount to pay"
+
+#: .\templates\subscriptions\purchase.html:63
+msgid "Кога да започне абонаментът?"
+msgstr "When should the subscription start?"
+
+#: .\templates\subscriptions\purchase.html:82
+msgid "Продължителност"
+msgstr "Duration"
+
+#: .\templates\subscriptions\purchase.html:83
+msgid "месеца"
+msgstr "months"
+
+#: .\templates\subscriptions\purchase.html:86
+msgid "Валута на плащане"
+msgstr "Payment Currency"
+
+#: .\templates\subscriptions\purchase.html:92
+msgid "ПОТВЪРДИ И ПЛАТИ"
+msgstr "CONFIRM AND PAY"
+
+#: .\templates\subscriptions\purchase.html:96
+msgid "Откажи транзакцията"
+msgstr "Cancel transaction"
+
+#: .\templates\transport\admin\line_delete.html:4
+msgid "Изтриване на линия"
+msgstr "Delete Line"
+
+#: .\templates\transport\admin\line_delete.html:16
+msgid "Внимание!"
+msgstr "Attention!"
+
+#: .\templates\transport\admin\line_delete.html:21
+msgid "Сигурни ли сте, че искате да изтриете тази линия?"
+msgstr "Are you sure you want to delete this line?"
+
+#: .\templates\transport\admin\line_delete.html:30 .\transport\models.py:90
+msgid "Маршрут"
+msgstr "Route"
+
+#: .\templates\transport\admin\line_delete.html:38
+msgid ""
+"Това действие е необратимо. Всички разписания, свързани с тази линия, също "
+"ще бъдат премахнати."
+msgstr ""
+"This action is irreversible. All schedules associated with this line will "
+"also be removed."
+
+#: .\templates\transport\admin\line_delete.html:44
+msgid "Да, изтрий линията"
+msgstr "Yes, delete the line"
+
+#: .\templates\transport\admin\line_delete.html:57
+msgid ""
+"Само потребители с роля 'Администратор' могат да извършват това действие."
+msgstr "Only users with the 'Administrator' role can perform this action."
+
+#: .\templates\transport\admin\line_form.html:11
+msgid "Грешка при запис:"
+msgstr "Save Error:"
+
+#: .\templates\transport\admin\line_form.html:26 .\transport\models.py:11
+msgid "Номер на линия"
+msgstr "Line Number"
+
+#: .\templates\transport\admin\line_form.html:30 .\transport\forms.py:14
+msgid "Име на маршрута"
+msgstr "Route Name"
+
+#: .\templates\transport\admin\line_form.html:39
+msgid "Последователност на спирките"
+msgstr "Stop Sequence"
+
+#: .\templates\transport\admin\line_form.html:72
+msgid "Премахни"
+msgstr "Remove"
+
+#: .\templates\transport\admin\line_form.html:88
+#, fuzzy
+#| msgid "Да, изтрий линията"
+msgid "Запази линията"
+msgstr "Yes, delete the line"
+
+#: .\templates\transport\admin\line_list.html:9
+#, fuzzy
+#| msgid "Управление на сигнали"
+msgid "Управление на линиите"
+msgstr "Report Management"
+
+#: .\templates\transport\admin\line_list.html:11
+#, fuzzy
+#| msgid "Пълен списък и контрол на транспортните обекти в Пловдив"
+msgid "Административен панел за Градски транспорт Пловдив"
+msgstr "Full list and control of transport objects in Plovdiv"
+
+#: .\templates\transport\admin\line_list.html:20
+#, fuzzy
+#| msgid "Дата на подаване"
+msgid "Спирки по подразбиране:"
+msgstr "Submission Date"
+
+#: .\templates\transport\admin\line_list.html:28
+#, fuzzy
+#| msgid "Добави нова спирка"
+msgid "Добави нова линия"
+msgstr "Add New Stop"
+
+#: .\templates\transport\admin\line_list.html:39
+msgid "№"
+msgstr "№"
+
+#: .\templates\transport\admin\line_list.html:40
+#: .\templates\transport\line_list.html:41
+#, fuzzy
+#| msgid "Управление"
+msgid "Маршрут / Направление"
+msgstr "Management"
+
+#: .\templates\transport\admin\line_list.html:74
+#, fuzzy
+#| msgid "Все още няма добавени спирки."
+msgid "Все още няма въведени автобусни линии."
+msgstr "No stops added yet."
+
+#: .\templates\transport\admin\line_list.html:109
+#, fuzzy
+#| msgid "Последователност на спирките"
+msgid "Минималният брой спирки е 3!"
+msgstr "Stop Sequence"
+
+#: .\templates\transport\line_detail.html:21
+#, fuzzy
+#| msgid "градски транспорт"
+msgid "Градски транспорт"
+msgstr "public transport"
+
+#: .\templates\transport\line_detail.html:35
+#, fuzzy
+#| msgid "Продължителност"
+msgid "Маршрут и последователност"
+msgstr "Duration"
+
+#: .\templates\transport\line_detail.html:79
+#, fuzzy
+#| msgid "Детайли на карта"
+msgid "Детайли за маршрута"
+msgstr "Card Details"
+
+#: .\templates\transport\line_detail.html:88
+#, fuzzy
+#| msgid "Управление"
+msgid "Направление"
+msgstr "Management"
+
+#: .\templates\transport\line_detail.html:101
+#, fuzzy
+#| msgid "Добави спирка"
+msgid "Брой спирки"
+msgstr "Add Stop"
+
+#: .\templates\transport\line_detail.html:111
+#, fuzzy
+#| msgid "Хронология на плащанията"
+msgid "Проблем по линията?"
+msgstr "Payment History"
+
+#: .\templates\transport\line_detail.html:114
+#, fuzzy
+#| msgid "При проблем със спирка е задължително да изберете спирка."
+msgid "Закъснение или проблем със спирка? Сигнализирайте ни."
+msgstr "For a bus stop issue, selecting a stop is mandatory."
+
+#: .\templates\transport\line_list.html:13
+msgid "Разгледайте маршрутите и разписанията в Пловдив"
+msgstr "Check out the routes and schedules in Plovdiv"
+
+#: .\templates\transport\line_list.html:21
+#, fuzzy
+#| msgid "Търси в описание или име..."
+msgid "Търси номер на линия или име..."
+msgstr "Search in description or name..."
+
+#: .\templates\transport\line_list.html:60
+#, fuzzy
+#| msgid "От пловдивчани за Пловдив"
+msgid "Градска линия на Пловдив"
+msgstr "From Plovdivians for Plovdiv"
+
+#: .\templates\transport\line_list.html:68
+#, fuzzy
+#| msgid "Маршрут"
+msgid "Виж маршрут"
+msgstr "Route"
+
+#: .\templates\transport\line_list.html:81
+#, fuzzy
+#| msgid "В момента няма регистрирани линии за тази спирка."
+msgid "Не бяха намерени линии по този критерий."
+msgstr "There are currently no registered lines for this stop."
+
+#: .\transport\apps.py:7
+#, fuzzy
+#| msgid "Експорт"
+msgid "Транспорт"
+msgstr "Export"
+
+#: .\transport\forms.py:13
+#, fuzzy
+#| msgid "Номер на линия"
+msgid "Номер на линията"
+msgstr "Line Number"
+
+#: .\transport\forms.py:30
+msgid "Позиция"
+msgstr ""
+
+#: .\transport\forms.py:48
+#, fuzzy
+#| msgid "Маршрутът, който търсите, не съществува или е бил променен."
+msgid "Маршрутът трябва да съдържа поне 3 спирки."
+msgstr "The route you are looking for does not exist or has been changed."
+
+#: .\transport\mixins.py:73
+#, fuzzy
+#| msgid "Няма регистрирани карти."
+msgid "Нямате права за тази операция."
+msgstr "No cards registered."
+
+#: .\transport\mixins.py:92
+msgid "Нямате необходимите права за достъп до тази страница."
+msgstr "You do not have the necessary rights to access this page."
+
+#: .\transport\models.py:15
+
+#msgid "Име на маршрута"
+msgid "Име на маршрут"
+msgstr "Route Name"
+
+#: .\transport\models.py:20
+msgid "Кратка информация за линията"
+msgstr "Brief information about the line"
+
+msgid "Да, изтрий линията"
+msgstr "Yes, delete the line"
+
+#: .\transport\models.py:83
+msgid "Поредният номер трябва да бъде поне 1."
+msgstr "The sequence number must be at least 1."
+
+#: .\transport\models.py:85
+msgid "Име на маршрута"
+msgstr "Route Name"
+
+#: .\transport\models.py:86
+msgid "Позиция на спирката в маршрута (започва от 1)"
+msgstr "Stop position in the route (starts at 1)"
+
+#: .\transport\models.py:91
+#, fuzzy
+#| msgid "Маршрут"
+msgid "Маршрути"
+msgstr "Route"
+
+#: .\transport\models.py:120
+msgid "Делник"
+msgstr "Shareholder"
+
+#: .\transport\models.py:121
+msgid "Празник/Уикенд"
+msgstr "Holiday/Weekend"
+
+#: .\transport\models.py:124
+msgid "Отиване"
+msgstr "Going away"
+
+#: .\transport\models.py:125
+msgid "Връщане"
+msgstr "Return"
+
+#: .\transport\models.py:138
+#, fuzzy
+#| msgid "Преглед на сигнал"
+msgid "Време на пристигане"
+msgstr "View Report"
+
+#: .\transport\models.py:151
+msgid "Посока"
+msgstr "Direction"
+
+#: .\transport\models.py:156
+
+#msgid "Активна"
+msgid "Активно"
+msgstr "Active"
+
+#: .\transport\models.py:171
+msgid "Внимание!"
+msgstr "Attention!"
+
+#: .\transport\models.py:172
+msgid "Разписания"
+msgstr "Schedule"

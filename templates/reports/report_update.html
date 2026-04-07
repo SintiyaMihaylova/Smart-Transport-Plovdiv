@@ -68,8 +68,16 @@
                             <div class="d-flex align-items-center mt-2">
                                 <i class="fas fa-user-circle fa-2x text-secondary me-2"></i>
                                 <div>
-                                    <span class="fw-bold d-block">{{ report.user.get_full_name|default:report.user.username }}</span>
-                                    <span class="small text-muted">{{ report.user.email }}</span>
+                                    <span class="fw-bold d-block">
+                                        {% if report.user %}
+                                            {{ report.user.get_full_name|default:report.user.email }}
+                                        {% else %}
+                                            {{ report.reporter_name|default:_("Анонимен потребител") }}
+                                        {% endif %}
+                                    </span>
+                                    {% if report.user %}
+                                        <span class="small text-muted">{{ report.user.email }}</span>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -142,7 +150,10 @@
         box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.1);
     }
 
-    textarea.form-control {
+    textarea[name="admin_comment"] {
+        display: block;
+        width: 100%;
+        padding: 0.75rem;
         border-radius: 12px;
         background-color: #f8f9fa;
         border: 1px solid #dee2e6;

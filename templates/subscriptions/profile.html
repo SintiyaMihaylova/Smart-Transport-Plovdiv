@@ -78,6 +78,22 @@
                     </form>
                 </div>
             </div>
+
+            <div class="card border-0 shadow-sm rounded-4 mb-4 bg-white border-top border-3 border-dark shadow-hover text-start">
+                <div class="card-body p-4">
+                    <h6 class="fw-bold mb-3 small text-uppercase text-dark">
+                        <i class="bi bi-gear-fill me-2"></i>{% trans "Настройки на акаунта" %}
+                    </h6>
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'accounts:profile_edit' %}" class="btn btn-outline-dark btn-sm rounded-pill fw-bold py-2 transition-all">
+                             <i class="bi bi-person-gear me-1"></i> {% trans "РЕДАКТИРАЙ ПРОФИЛА" %}
+                        </a>
+                        <a href="{% url 'accounts:profile_delete' %}" class="btn btn-outline-danger btn-sm rounded-pill fw-bold py-2 transition-all">
+                             <i class="bi bi-trash3 me-1"></i> {% trans "ИЗТРИЙ АКАУНТА" %}
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="col-lg-8">
